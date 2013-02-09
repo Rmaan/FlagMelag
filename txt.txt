@@ -1,0 +1,33 @@
+git clone git@46.19.143.211:/git/jc-main.git
+
+Graphic Protocol
+	init:
+		Map, blocktypes
+		flags
+		bases
+	events:
+		Spawn(agent, point)
+		Move(agent, direction)
+		Attack(agent, agent)
+		Die(agent)
+
+
+
+Phase1 Client:
+	class Client:
+		agentSpawned(id) called @cyclebegin
+		gameStep(aliveIds[]) called after agentSpawned
+		getAgent(id)
+		getWorld()
+
+	class Agent:
+		getPosition()
+		getVision(direction??)
+		move(direction)
+
+	class World:
+		getMapSize()
+
+	class Vision:
+		getBlockType()
+		hasCoint()
