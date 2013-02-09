@@ -1,0 +1,7 @@
+.classpath
+.project
+bin/
+resources/
+*.class
+.DS_STORE
+thumbs.db
