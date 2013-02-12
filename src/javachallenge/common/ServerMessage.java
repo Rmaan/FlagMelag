@@ -1,5 +1,9 @@
 package javachallenge.common;
 
-public class ServerMessage {
+import java.util.ArrayList;
 
+public class ServerMessage {
+	int spawnedId;
+	ArrayList<Integer> scores;
+	ArrayList<AgentMessage> agentMsg;
 }

@@ -14,8 +14,6 @@ public class Engine {
 	private Map map;
 	private int cycle, teamCount;
 	private ArrayList<Team> team;
-	private ArrayList<ObjectOutputStream> oos; //TODO fill them!
-	private ArrayList<ObjectInputStream> ois;
 	
 	public Engine(Map map) {
 		this.map = map;
@@ -30,19 +28,5 @@ public class Engine {
 	
 	public void step() throws IOException, ClassNotFoundException {
 		cycle++;
-		
-		for (int i = 0; i < teamCount; i++) {
-			// TODO threaded!
-			ServerMessage message = prepareTeamMessage(i);
-			oos.get(i).writeObject(message);
-			oos.get(i).flush();
-		}
-		
-		for (int i = 0; i < teamCount; i++) {
-			// TODO threaded!
-			ClientMessage msg = (ClientMessage) ois.get(i).readObject();
-		}
-		
-		throw new NotImplementedException();
 	}
 }
