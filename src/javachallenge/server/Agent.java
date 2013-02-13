@@ -7,8 +7,11 @@ public class Agent {
 	private boolean isAlive;
 	private static int refCount = 0;
 	private int id;
+	private int teamId;
 	
-	public Agent() {
+	public Agent(int teamId) {
+		this.teamId = teamId;
+		isAlive = true;
 		this.id = refCount++;
 	}
 	
@@ -31,7 +34,9 @@ public class Agent {
 	public int getId() {
 		return id;
 	}
-
-
+	
+	public int getTeamId(){
+		return teamId;
+	}
 	
 }

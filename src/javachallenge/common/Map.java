@@ -40,7 +40,7 @@ public class Map {
 	}
 
 	public boolean isInsideMap(Point p) {
-		throw new NotImplementedException();
+		return (p.x >= 0 && p.x < wid && p.y >= 0 && p.y < hei);
 	}
 	
 	public BlockType getBlockType(Point p) {
@@ -49,5 +49,14 @@ public class Map {
 	
 	public void setBlockType(Point p, BlockType bt) {
 		map[p.x][p.y] = bt;
+	}
+	
+	public BlockType[] getBlockTypes(Point p){
+		Direction[] dirs = Direction.values();
+		BlockType[] blockTypes = new BlockType[6];
+		for(int i = 0 ; i < dirs.length ; i++){
+			blockTypes[i] = getBlockType(p.applyDirection(dirs[i]));
+		}
+		return blockTypes;
 	}
 }

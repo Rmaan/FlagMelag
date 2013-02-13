@@ -37,6 +37,21 @@ public class Team {
 	}
 	
 	public Agent getAgent(int id){
-		throw new NotImplementedException();
+		for(Agent agent : agents){
+			if(agent.getId() == id){
+				return agent;
+			}
+		}
+		return null;    
+	}
+	
+	public int getId(){
+		return id;
+	}
+	
+	public Agent addAgent(){
+		Agent newAgent = new Agent(id);
+		agents.add(newAgent);
+		return newAgent;
 	}
 }
