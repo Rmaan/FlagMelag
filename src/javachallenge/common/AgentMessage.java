@@ -6,8 +6,7 @@ public class AgentMessage {
 	private BlockType[] blockTypes;
 	private int[] agentTeamId;
 	
-	public AgentMessage(int id, Point location, BlockType[] blockTypes,
-			int[] agentTeamId) {
+	public AgentMessage(int id, Point location, BlockType[] blockTypes, int[] agentTeamId) {
 		super();
 		this.id = id;
 		this.location = location;

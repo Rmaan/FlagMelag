@@ -50,4 +50,8 @@ public class ServerMessage implements Serializable {
 	public void addAgentMsg(AgentMessage msg){
 		agentMsg.add(msg);
 	}
+
+	public ArrayList<Integer> getDeadAgents() {
+		return deadAgents ;
+	}
 }
