@@ -14,7 +14,8 @@ public class Team {
 
 	
 	public Team(Point spawnLocation, int id){
-		
+		this.spawnLocation = spawnLocation;
+		this.id = id;
 	}
 	
 	public int getScore() {

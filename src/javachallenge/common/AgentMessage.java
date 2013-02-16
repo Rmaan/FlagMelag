@@ -30,6 +30,4 @@ public class AgentMessage {
 	public int[] getAgentTeamId() {
 		return agentTeamId;
 	}
-	
-	
 }

@@ -3,7 +3,6 @@ package javachallenge.common;
 import java.util.ArrayList;
 
 import javachallenge.ImproperlyConfiguredException;
-import javachallenge.NotImplementedException;
 
 public class Map {
 	private BlockType[][] map;
@@ -21,6 +20,10 @@ public class Map {
 		this.hei = hei;
 		this.teamCount = teamCount;
 		this.flagLocations = flagLocations;
+		this.map = new BlockType[wid][hei];
+		for (int x = 0; x < wid; x++)
+			for (int y = 0; y < hei; y++)
+				map[x][y] = BlockType.GROUND;
 	}
 	
 	public int getTeamCount() {
@@ -37,6 +40,10 @@ public class Map {
 
 	public ArrayList<Point> getSpawnLocations() {
 		return spawnLocations;
+	}
+
+	public ArrayList<Point> getFlagLocations() {
+		return flagLocations;
 	}
 
 	public boolean isInsideMap(Point p) {
