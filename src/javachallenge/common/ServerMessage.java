@@ -14,7 +14,7 @@ public class ServerMessage implements Serializable {
 		scores = new ArrayList<Integer>();
 		agentMsg = new ArrayList<AgentMessage>();
 	}
-
+	
 	public int getSpawnedId() {
 		return spawnedId;
 	}

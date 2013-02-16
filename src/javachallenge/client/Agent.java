@@ -8,7 +8,6 @@ import javachallenge.common.Point;
 public class Agent {
 	public final static int noAgent = -1 ;
 	
-	private Team team ;
 	private Point location;
 	private BlockType[] blockTypes;
 	private int[] agentTeamId;
@@ -16,8 +15,7 @@ public class Agent {
 
 	private boolean alive;
 
-	public Agent(Team team, int spawnedId, Point spawnLocation) {
-		this.team = team ;
+	public Agent(int spawnedId, Point spawnLocation) {
 		this.id = spawnedId ;
 		this.location = spawnLocation ;
 	}
@@ -51,6 +49,10 @@ public class Agent {
 	public boolean hasAdjEnemy(Direction dir){
 		return getAdjEnemyTeamId(dir) != noAgent ;
 	}
+	
+	public Point getLocation(){
+		return location ;
+	}
 
 	public int getId() {
 		return this.id;
@@ -63,19 +65,5 @@ public class Agent {
 
 	public boolean isAlive() {
 		return this.alive;
-	}
-	
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof Agent){
-			Agent agent = (Agent)obj ;
-			return agent.id == this.id && agent.getTeam().getId() == this.getTeam().getId();
-		}
-		return false ;
-	}
-
-	private Team getTeam() {
-		return team;
 	}
 }
