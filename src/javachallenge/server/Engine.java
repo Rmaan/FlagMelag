@@ -26,6 +26,10 @@ public class Engine {
 	
 	private final int GAME_CYCLES = 725;
 	
+	public boolean gameIsOver() {
+		return !gameEnded;
+	}
+	
 	public Engine(ServerMap map) {
 		this.map = map;
 		this.cycle = 0;
@@ -41,23 +45,22 @@ public class Engine {
 	public void beginStep(){
 		deadAgents = new ArrayList<Agent>();
 		spawnedAgents = new ArrayList<Agent>();
-		for(int i = 0 ; i < teamCount ; i++){
-			spawnedAgents.add(new Agent(-1));
-		}
 	}
+	
+	private boolean PHASE_1 = true; 
 	
 	public void teamStep(ArrayList<Action> actions){
 		if(gameEnded){
 			return;
 		}
-		if(cycle % 2 == 0){
+		if(PHASE_1 || cycle % 2 == 0){
 			//handle moves
 			Collections.shuffle(actions);
 			for(Action action : actions){
 				moveAgent(action);
 			}
 		}
-		else{
+		if (!PHASE_1){
 			//handle attacks
 			HashMap<Integer, ArrayList<Integer>> attackNum = new HashMap<Integer, ArrayList<Integer>>();
 			int[][] spawnAttacks = new int[teamCount][teamCount];
@@ -103,6 +106,10 @@ public class Engine {
 		}
 	}
 	
+	public int getCycle() {
+		return cycle;
+	}
+
 	public void endStep(){
 		respawn();
 		updateScores();
@@ -110,7 +117,7 @@ public class Engine {
 	
 	//method to move the agents and check for the destination to be empty
 	
-	public void moveAgent(Action action){
+	private void moveAgent(Action action){
 		ActionType actionType = action.getType();
 		if(actionType == ActionType.NONE){
 			return;
@@ -127,7 +134,7 @@ public class Engine {
 	
 	//returns the specified agent, checking for it to exist and to be alive
 	
-	public Agent getAgent(int teamId, int id){
+	private Agent getAgent(int teamId, int id){
 		Agent agent = teams.get(teamId).getAgent(id);
 		if(agent == null || !agent.isAlive()){
 			throw new IllegalAgentException();
@@ -136,18 +143,18 @@ public class Engine {
 	}
 	
 	//checks if the given location is occupied by an agent, a flag or a spawned point
-	public boolean occupied(Point p){
+	private boolean occupied(Point p){
 		return (map.getAgent(p) !=  null && !isFlag(p) && getSpawnLocationTeam(p) == -1);
 	}
 	
 	
 	//checks if the given location is a flag
-	public boolean isFlag(Point p){
+	private boolean isFlag(Point p){
 		throw new NotImplementedException();
 	}
 	
 	//returns the id of the team for which the given location is the spawn point, -1 if it is not.
-	public int getSpawnLocationTeam(Point p){
+	private int getSpawnLocationTeam(Point p){
 		for(Team t : teams){
 			if(p.equals(t.getSpawnLocation())){
 				return t.getId();
@@ -156,29 +163,30 @@ public class Engine {
 		return -1;
 	}
 	
-	
 	//respawns an agent for each team if the spawn point is active and not occupied by another agent
-	public void respawn(){
+	private void respawn(){
 		for(Team team : teams){
 			if(map.getAgent(team.getSpawnLocation()) == null && team.isActiveSpawnPoint()){
 				Agent newAgent = team.addAgent();
-				spawnedAgents.set(team.getId(), newAgent);
+				spawnedAgents.add(newAgent);
+			}
+			else{
+				spawnedAgents.add(null);
 			}
 		}
 	}
 	
 	//updates the scores of teams
-	public void updateScores(){
+	private void updateScores(){
 		throw new NotImplementedException();
 	}
 	
-	
 	//messages for the network controller to use for updating team connections
-	public int getRespawnedAgent(int teamId){
-		return spawnedAgents.get(teamId).getId();
+	private Agent getRespawnedAgent(int teamId){
+		return spawnedAgents.get(teamId);
 	}
 	
-	public ArrayList<Integer> getScores(){
+	private ArrayList<Integer> getScores(){
 		ArrayList<Integer> result = new ArrayList<Integer>();
 		for(int i = 0 ; i < teamCount ; i++){
 			result.add(teams.get(i).getScore());
@@ -186,7 +194,7 @@ public class Engine {
 		return result;
 	}
 	
-	public ArrayList<AgentMessage> getAgentMessages(int teamId){
+	private ArrayList<AgentMessage> getAgentMessages(int teamId){
 		ArrayList<AgentMessage> result = new ArrayList<AgentMessage>();
 		for(Agent agent : teams.get(teamId).getAgents()){
 			if(!agent.isAlive()){
@@ -209,7 +217,7 @@ public class Engine {
 		return result;
 	}
 	
-	public ArrayList<Integer> getDeadAgents(int teamId){
+	private ArrayList<Integer> getDeadAgents(int teamId){
 		ArrayList<Integer> deads = new ArrayList<Integer>();
 		for(Agent agent : deadAgents){
 			if(agent.getTeamId() == teamId){
@@ -219,7 +227,28 @@ public class Engine {
 		return deads;
 	}
 	
-	public ArrayList<InitMessage> getInitMessage(){
+	public ArrayList<InitMessage> getInitialMessage() {
 		return null;
+	}
+	
+	public ArrayList<ServerMessage> getStepMessage() {
+		ArrayList<ServerMessage> msgs = new ArrayList<ServerMessage>();
+
+		ArrayList<Integer> scores = getScores();
+		
+		for (Team t: teams) {
+			ServerMessage msg = new ServerMessage();
+			msg.setSpawnedId(spawnedAgents.get(t.getId()) == null ? 0 : spawnedAgents.get(t.getId()).getId());
+			msg.setScores(scores);
+			msg.setDeadAgents(getDeadAgents(t.getId()));
+			msg.setAgentMsg(getAgentMessages(t.getId()));
+			msgs.add(msg);
+		}
+		
+		return msgs;
+	}
+
+	public Team getTeam(int i) {
+		return teams.get(i);
 	}
 }
