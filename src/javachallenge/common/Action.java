@@ -11,7 +11,7 @@ public class Action {
 		this.dir = dir;
 		this.id = id;
 	}
-
+	
 	public ActionType getType() {
 		return type;
 	}
