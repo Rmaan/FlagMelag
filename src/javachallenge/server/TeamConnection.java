@@ -32,7 +32,6 @@ public class TeamConnection {
 			public void run() {
 				try {
 					while (listening) {
-						
 						ClientMessage tmp = (ClientMessage)in.readObject();
 						synchronized (TeamConnection.this) {
 							clientMessage = tmp;
