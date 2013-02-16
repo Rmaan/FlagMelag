@@ -227,11 +227,11 @@ public class Engine {
 		return deads;
 	}
 	
-	private ArrayList<InitMessage> getInitMessage() {
+	public ArrayList<InitMessage> getInitialMessage() {
 		return null;
 	}
 	
-	private ArrayList<ServerMessage> getStepMessage() {
+	public ArrayList<ServerMessage> getStepMessage() {
 		ArrayList<ServerMessage> msgs = new ArrayList<ServerMessage>();
 
 		ArrayList<Integer> scores = getScores();
@@ -246,5 +246,9 @@ public class Engine {
 		}
 		
 		return msgs;
+	}
+
+	public Team getTeam(int i) {
+		return teams.get(i);
 	}
 }

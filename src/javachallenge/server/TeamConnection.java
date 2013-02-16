@@ -13,9 +13,13 @@ public class TeamConnection {
 	private Team team;
 	private Socket socket;
 	private ObjectOutputStream out;
+	public Team getTeam() {
+		return team;
+	}
+
 	private ObjectInputStream in;
 	private boolean listening = true;
-	private ClientMessage msg;
+	private ClientMessage clientMessage;
 	
 	public TeamConnection(Team team, Socket socket) throws IOException{
 		this.team = team;
@@ -27,10 +31,13 @@ public class TeamConnection {
 			@Override
 			public void run() {
 				try {
-					while (listening)
-						synchronized (this) {
-							msg = (ClientMessage)in.readObject();
+					while (listening) {
+						
+						ClientMessage tmp = (ClientMessage)in.readObject();
+						synchronized (TeamConnection.this) {
+							clientMessage = tmp;
 						}
+					}
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -42,12 +49,12 @@ public class TeamConnection {
 		}.start();
 	}
 
-	public synchronized ClientMessage getMsg() {
-		return msg;
+	public synchronized ClientMessage getClientMessage() {
+		return clientMessage;
 	}
 	
-	public synchronized void clearMsg() {
-		msg = null;
+	public synchronized void clearClientMessage() {
+		clientMessage = null;
 	}
 
 	public void sendInitialMessage(InitMessage msg) throws IOException {
