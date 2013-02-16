@@ -10,7 +10,7 @@ public class ClientMessage implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	ArrayList<Action> actions ;
 	
 	public ClientMessage(){

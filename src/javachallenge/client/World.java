@@ -2,7 +2,6 @@ package javachallenge.client;
 
 import java.util.ArrayList;
 
-import javachallenge.common.InitMessage;
 import javachallenge.common.Map;
 import javachallenge.common.Point;
 
