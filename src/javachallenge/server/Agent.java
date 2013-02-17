@@ -6,12 +6,15 @@ public class Agent {
 	private Point location;
 	private boolean isAlive;
 	private static int refCount = 0;
+	public static int noAgent = -1 ;
+	
 	private int id;
 	private int teamId;
 	
-	public Agent(int teamId) {
+	public Agent(int teamId, Point location) {
 		this.teamId = teamId;
 		isAlive = true;
+		this.location = location ;
 		this.id = refCount++;
 	}
 	

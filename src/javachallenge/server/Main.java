@@ -13,7 +13,7 @@ import javachallenge.graphics.GraphicClient;
 import javachallenge.graphics.util.Position;
 
 public class Main {
-	private static int PORT = 5566;
+	private static int PORT = 5570;
 	private static int CYCLE_TIME = 500;
 	
 	public void run() throws IOException, InterruptedException {

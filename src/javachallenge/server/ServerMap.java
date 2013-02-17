@@ -7,6 +7,8 @@ import javachallenge.common.Map;
 import javachallenge.common.Point;
 
 public class ServerMap extends Map {
+	private static final long serialVersionUID = 1028425069786631534L;
+	
 	private Agent[][] agents = new Agent[getWid()][getHei()];
 
 	public ServerMap(int wid, int hei, int teamCount,
@@ -16,6 +18,18 @@ public class ServerMap extends Map {
 	
 	public Agent getAgent(Point p){
 		return agents[p.x][p.y];
+	}
+	
+	public void spawnAgent(Agent a){
+		//TODO deafq?!
+		Point p = a.getLocation() ;
+		agents[p.x][p.y] = a ;
+	}
+	
+	public void moveAgent(Agent a, Point p, Point p2){
+		//TODO deafq?!
+		agents[p.x][p.y] = null ;
+		agents[p2.x][p2.y] = a ;
 	}
 	
 	private static ServerMap sampleMap;

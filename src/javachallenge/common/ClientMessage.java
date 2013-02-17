@@ -15,7 +15,10 @@ public class ClientMessage implements Serializable{
 	}
 	
 	public ArrayList<Action> getActions(int teamId) {
-		throw new NotImplementedException();
+		return actions ;
+		
+		//TODO correct this madafaka!
+		//throw new NotImplementedException();
 	}
 	
 	public ArrayList<Action> getActions() {

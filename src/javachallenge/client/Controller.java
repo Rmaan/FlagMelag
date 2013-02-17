@@ -44,10 +44,8 @@ public class Controller {
 			public void run() {
 					try {
 						while(!gameEnded){
-							System.err.println("In the <RECIEVE> Loop - Start");
 							//TODO: end game
 							ServerMessage tmp = (ServerMessage)in.readObject();
-							System.err.println("In the <RECIEVE> Loop - Recieved");
 							synchronized (lock) {
 								serverMsg = tmp;
 							}
@@ -73,6 +71,8 @@ public class Controller {
 							synchronized (lock) {
 								serverMsg = null;
 							}
+							player.updateMsg(msg) ;
+							//------------------------
 							player.prepareClientMsg();
 							player.step() ;
 							System.err.println("palyer done stepping :D");
@@ -95,6 +95,6 @@ public class Controller {
 	
 	
 	public static void main(String[] args) throws Exception {
-		new Controller("127.0.0.1", 5566);
+		new Controller("127.0.0.1", 5570);
 	}
 }

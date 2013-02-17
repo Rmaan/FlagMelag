@@ -162,11 +162,15 @@ public class Engine {
 	}
 	
 	//respawns an agent for each team if the spawn point is active and not occupied by another agent
+	//TODO no time?! 
 	private void respawn(){
 		for(Team team : teams){
 			if(map.getAgent(team.getSpawnLocation()) == null && team.isActiveSpawnPoint()){
 				Agent newAgent = team.addAgent();
+				map.spawnAgent(newAgent) ;
+				
 				spawnedAgents.add(newAgent);
+				System.err.println("add one agent " + newAgent.getId());
 			}
 			else{
 				spawnedAgents.add(null);
@@ -237,7 +241,8 @@ public class Engine {
 		
 		for (Team t: teams) {
 			ServerMessage msg = new ServerMessage();
-			msg.setSpawnedId(spawnedAgents.get(t.getId()) == null ? 0 : spawnedAgents.get(t.getId()).getId());
+			
+			msg.setSpawnedId(spawnedAgents.get(t.getId()) == null ? Agent.noAgent : spawnedAgents.get(t.getId()).getId());
 			msg.setScores(scores);
 			msg.setDeadAgents(getDeadAgents(t.getId()));
 			msg.setAgentMsg(getAgentMessages(t.getId()));

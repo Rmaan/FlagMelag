@@ -7,6 +7,7 @@ import javachallenge.ImproperlyConfiguredException;
 
 public class Map implements Serializable {
 	private static final long serialVersionUID = 96375824927929628L;
+	
 	private BlockType[][] map;
 	private int teamCount;
 	private int hei;

@@ -17,6 +17,7 @@ public class Team {
 	public Team(Point spawnLocation, int id){
 		this.spawnLocation = spawnLocation;
 		this.id = id;
+		this.activeSpawnPoint = true ;
 	}
 	
 	public int getScore() {
@@ -52,7 +53,7 @@ public class Team {
 	}
 	
 	public Agent addAgent(){
-		Agent newAgent = new Agent(id);
+		Agent newAgent = new Agent(id, spawnLocation);
 		agents.add(newAgent);
 		return newAgent;
 	}

@@ -33,13 +33,18 @@ public class Behrooz {
 		world.setMap(msg.getMap()) ;
 		this.id = msg.getTeamId() ;
 		this.spawnLocation = world.getSpawnLocation(this.id);
+		
+		//------------------------
+		System.err.println(msg.getMap().getHei() + " " + msg.getMap().getWid());
+		System.err.println(msg.getTeamId());
+		System.err.println("(" + this.spawnLocation.x + ", " + this.spawnLocation.y + ")");
 	}
 	
 	void updateMsg(ServerMessage msg){
 		respawn(msg.getSpawnedId()) ;
 		setScore(msg.getScores());
 		//-------------------------------
-		agentAliveId.clear() ;
+		agentAliveId = new ArrayList<Integer>() ;
 		for (AgentMessage agentMsg : msg.getAgentMsg()) {
 			setAgentMsg(agentMsg);
 			agentAliveId.add(agentMsg.getId()) ;
@@ -74,10 +79,13 @@ public class Behrooz {
 	}
 
 	private void respawn(int spawnedId) {
+		
 		if (spawnedId == Agent.noAgent) 
 			return ;
 		Agent agent = new Agent(spawnedId, this.spawnLocation) ;
 		agents.add(agent) ;
+		
+		System.err.println("Client, Spawn:" + agent.getId());
 	}
 	
 	public int getScore(){
