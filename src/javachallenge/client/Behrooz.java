@@ -26,6 +26,9 @@ public class Behrooz {
 		deadAgentsId = null ;
 	}
 	
+	public World getWorld(){
+		return this.getWorld();
+	}
 	void initMsg(InitMessage msg){
 		world.setMap(msg.getMap()) ;
 		this.id = msg.getTeamId() ;
