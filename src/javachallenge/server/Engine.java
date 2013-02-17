@@ -228,7 +228,13 @@ public class Engine {
 	}
 	
 	public ArrayList<InitMessage> getInitialMessage() {
-		return null;
+		ArrayList<InitMessage> msgs = new ArrayList<InitMessage>();
+
+		for (Team t: teams) {
+			InitMessage msg = new InitMessage(this.map, t.getId());
+			msgs.add(msg);
+		}
+		return msgs;
 	}
 	
 	public ArrayList<ServerMessage> getStepMessage() {

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import javachallenge.common.Action;
 import javachallenge.common.AgentMessage;
 import javachallenge.common.ClientMessage;
-import javachallenge.common.Direction;
 import javachallenge.common.InitMessage;
 import javachallenge.common.Point;
 import javachallenge.common.ServerMessage;
