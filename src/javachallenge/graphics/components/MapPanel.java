@@ -114,4 +114,9 @@ public class MapPanel extends ScrollablePanel {
 			}	
 		return position;
 	}
+
+	public void setBlock(int x, int y, int ordinal)
+	{
+		//To change body of created methods use File | Settings | File Templates.
+	}
 }
