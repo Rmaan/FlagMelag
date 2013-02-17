@@ -9,10 +9,13 @@ import javachallenge.NotImplementedException;
 import javachallenge.common.Action;
 import javachallenge.common.ActionType;
 import javachallenge.common.AgentMessage;
+import javachallenge.common.BlockType;
 import javachallenge.common.Direction;
 import javachallenge.common.InitMessage;
 import javachallenge.common.Point;
 import javachallenge.common.ServerMessage;
+import javachallenge.graphics.GraphicClient;
+import javachallenge.graphics.util.Position;
 
 public class Engine {
 	private ServerMap map;
@@ -23,12 +26,13 @@ public class Engine {
 	private ArrayList<Agent> spawnedAgents;
 	
 	private final int GAME_CYCLES = 725;
+	private GraphicClient graphicClient;
 	
 	public boolean gameIsOver() {
 		return !gameEnded;
 	}
 	
-	public Engine(ServerMap map) {
+	public Engine(ServerMap map, GraphicClient graphicClient) {
 		this.map = map;
 		this.cycle = 0;
 		teamCount = map.getTeamCount();
@@ -36,6 +40,8 @@ public class Engine {
 		for(int i = 0 ; i < teamCount ; i++){
 			teams.add(new Team(spawnLoc.get(i), i));
 		}
+		
+		this.graphicClient = graphicClient ;
 	}
 	
 	//methods for running the game
@@ -121,11 +127,19 @@ public class Engine {
 			return;
 		}
 		
+		Direction dir = action.getDir() ;
 		Agent agent = getAgent(action.getTeamId(), action.getId());
-		Point dest = agent.getLocation().applyDirection(action.getDir());
+		Point dest = agent.getLocation().applyDirection(dir);
 		if(actionType == ActionType.MOVE){
-			if(map.isInsideMap(dest) && !occupied(dest)){
+			System.err.println("Dest is : " + dest.x + " " + dest.y + " - " + map.isInsideMap(dest));
+			
+			if(map.isInsideMap(dest) && map.getBlockType(dest) == BlockType.GROUND && !occupied(dest)){
+				map.moveAgent(agent, agent.getLocation(), dest) ;
 				agent.setLocation(dest);
+				
+				Integer id = new Integer(agent.getId()) ;
+				int direction = dir.ordinal() ;
+				graphicClient.move(id, direction) ;
 			}
 		}
 	}
@@ -142,7 +156,7 @@ public class Engine {
 	
 	//checks if the given location is occupied by an agent, a flag or a spawned point
 	private boolean occupied(Point p){
-		return (map.getAgent(p) !=  null && !isFlag(p) && getSpawnLocationTeam(p) == -1);
+		return (map.getAgent(p) !=  null || getSpawnLocationTeam(p) != -1);
 	}
 	
 	
@@ -168,8 +182,12 @@ public class Engine {
 			if(map.getAgent(team.getSpawnLocation()) == null && team.isActiveSpawnPoint()){
 				Agent newAgent = team.addAgent();
 				map.spawnAgent(newAgent) ;
-				
 				spawnedAgents.add(newAgent);
+				
+				
+				Position p = new Position(newAgent.getLocation().x, newAgent.getLocation().y);
+				Integer id = new Integer(newAgent.getId()) ;
+ 				graphicClient.spawn(id, p);
 				System.err.println("add one agent " + newAgent.getId());
 			}
 			else{
@@ -204,6 +222,9 @@ public class Engine {
 			}
 			Direction[] dirs = Direction.values();
 			for (int i = 0; i < dirs.length; i++) {
+				System.err.println(dirs[i]);
+				System.err.println(loc.applyDirection(dirs[i]).x + " " + loc.applyDirection(dirs[i]).y);
+				System.err.println("------------");
 				Agent opAgent = map.getAgent(loc.applyDirection(dirs[i]));
 				if(opAgent != null){
 					agentTeamId[i] = opAgent.getTeamId();

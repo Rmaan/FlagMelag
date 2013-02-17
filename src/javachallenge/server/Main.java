@@ -13,13 +13,17 @@ import javachallenge.graphics.GraphicClient;
 import javachallenge.graphics.util.Position;
 
 public class Main {
-	private static int PORT = 5570;
+	private static int PORT = 5555;
 	private static int CYCLE_TIME = 500;
+	private GraphicClient graphicClient;
 	
 	public void run() throws IOException, InterruptedException {
 		ServerSocket ss = new ServerSocket(PORT);
 		ServerMap sampleMap = ServerMap.getSampleMap();
-		Engine engine = new Engine(sampleMap);
+		
+		graphicClient = new GraphicClient(40, 20, new Position[] { new Position(4, 2) });
+		Engine engine = new Engine(sampleMap, graphicClient);
+		
 		ArrayList<TeamConnection> connections = new ArrayList<TeamConnection>();
 		
 		for (int i = 0; i < sampleMap.getTeamCount(); i++) {
@@ -37,7 +41,6 @@ public class Main {
 		engine.teamStep(new ArrayList<Action>());
 		engine.endStep();
 		
-		GraphicClient client = new GraphicClient(40, 20, new Position[] { new Position(4, 2) });
 		
 		while (engine.gameIsOver()) {
 			System.out.println("Cylce filan " + engine.getCycle());

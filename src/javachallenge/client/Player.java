@@ -1,5 +1,12 @@
 package javachallenge.client;
 
+import java.util.Random;
+
+import javachallenge.common.Action;
+import javachallenge.common.ActionType;
+import javachallenge.common.Point;
+import javachallenge.common.Direction;
+
 
 public class Player extends Behrooz {
 	public Player(World world) {
@@ -7,22 +14,21 @@ public class Player extends Behrooz {
 	}
 	
 	public void step(){
-		return ;
-		/*
+		//return ;
+		
 		Random random=new Random(System.currentTimeMillis());
 		World myWorld=this.getWorld();
-		Point[] flagLocs= (Point[])myWorld.getMap().getFlagLocations().toArray();
+//		Point[] flagLocs= (Point[]) (myWorld.getMap().getFlagLocations().toArray());
 		
-		Integer[] AliveID= (Integer[])(this.getAgentAliveId().toArray());
-		for(int i=0;i<AliveID.length;i++){
-			int direction = random.nextInt(6);
-			int ID=AliveID[i];
-			Action action=new Action(ActionType.MOVE, Direction.values()[direction],
+		for(int i = 0 ; i < this.getAgentAliveId().size() ; i++){
+			int d = random.nextInt(6);
+			int ID = this.getAgentAliveId().get(i);
+			Action action=new Action(ActionType.MOVE, Direction.values()[d],
 					ID);
 			this.doAction(action);
 //			this.getAgentById(ID).
 		}
 		
-		*/
+		
 	}
 }
