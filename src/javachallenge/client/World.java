@@ -2,8 +2,8 @@ package javachallenge.client;
 
 import java.util.ArrayList;
 
-import javachallenge.common.InitMessage;
 import javachallenge.common.Map;
+import javachallenge.common.Point;
 
 public class World {
 	private ArrayList<Integer> scores ;
@@ -23,5 +23,9 @@ public class World {
 
 	public void setMap(Map map) {
 		this.map = map ;
+	}
+
+	public Point getSpawnLocation(int teamId) {
+		return getMap().getSpawnLocations().get(teamId); 
 	}
 }

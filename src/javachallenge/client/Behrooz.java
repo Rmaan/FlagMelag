@@ -2,48 +2,63 @@ package javachallenge.client;
 
 import java.util.ArrayList;
 
+import javachallenge.common.Action;
 import javachallenge.common.AgentMessage;
+import javachallenge.common.ClientMessage;
 import javachallenge.common.InitMessage;
 import javachallenge.common.Point;
 import javachallenge.common.ServerMessage;
 
-public class TeamConnection {
+public class Behrooz {
 	private int id ;
 	private Point spawnLocation ;
 	private ArrayList<Agent> agents ;
 	private ArrayList<Integer> agentAliveId ;
-	private World world ; 
+	private World world ;
+	private ArrayList<Integer> deadAgentsId;
+	private ClientMessage clientMsg; 
+	
+	public Behrooz(World world) {
+		this.world =  world ;
+		//-------------------
+		agents = new ArrayList<Agent>() ;
+		agentAliveId = null ;
+		deadAgentsId = null ;
+	}
 	
 	void initMsg(InitMessage msg){
 		world.setMap(msg.getMap()) ;
 		this.id = msg.getTeamId() ;
+		this.spawnLocation = world.getSpawnLocation(this.id);
 	}
 	
 	void updateMsg(ServerMessage msg){
 		respawn(msg.getSpawnedId()) ;
 		setScore(msg.getScores());
 		//-------------------------------
+		agentAliveId.clear() ;
 		for (AgentMessage agentMsg : msg.getAgentMsg()) {
 			setAgentMsg(agentMsg);
+			agentAliveId.add(agentMsg.getId()) ;
 		}
 		//-------------------------------
 		setDeadAgent(msg.getDeadAgents());
-		setAliveId(agentAliveId) ;
-	}
-	
-	private void setAliveId(ArrayList<Integer> agentAliveId) {
-		this.agentAliveId = agentAliveId ;
 	}
 	
 	public ArrayList<Integer> getAgentAliveId(){
 		return agentAliveId ;
 	}
 	
-	private void setDeadAgent(ArrayList<Integer> deadAgents) {
-		for (Integer agentId : deadAgents) {
+	public ArrayList<Integer> getDeadAgentId(){
+		return deadAgentsId ;
+	}
+	
+	private void setDeadAgent(ArrayList<Integer> deadAgentsId) {
+		for (Integer agentId : deadAgentsId) {
 			Agent agent = getAgentById(agentId) ;
 			agent.die() ;
 		}
+		this.deadAgentsId = deadAgentsId ;
 	}
 
 	private void setAgentMsg(AgentMessage agentMsg) {
@@ -88,5 +103,23 @@ public class TeamConnection {
 				return agent ;
 		}
 		return null ;
+	}
+	
+	void prepareClientMsg(){
+		this.clientMsg = new ClientMessage();
+	}
+	
+	public void doAction(Action act){
+		for (Action action : this.clientMsg.getActions()) {
+			if (action.getId() == act.getId())
+				return ;
+			//TODO with first choice now :D or not!
+		}
+		//---------------------------------------------------
+		this.clientMsg.addAction(act);
+	}
+	
+	public ClientMessage getClientMsg(){
+		return this.clientMsg ;
 	}
 }
