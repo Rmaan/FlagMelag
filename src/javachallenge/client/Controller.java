@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 import javachallenge.common.ClientMessage;
 import javachallenge.common.InitMessage;
@@ -76,7 +75,6 @@ public class Controller {
 							player.prepareClientMsg();
 							player.step() ;
 							ClientMessage cMsg = player.getClientMsg() ;
-							System.err.println("sent client message :D");
 							out.writeObject(cMsg);
 						}
 						else{
@@ -94,6 +92,6 @@ public class Controller {
 	
 	
 	public static void main(String[] args) throws Exception {
-		new Controller("127.0.0.1", 3555);
+		new Controller("127.0.0.1", 1055);
 	}
 }

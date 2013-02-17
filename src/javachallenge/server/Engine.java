@@ -131,7 +131,7 @@ public class Engine {
 		Agent agent = getAgent(action.getTeamId(), action.getId());
 		Point dest = agent.getLocation().applyDirection(dir);
 		if(actionType == ActionType.MOVE){
-			System.err.println("Dest is : " + dest.x + " " + dest.y + " - " + map.isInsideMap(dest));
+			//System.err.println("Dest is : " + dest.x + " " + dest.y + " - " + map.isInsideMap(dest));
 			
 			if(map.isInsideMap(dest) && map.getBlockType(dest) == BlockType.GROUND && !occupied(dest)){
 				map.moveAgent(agent, agent.getLocation(), dest) ;

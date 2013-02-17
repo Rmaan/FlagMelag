@@ -42,7 +42,7 @@ public class ServerMap extends Map {
 		ArrayList<Point> flagLoc = new ArrayList<Point>();
 		flagLoc.add(new Point(5, 1));
 		flagLoc.add(new Point(4, 4));
-		sampleMap = new ServerMap(10, 10, 1, spawnLoc, flagLoc);
+		sampleMap = new ServerMap(18, 10, 1, spawnLoc, flagLoc);
 		sampleMap.setBlockType(new Point(8, 8), BlockType.GROUND);
 		sampleMap.setBlockType(new Point(8, 9), BlockType.GROUND);
 		sampleMap.setBlockType(new Point(9, 9), BlockType.RIVER);

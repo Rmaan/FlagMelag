@@ -8,12 +8,13 @@ import java.util.ArrayList;
 import javachallenge.common.Action;
 import javachallenge.common.ClientMessage;
 import javachallenge.common.InitMessage;
+import javachallenge.common.Point;
 import javachallenge.common.ServerMessage;
 import javachallenge.graphics.GraphicClient;
 import javachallenge.graphics.util.Position;
 
 public class Main {
-	private static int PORT = 3555;
+	private static int PORT = 1055;
 	private static int CYCLE_TIME = 500;
 	private GraphicClient graphicClient;
 	
@@ -21,7 +22,12 @@ public class Main {
 		ServerSocket ss = new ServerSocket(PORT);
 		ServerMap sampleMap = ServerMap.getSampleMap();
 		
-		graphicClient = new GraphicClient(40, 20, new Position[] { new Position(0, 0) });
+		Position[] tmpFlagPositions = new Position[sampleMap.getFlagLocations().size()];
+		for(int i = 0 ; i < sampleMap.getFlagLocations().size() ; i++) {
+			Point flag = sampleMap.getFlagLocations().get(i);
+			tmpFlagPositions[i] = new Position(flag.x, flag.y);
+		}
+		graphicClient = new GraphicClient(sampleMap.getWid(), sampleMap.getHei(), tmpFlagPositions);
 		Engine engine = new Engine(sampleMap, graphicClient);
 		
 		ArrayList<TeamConnection> connections = new ArrayList<TeamConnection>();
