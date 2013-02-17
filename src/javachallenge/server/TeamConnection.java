@@ -11,7 +11,7 @@ import javachallenge.common.ServerMessage;
 
 public class TeamConnection {
 	private Team team;
-	private Socket socket;
+//	private Socket socket;
 	private ObjectOutputStream out;
 	public Team getTeam() {
 		return team;
@@ -21,12 +21,13 @@ public class TeamConnection {
 	private boolean listening = true;
 	private ClientMessage clientMessage;
 	
-	public TeamConnection(Team team, Socket socket) throws IOException{
+	public TeamConnection(final Team team, Socket socket) throws IOException{
 		this.team = team;
-		this.socket = socket;
+//		this.socket = socket;
 		out = new ObjectOutputStream(socket.getOutputStream());
 		in = new ObjectInputStream(socket.getInputStream());
 		
+		// Recieve team messages
 		new Thread() {
 			@Override
 			public void run() {
@@ -44,6 +45,7 @@ public class TeamConnection {
 				} catch (ClassCastException e) {
 					e.printStackTrace();
 				}
+				System.out.println("Team " + team.getId() + " disconnected");
 			}
 		}.start();
 	}

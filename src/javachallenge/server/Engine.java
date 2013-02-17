@@ -159,7 +159,6 @@ public class Engine {
 		return (map.getAgent(p) !=  null || getSpawnLocationTeam(p) != -1);
 	}
 	
-	
 	//checks if the given location is a flag
 	private boolean isFlag(Point p){
 		throw new NotImplementedException();
@@ -198,7 +197,9 @@ public class Engine {
 	
 	//updates the scores of teams
 	private void updateScores(){
-		//throw new NotImplementedException();
+		for (Team t: teams)
+			t.setScore(t.getScore() + 2);
+		// TODO
 	}
 	
 	private ArrayList<Integer> getScores(){
