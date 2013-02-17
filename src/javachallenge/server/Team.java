@@ -2,17 +2,14 @@ package javachallenge.server;
 
 import java.util.ArrayList;
 
-import javachallenge.NotImplementedException;
 import javachallenge.common.Point;
 
 public class Team {
 	private int score;
 	private ArrayList<Agent> agents = new ArrayList<Agent>();
-	
 	private boolean activeSpawnPoint;
 	private Point spawnLocation;
 	private int id;
-
 	
 	public Team(Point spawnLocation, int id){
 		this.spawnLocation = spawnLocation;
