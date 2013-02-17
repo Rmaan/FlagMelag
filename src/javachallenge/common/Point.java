@@ -3,6 +3,8 @@ package javachallenge.common;
 import java.io.Serializable;
 
 public class Point implements Serializable {
+	private static final long serialVersionUID = -8898176112993619962L;
+	
 	public int x;
 	public int y;
 
