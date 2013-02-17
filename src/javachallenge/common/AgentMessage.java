@@ -1,6 +1,10 @@
 package javachallenge.common;
 
-public class AgentMessage {
+import java.io.Serializable;
+
+public class AgentMessage implements Serializable {
+	private static final long serialVersionUID = -5218587968391584486L;
+	
 	private int id;
 	private Point location;
 	private BlockType[] blockTypes;

@@ -1,6 +1,10 @@
 package javachallenge.common;
 
-public class Action {
+import java.io.Serializable;
+
+public class Action implements Serializable{
+	private static final long serialVersionUID = 224152328507029973L;
+	
 	private ActionType type;
 	private Direction dir;
 	private int id;

@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class ServerMessage implements Serializable {
+	private static final long serialVersionUID = 4282530502489573811L;
+	
 	int spawnedId;
 	ArrayList<Integer> scores;
 	ArrayList<AgentMessage> agentMsg;
