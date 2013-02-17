@@ -23,23 +23,28 @@ public class Controller {
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	
+	
 	public Controller(String IP, int PORT) throws Exception{
 		
+		System.out.println("Creating socket...");
 		Socket s = new Socket(IP, PORT);
-		out = new ObjectOutputStream(s.getOutputStream());
 		in = new ObjectInputStream(s.getInputStream());
-
+		out = new ObjectOutputStream(s.getOutputStream());
+		
+		System.out.println("Creating player & world...");
 		world = new World();
 		player = new Player(world) ;
 		
+		System.out.println("Waiting for initial Msg...");
 		InitMessage initMsg = (InitMessage)in.readObject();
 		player.initMsg(initMsg);
 		
+		System.out.println("Starting the game?!...");
 		new Thread(){
 			public void run() {
 				while(!gameEnded){
 				try {
-					//TODO: end game
+						//TODO: end game
 						ServerMessage tmp = (ServerMessage)in.readObject();
 						synchronized (lock) {
 							serverMsg = tmp;
@@ -86,6 +91,6 @@ public class Controller {
 	
 	
 	public static void main(String[] args) throws Exception {
-		new Controller("", 0);
+		new Controller("192.168.137.1", 5566);
 	}
 }

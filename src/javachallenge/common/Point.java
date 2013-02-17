@@ -1,8 +1,8 @@
 package javachallenge.common;
 
-import javachallenge.NotImplementedException;
+import java.io.Serializable;
 
-public class Point {
+public class Point implements Serializable {
 	public int x;
 	public int y;
 
