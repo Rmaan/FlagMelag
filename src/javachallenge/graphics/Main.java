@@ -16,7 +16,7 @@ public class Main {
 	public void run() {
 
 		@SuppressWarnings("serial")
-		Screen screen = new Screen("GoDi") {
+		Screen screen = new Screen("Java Challenge") {
 			{
 				getContentPane().setBackground(ColorMaker.black);
 			}

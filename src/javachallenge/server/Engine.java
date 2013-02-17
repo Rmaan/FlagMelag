@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-
 import javachallenge.IllegalAgentException;
 import javachallenge.NotImplementedException;
 import javachallenge.common.Action;
@@ -12,14 +11,13 @@ import javachallenge.common.ActionType;
 import javachallenge.common.AgentMessage;
 import javachallenge.common.Direction;
 import javachallenge.common.InitMessage;
-import javachallenge.common.Map;
 import javachallenge.common.Point;
 import javachallenge.common.ServerMessage;
 
 public class Engine {
 	private ServerMap map;
 	private int cycle, teamCount;
-	private ArrayList<Team> teams;
+	private ArrayList<Team> teams = new ArrayList<Team>();
 	private boolean gameEnded = false;
 	private ArrayList<Agent> deadAgents;
 	private ArrayList<Agent> spawnedAgents;
@@ -179,11 +177,6 @@ public class Engine {
 	//updates the scores of teams
 	private void updateScores(){
 		throw new NotImplementedException();
-	}
-	
-	//messages for the network controller to use for updating team connections
-	private Agent getRespawnedAgent(int teamId){
-		return spawnedAgents.get(teamId);
 	}
 	
 	private ArrayList<Integer> getScores(){
