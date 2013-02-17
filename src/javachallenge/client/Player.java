@@ -23,8 +23,7 @@ public class Player extends Behrooz {
 		for(int i = 0 ; i < this.getAgentAliveId().size() ; i++){
 			int d = random.nextInt(6);
 			int ID = this.getAgentAliveId().get(i);
-			Action action=new Action(ActionType.MOVE, Direction.values()[d],
-					ID);
+			Action action=new Action(ActionType.MOVE, Direction.values()[d], ID);
 			this.doAction(action);
 //			this.getAgentById(ID).
 		}

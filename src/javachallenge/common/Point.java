@@ -26,25 +26,25 @@ public class Point implements Serializable {
 		switch(dir){
 		case NORTH:
 			x = this.x;
-			y = this.y + 1;
+			y = this.y - 1;
 			break;
 			
 		case SOUTH:
 			x = this.x;
-			y = this.y - 1;
+			y = this.y + 1;
 			break;
 			
 		default:
-			if(this.x % 2 == 0){
+			if(this.x % 2 == 1){
 				switch(dir){
 				case SOUTHEAST:
 					x = this.x + 1;
-					y = this.y - 1;
+					y = this.y + 1;
 					break;
 					
 				case SOUTHWEST:
 					x = this.x - 1;
-					y = this.y - 1;
+					y = this.y + 1;
 					break;
 					
 				case NORTHEAST:
@@ -76,12 +76,12 @@ public class Point implements Serializable {
 					
 				case NORTHEAST:
 					x = this.x + 1;
-					y = this.y + 1;
+					y = this.y - 1;
 					break;
 				
 				case NORTHWEST:
 					x = this.x - 1;
-					y = this.y + 1;
+					y = this.y - 1;
 					break;
 					
 					default:

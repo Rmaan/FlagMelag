@@ -222,9 +222,6 @@ public class Engine {
 			}
 			Direction[] dirs = Direction.values();
 			for (int i = 0; i < dirs.length; i++) {
-				System.err.println(dirs[i]);
-				System.err.println(loc.applyDirection(dirs[i]).x + " " + loc.applyDirection(dirs[i]).y);
-				System.err.println("------------");
 				Agent opAgent = map.getAgent(loc.applyDirection(dirs[i]));
 				if(opAgent != null){
 					agentTeamId[i] = opAgent.getTeamId();

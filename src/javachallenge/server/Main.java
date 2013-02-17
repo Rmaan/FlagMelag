@@ -13,7 +13,7 @@ import javachallenge.graphics.GraphicClient;
 import javachallenge.graphics.util.Position;
 
 public class Main {
-	private static int PORT = 4555;
+	private static int PORT = 3555;
 	private static int CYCLE_TIME = 500;
 	private GraphicClient graphicClient;
 	
@@ -21,7 +21,7 @@ public class Main {
 		ServerSocket ss = new ServerSocket(PORT);
 		ServerMap sampleMap = ServerMap.getSampleMap();
 		
-		graphicClient = new GraphicClient(40, 20, new Position[] { new Position(4, 2) });
+		graphicClient = new GraphicClient(40, 20, new Position[] { new Position(0, 0) });
 		Engine engine = new Engine(sampleMap, graphicClient);
 		
 		ArrayList<TeamConnection> connections = new ArrayList<TeamConnection>();
