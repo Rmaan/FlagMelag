@@ -13,8 +13,7 @@ import javachallenge.graphics.util.ImageHolder;
 import javachallenge.graphics.util.Position;
 
 public class Main {
-	public void run() {
-
+	public void run(GraphicClient client) {
 		@SuppressWarnings("serial")
 		Screen screen = new Screen("Java Challenge") {
 			{
@@ -31,7 +30,6 @@ public class Main {
 
 		screen.setPreferredSize(new Dimension(800, 600));
 		screen.setVisible(true);
-		Client client = new Client(40, 20, new Position[] { new Position(4, 2) });
 		final MapPanel map = client.getPanel();
 		screen.add(map);
 

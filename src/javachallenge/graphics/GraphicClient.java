@@ -10,7 +10,7 @@ import javachallenge.graphics.util.ImageHolder;
 import javachallenge.graphics.util.Mover;
 import javachallenge.graphics.util.Position;
 
-public class Client {
+public class GraphicClient {
 	MapPanel panel;
 	Map<Integer, Sprite> flags = new TreeMap<Integer, Sprite>();
 	Map<Integer, Sprite> units = new TreeMap<Integer, Sprite>();
@@ -26,7 +26,7 @@ public class Client {
 	}
 
 	@SuppressWarnings("serial")
-	public Client(int width, int height, Position[] positions) {
+	public GraphicClient(int width, int height, Position[] positions) {
 		panel = new MapPanel(width, height) {
 			@Override
 			public void onClick(int x, int y) {

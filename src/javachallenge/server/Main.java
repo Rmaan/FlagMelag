@@ -9,6 +9,8 @@ import javachallenge.common.Action;
 import javachallenge.common.ClientMessage;
 import javachallenge.common.InitMessage;
 import javachallenge.common.ServerMessage;
+import javachallenge.graphics.GraphicClient;
+import javachallenge.graphics.util.Position;
 
 public class Main {
 	private static int PORT = 5566;
@@ -21,6 +23,7 @@ public class Main {
 		ArrayList<TeamConnection> connections = new ArrayList<TeamConnection>();
 		
 		for (int i = 0; i < sampleMap.getTeamCount(); i++) {
+			System.out.println("Waiting for team " + i);
 			Socket socket = ss.accept();
 			connections.add(new TeamConnection(engine.getTeam(i), socket));
 		}
@@ -33,6 +36,9 @@ public class Main {
 		engine.beginStep();
 		engine.teamStep(new ArrayList<Action>());
 		engine.endStep();
+		
+		GraphicClient client = new GraphicClient(40, 20, new Position[] { new Position(4, 2) });
+		new javachallenge.graphics.Main().run(client);
 		
 		while (engine.gameIsOver()) {
 			System.out.println("Cylce filan " + engine.getCycle());
@@ -59,6 +65,8 @@ public class Main {
 			engine.teamStep(allActions);
 			engine.endStep();
 		}
+		
+		ss.close();
 	}
 	
 	public static void main(String[] args) throws IOException, InterruptedException {

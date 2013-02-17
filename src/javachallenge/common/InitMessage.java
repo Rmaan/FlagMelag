@@ -1,6 +1,10 @@
 package javachallenge.common;
 
-public class InitMessage {
+import java.io.Serializable;
+
+public class InitMessage implements Serializable {
+	private static final long serialVersionUID = -8951571199681260311L;
+	
 	Map map;
 	int teamId;
 	
