@@ -7,7 +7,8 @@ import javachallenge.common.Point;
 
 public class Team {
 	private int score;
-	private ArrayList<Agent> agents;
+	private ArrayList<Agent> agents = new ArrayList<Agent>();
+	
 	private boolean activeSpawnPoint;
 	private Point spawnLocation;
 	private int id;

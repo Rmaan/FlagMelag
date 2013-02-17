@@ -15,13 +15,13 @@ public class Controller {
 	Player player ;
 	private ServerMessage serverMsg;
 	private ServerMessage msg;
-	private Object lock;
+	private Object lock = new Object();
 	private boolean gameEnded = false;
 	private World world;
 	
 	private final int CYCLE_TIME = 500;
 	private ObjectOutputStream out;
-	private ObjectInputStream in;
+	private ObjectInputStream   in;
 	
 	
 	public Controller(String IP, int PORT) throws Exception{
@@ -42,12 +42,15 @@ public class Controller {
 		System.out.println("Starting the game?!...");
 		new Thread(){
 			public void run() {
-				while(!gameEnded){
-				try {
-						//TODO: end game
-						ServerMessage tmp = (ServerMessage)in.readObject();
-						synchronized (lock) {
-							serverMsg = tmp;
+					try {
+						while(!gameEnded){
+							System.err.println("In the <RECIEVE> Loop - Start");
+							//TODO: end game
+							ServerMessage tmp = (ServerMessage)in.readObject();
+							System.err.println("In the <RECIEVE> Loop - Recieved");
+							synchronized (lock) {
+								serverMsg = tmp;
+							}
 						}
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
@@ -56,34 +59,35 @@ public class Controller {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				}
 			};
 		}.start();
 		
 		new Thread(){
 			public void run() {
-				while(!gameEnded){
-					synchronized (lock) {
-						msg = serverMsg;
-					}
-					try{
+				try{
+					while(!gameEnded){
+						synchronized (lock) {
+							msg = serverMsg;
+						}
 						if(msg != null){
 							synchronized (lock) {
 								serverMsg = null;
 							}
 							player.prepareClientMsg();
 							player.step() ;
+							System.err.println("palyer done stepping :D");
 							ClientMessage cMsg = player.getClientMsg() ;
+							System.err.println("got client message :D");
 							out.writeObject(cMsg);
 						}
 						else{
 							Thread.sleep(WAIT_TIME);
 						}
 					}
-					catch (Exception e) {
-						// TODO: handle exception
-						e.printStackTrace();
-					}
+				}
+				catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
 				}
 			};
 		}.start();
@@ -91,6 +95,6 @@ public class Controller {
 	
 	
 	public static void main(String[] args) throws Exception {
-		new Controller("192.168.137.1", 5566);
+		new Controller("127.0.0.1", 5566);
 	}
 }

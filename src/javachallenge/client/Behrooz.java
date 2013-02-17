@@ -27,7 +27,7 @@ public class Behrooz {
 	}
 	
 	public World getWorld(){
-		return this.getWorld();
+		return this.world;
 	}
 	void initMsg(InitMessage msg){
 		world.setMap(msg.getMap()) ;

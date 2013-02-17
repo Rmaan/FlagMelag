@@ -2,6 +2,7 @@
 .project
 bin/
 resources/
+data/
 *.class
 .DS_STORE
 thumbs.db

@@ -1,21 +1,14 @@
 package javachallenge.client;
 
-import java.util.ArrayList;
-import java.util.Random;
-
-import javachallenge.common.Action;
-import javachallenge.common.ActionType;
-import javachallenge.common.BlockType;
-import javachallenge.common.Direction;
-import javachallenge.common.Point;
 
 public class Player extends Behrooz {
-//	World myWorld;
 	public Player(World world) {
 		super(world);
 	}
 	
 	public void step(){
+		return ;
+		/*
 		Random random=new Random(System.currentTimeMillis());
 		World myWorld=this.getWorld();
 		Point[] flagLocs= (Point[])myWorld.getMap().getFlagLocations().toArray();
@@ -29,5 +22,7 @@ public class Player extends Behrooz {
 			this.doAction(action);
 //			this.getAgentById(ID).
 		}
+		
+		*/
 	}
 }

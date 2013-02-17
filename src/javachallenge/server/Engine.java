@@ -176,7 +176,7 @@ public class Engine {
 	
 	//updates the scores of teams
 	private void updateScores(){
-		throw new NotImplementedException();
+		//throw new NotImplementedException();
 	}
 	
 	private ArrayList<Integer> getScores(){
