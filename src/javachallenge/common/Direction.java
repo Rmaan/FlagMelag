@@ -2,9 +2,9 @@ package javachallenge.common;
 
 public enum Direction {
 	NORTH,
-	NORTHWEST,
-	SOUTHWEST,
-	SOUTH,
+	NORTHEAST,
 	SOUTHEAST,
-	NORTHEAST;
+	SOUTH,
+	SOUTHWEST,
+	NORTHWEST;
 }

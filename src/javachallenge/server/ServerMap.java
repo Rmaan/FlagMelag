@@ -17,6 +17,8 @@ public class ServerMap extends Map {
 	}
 	
 	public Agent getAgent(Point p){
+		if (!isInsideMap(p))
+			return null ;
 		return agents[p.x][p.y];
 	}
 	

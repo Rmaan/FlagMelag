@@ -54,6 +54,8 @@ public class Map implements Serializable {
 	}
 	
 	public BlockType getBlockType(Point p) {
+		if (!isInsideMap(p))
+			return BlockType.OUT ;
 		return map[p.x][p.y];
 	}
 	
@@ -65,7 +67,8 @@ public class Map implements Serializable {
 		Direction[] dirs = Direction.values();
 		BlockType[] blockTypes = new BlockType[6];
 		for(int i = 0 ; i < dirs.length ; i++){
-			blockTypes[i] = getBlockType(p.applyDirection(dirs[i]));
+			Point newp = p.applyDirection(dirs[i]) ;
+			blockTypes[i] = getBlockType(newp);
 		}
 		return blockTypes;
 	}

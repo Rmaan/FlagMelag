@@ -13,7 +13,7 @@ import javachallenge.graphics.GraphicClient;
 import javachallenge.graphics.util.Position;
 
 public class Main {
-	private static int PORT = 5555;
+	private static int PORT = 4555;
 	private static int CYCLE_TIME = 500;
 	private GraphicClient graphicClient;
 	

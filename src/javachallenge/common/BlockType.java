@@ -4,4 +4,5 @@ public enum BlockType {
 	GROUND,
 	WALL,
 	RIVER,
+	OUT,
 }

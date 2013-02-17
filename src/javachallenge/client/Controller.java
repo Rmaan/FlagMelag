@@ -75,9 +75,8 @@ public class Controller {
 							//------------------------
 							player.prepareClientMsg();
 							player.step() ;
-							System.err.println("palyer done stepping :D");
 							ClientMessage cMsg = player.getClientMsg() ;
-							System.err.println("got client message :D");
+							System.err.println("sent client message :D");
 							out.writeObject(cMsg);
 						}
 						else{
@@ -95,6 +94,6 @@ public class Controller {
 	
 	
 	public static void main(String[] args) throws Exception {
-		new Controller("127.0.0.1", 5555);
+		new Controller("127.0.0.1", 4555);
 	}
 }
