@@ -38,7 +38,6 @@ public class Main {
 		engine.endStep();
 		
 		GraphicClient client = new GraphicClient(40, 20, new Position[] { new Position(4, 2) });
-		new javachallenge.graphics.Main().run(client);
 		
 		while (engine.gameIsOver()) {
 			System.out.println("Cylce filan " + engine.getCycle());
