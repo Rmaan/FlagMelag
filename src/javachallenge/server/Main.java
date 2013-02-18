@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javachallenge.common.Action;
 import javachallenge.common.ClientMessage;
@@ -18,6 +19,10 @@ public class Main {
 	private static int PORT = 5555;
 	private static int CYCLE_TIME = 500;
 	private GraphicClient graphicClient;
+	
+	private final boolean DBG_PAUSE_ENABLED = false;
+	private final int DBG_PAUSE_CYCLE_NUM = 30;
+	private final int DBG_PAUSE_CYCLE_TIME = 100;
 	
 	public void run() throws IOException, InterruptedException, OutOfMapException {
 		ServerSocket ss = new ServerSocket(PORT);
@@ -49,6 +54,7 @@ public class Main {
 		engine.teamStep(new ArrayList<Action>());
 		engine.endStep();
 		
+		Scanner scn = DBG_PAUSE_ENABLED ? new Scanner(System.in) : null;
 		
 		while (!engine.gameIsOver()) {
 			System.out.println("Cycle " + engine.getCycle());
@@ -59,7 +65,14 @@ public class Main {
 				connections.get(i).clearClientMessage();
 			}
 			
-			Thread.sleep(CYCLE_TIME);
+			if (DBG_PAUSE_ENABLED) {
+				if (engine.getCycle() < DBG_PAUSE_CYCLE_NUM)
+					Thread.sleep(DBG_PAUSE_CYCLE_TIME);
+				else
+					scn.nextLine();
+			} else {
+				Thread.sleep(CYCLE_TIME);
+			}
 
 			ArrayList<Action> allActions = new ArrayList<Action>();
 			for (int i = 0; i < sampleMap.getTeamCount(); i++) {
