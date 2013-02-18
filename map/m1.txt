@@ -88,12 +88,12 @@
       "GROUND",
       "GROUND",
       "GROUND",
+      "WALL",
+      "WALL",
+      "WALL",
+      "WALL",
       "GROUND",
-      "GROUND",
-      "GROUND",
-      "GROUND",
-      "GROUND",
-      "GROUND",
+      "WALL",
       "GROUND"
     ],
     [
@@ -101,10 +101,10 @@
       "GROUND",
       "GROUND",
       "GROUND",
+      "WALL",
       "GROUND",
       "GROUND",
-      "GROUND",
-      "GROUND",
+      "WALL",
       "GROUND",
       "GROUND"
     ],
@@ -228,8 +228,8 @@
   ],
   "flagLocations": [
     {
-      "x": 5,
-      "y": 1
+      "x": 8,
+      "y": 8
     }
   ]
 }
