@@ -12,11 +12,10 @@ import javachallenge.graphics.util.Position;
 
 public class GraphicTest {
 	public static void main(String[] args) throws Exception{
-		GraphicClient client=new GraphicClient(40,20,new Position[]{new Position(4,2)});
-		ObjectInputStream stream=new ObjectInputStream(new FileInputStream(new File("data/maps/test")));
+		ObjectInputStream stream=new ObjectInputStream(new FileInputStream(new File("data/maps/chert.map")));
 		Map map=(Map)stream.readObject();
 		stream.close();
-		//GraphicClient client=new GraphicClient(map);
+		GraphicClient client=new GraphicClient(map);
 		Scanner scanner=new Scanner(System.in);
 		while (true)
 		{
