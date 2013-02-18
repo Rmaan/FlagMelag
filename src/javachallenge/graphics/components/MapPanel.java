@@ -70,7 +70,10 @@ public class MapPanel extends ScrollablePanel {
 			public void mouseClicked(MouseEvent e) {
 				Position position = getPosition(e);
 				if (insideMap(position))
-					onClick(position.getX(), position.getY());
+					if (e.isControlDown())
+						onControllClick(position.getX(), position.getY());
+					else
+						onClick(position.getX(), position.getY());
 			}
 		});
 		setContainerSize(getAbsoluteSize(width, height));
@@ -93,6 +96,9 @@ public class MapPanel extends ScrollablePanel {
 	public void onEnter(int x, int y) {
 		Position pos = getAbsolutePosition(x, y);
 		brush.setLocation(pos.getX(), pos.getY());
+	}
+	public void onControllClick(int x, int y) {
+		onClick(x, y);
 	}
 
 	

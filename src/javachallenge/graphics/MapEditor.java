@@ -17,9 +17,12 @@ import javachallenge.common.Map;
 import javachallenge.common.Point;
 import javachallenge.graphics.components.FileChooser;
 import javachallenge.graphics.components.MapPanel;
+import javachallenge.graphics.components.Sprite;
+import javachallenge.graphics.util.AnimatedImage;
 import javachallenge.graphics.util.ColorMaker;
+import javachallenge.graphics.util.ImageHolder;
+import javachallenge.graphics.util.Position;
 import javachallenge.server.ServerMap;
-import sun.rmi.server.Util;
 
 public class MapEditor extends PlayGround {
 	public static int blockTypes = 3;
@@ -67,12 +70,20 @@ public class MapEditor extends PlayGround {
 	public static void main(String[] args) {
 		final MapEditor mapEditor = new MapEditor();
 		Scanner scanner = new Scanner(System.in);
-		mapEditor.createScreenElements(new MapPanel(new Map(scanner.nextInt(), scanner.nextInt(), 0, null, null)) {
+		mapEditor.createScreenElements(new MapPanel(new Map(scanner.nextInt(), scanner.nextInt(), 0, 
+				new ArrayList<Point>(), new ArrayList<Point>())) {
 			@Override
 			public void onClick(int x, int y) {
 				int type = (mapEditor.getMap().getBlockType(new Point (x, y)).ordinal() + 1) % blockTypes;
 				mapEditor.getMapPanel().setBlock(x, y, type);
 				mapEditor.getMap().setBlockType(new Point (x, y), BlockType.values()[type]);
+			}
+			@Override
+			public void onControllClick(int x, int y) {
+				Sprite flag = new AnimatedImage(ImageHolder.Objects.fire, 125, new Position(x, y));
+				map.getFlagLocations().add(new Point(x, y));
+				mapEditor.getMapPanel().addToContainer(flag, 2);
+				System.err.println("flag " + map.getFlagLocations().size());
 			}
 		});
 		scanner.close();
