@@ -1,6 +1,9 @@
 package javachallenge.graphics;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -15,10 +18,12 @@ import javachallenge.common.Point;
 import javachallenge.graphics.components.FileChooser;
 import javachallenge.graphics.components.MapPanel;
 import javachallenge.graphics.util.ColorMaker;
+import javachallenge.server.ServerMap;
+import sun.rmi.server.Util;
 
 public class MapEditor extends PlayGround {
 	public static int blockTypes = 3;
-	protected Map map;
+	protected ServerMap map;
 	
 	public MapEditor() {
 		super ("GoDitor");
@@ -28,7 +33,7 @@ public class MapEditor extends PlayGround {
 	public void addMapPanel(MapPanel mapPanel) {
 		ArrayList<Point> spawnLocations = new ArrayList<Point>();
 		ArrayList<Point> flagLocations = new ArrayList<Point>();	
-		this.map = new Map(mapPanel.getMapWidth(), mapPanel.getMapHeight(), 0, 
+		this.map = new ServerMap(mapPanel.getMapWidth(), mapPanel.getMapHeight(), 0,
 			spawnLocations, flagLocations);
 	
 		super.addMapPanel(mapPanel);
@@ -44,9 +49,7 @@ public class MapEditor extends PlayGround {
 			@Override
 			public void onAccept(String filename) {
 				try {
-					ObjectOutputStream objout = new ObjectOutputStream(new FileOutputStream(new File(filename)));
-					objout.writeObject(map);
-					objout.close();
+					map.save(filename);
 					System.err.println("Map saved Successfully");
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();

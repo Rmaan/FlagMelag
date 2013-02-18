@@ -12,18 +12,20 @@ import java.awt.*;
  */
 public class StatusPanel extends Panel
 {
-	protected Label scoreIcon,timeIcon,score=new Label("0"),time=new Label("0");
-
-	public Label getScore()
+	protected Label score=new Label(),time=new Label();
+	protected int ynow=5;
+	public void setScore(int a)
 	{
-		return score;
-	}
 
-	public Label getTime()
+	}
+	public void setTime(int a)
 	{
-		return time;
-	}
 
+	}
+	public void addLabel(Label n)
+	{
+		n.setBounds(5,ynow,0,0);
+	}
 	public StatusPanel(Color color)
 	{
 		super(color);
