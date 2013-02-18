@@ -54,4 +54,7 @@ public class ServerMap extends Map {
 		return sampleMap;
 	}
 
+	public void setAgent(Point p, Agent agent){
+		agents[p.x][p.y] = agent;
+	}
 }

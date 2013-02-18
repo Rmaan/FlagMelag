@@ -32,7 +32,7 @@ public class Controller {
 		
 		System.out.println("Creating player & world...");
 		world = new World();
-		player = new Player(world) ;
+		player = new 	Player(world) ;
 		
 		System.out.println("Waiting for initial Msg...");
 		InitMessage initMsg = (InitMessage)in.readObject();

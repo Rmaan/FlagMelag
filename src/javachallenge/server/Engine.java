@@ -3,6 +3,7 @@ package javachallenge.server;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Random;
 
 import javachallenge.IllegalAgentException;
 import javachallenge.NotImplementedException;
@@ -31,7 +32,7 @@ public class Engine {
 	private GraphicClient graphicClient;
 	private final int SPAWN_MARGIN = 6;
 	private final int SPAWN_LOW_PERIOD = 0;
-	private final int SPAWN_NORM_PERIOD = 2;
+	private final int SPAWN_NORM_PERIOD = 1;
 	
 	public boolean gameIsOver() {
 		return !gameEnded;
@@ -64,11 +65,11 @@ public class Engine {
 		}
 		if(PHASE_1 || cycle % 2 == 0){
 			//handle moves
-			Collections.shuffle(actions);
-			ArrayList<Point> seenDest = new ArrayList<Point>();
-			for(Action action : actions){
-				moveAgent(action, seenDest);
-			}
+			handleMoves(actions);
+//			Collections.shuffle(actions);
+//			for(Action action : actions){
+//				moveAgent(action);
+//			}
 		}
 		if (!PHASE_1){
 			//handle attacks
@@ -127,26 +128,26 @@ public class Engine {
 	
 	//method to move the agents and check for the destination to be empty
 	
-	private void moveAgent(Action action, ArrayList<Point> seenDest){
+	private boolean moveAgent(Action action){
 		ActionType actionType = action.getType();
 		if(actionType == ActionType.NONE){
-			return;
+			return false;
 		}
 		
 		Direction dir = action.getDir() ;
 		Agent agent = getAgent(action.getTeamId(), action.getId());
 		Point dest = agent.getLocation().applyDirection(dir);
-		if(actionType == ActionType.MOVE && !seenDest.contains(dest)){
+		if(actionType == ActionType.MOVE){
 			//System.err.println("Dest is : " + dest.x + " " + dest.y + " - " + map.isInsideMap(dest));
-			
 			if(map.isInsideMap(dest) && map.getBlockType(dest) == BlockType.GROUND && !occupied(dest)){
 				map.moveAgent(agent, agent.getLocation(), dest) ;
 				agent.setLocation(dest);
-				seenDest.add(dest);
 				Integer id = new Integer(agent.getId()) ;
 				graphicClient.move(id, dir) ;
+				return true;
 			}
 		}
+		return false;
 	}
 	
 	//returns the specified agent, checking for it to exist and to be alive
@@ -161,7 +162,7 @@ public class Engine {
 	
 	//checks if the given location is occupied by an agent, a flag or a spawned point
 	private boolean occupied(Point p){
-		return (map.getAgent(p) !=  null || getSpawnLocationTeam(p) != -1);
+		return (map.getAgent(p) !=  null /*|| getSpawnLocationTeam(p) != -1*/);
 	}
 	
 	//checks if the given location is a flag
@@ -288,5 +289,137 @@ public class Engine {
 	public Team getTeam(int i) {
 		return teams.get(i);
 	}
+	
+	
+	private void handleMoves(ArrayList<Action> actions){
+		ArrayList<Integer> out = new ArrayList<Integer>();
+		ArrayList<Action> outAct = new ArrayList<Action>();
+		ArrayList<ArrayList<Integer>> firstIn = new ArrayList<ArrayList<Integer>>();
+		
+		ArrayList<Integer> in = new ArrayList<Integer>();
+		
+		int nodeNum = map.getWid() * map.getHei();
+		boolean[] seen = new boolean[nodeNum];
+		
+		for(int i = 0 ; i < nodeNum ; i++){
+			out.add(-1);
+			firstIn.add(new ArrayList<Integer>());
+			outAct.add(null);
+			in.add(-1);
+		}
+		for(Action act : actions){
+			Agent agent = getAgent(act.getTeamId(), act.getId());
+			Point loc = agent.getLocation();
+			Point dest = loc.applyDirection(act.getDir());
+			if(map.isInsideMap(dest)){
+				int locNum = getNodeNum(loc);
+				int destNum = getNodeNum(dest);
+				System.out.println("ACtion");
+				System.out.println(loc);
+				System.out.println(locNum);
+				System.out.println(dest);
+				System.out.println(destNum);
+				out.set(locNum, destNum);
+				outAct.set(locNum, act);
+				firstIn.get(destNum).add(locNum);
+			}
+		}
+		
+		for(int i = 0 ; i < firstIn.size() ; i++){
+			ArrayList<Integer> list = firstIn.get(i);
+			if(list.size() > 1){
+				Random r = new Random();
+				int randNei = list.get(r.nextInt(list.size()));
+				in.set(i, randNei);
+				for(Integer integ : list){
+					if(integ != randNei){
+						out.set(integ, -1);
+						outAct.set(integ, null);
+					}
+				}
+			}
+			else if(list.size() == 1){
+				in.set(i, list.get(0));
+			}
+		}
+		/*System.out.println("---------------Graph-------------");
+		for(int i = 0 ; i < firstIn.size() ; i++){
+			System.out.print(firstIn.get(i) + " ");
+		}
+		System.out.println();
+		System.out.println("-----------------out--------------");
+		for(int i = 0 ; i < out.size() ; i++){
+			System.out.print(out.get(i) + " ");
+		}
+		System.out.println("\n----------------in-----------");
+		for(int i = 0 ; i < in.size() ; i++){
+			System.out.print(in.get(i) + " ");
+		}
+		System.out.println("\n--------------------------------");
+		*/
+		ArrayList<Integer> routeStart = new ArrayList<Integer>();
+		for(int i = 0 ; i < in.size() ; i++){
+			if(in.get(i) == -1){
+				routeStart.add(i);
+			}
+		}
+//		System.out.println("---------Routes--------");
+		
+		for(int i = 0 ; i < routeStart.size() ; i++){
+			//find route
+			ArrayList<Action> routeActs = new ArrayList<Action>();
+			int node = routeStart.get(i);
+		//	System.out.println("Start node ");
+		//	System.out.println(node);
+			while(out.get(node) >= 0){
+				routeActs.add(outAct.get(node));
+				seen[node] = true;
+				node = out.get(node);
+				System.out.print(node + " ");
+			}
+	//		System.out.println();
+	//		System.out.println(routeActs);
+			for(int j = routeActs.size() - 1 ; j >= 0 ; j--){
+				moveAgent(routeActs.get(j));
+			}
+		}
+		
+		for(int i = 0 ; i < nodeNum ; i++){
+			ArrayList<Action> cycleActs = new ArrayList<Action>();
+			if(!seen[i]){
+				int node = i;
+				while(!seen[node] && out.get(node) >= 0){
+					seen[node] = true;
+					cycleActs.add(outAct.get(node));
+					node = out.get(node);
+				}
+			}
+			if(cycleActs.size() > 2){
+				Action firstAct = cycleActs.get(0);
+				System.out.println("REMOVE " + getAgent(firstAct.getTeamId(), firstAct.getId()).getLocation());
+				map.setAgent(getAgent(firstAct.getTeamId(), firstAct.getId()).getLocation(), null);
+				for(int j = cycleActs.size() - 1; j > 0; j--){
+					System.out.println(cycleActs.get(j));
+					moveAgent(cycleActs.get(j));
+				}
+				System.out.println("MOVES DONE");
+				Agent a = getAgent(firstAct.getTeamId(), firstAct.getId());
+				Point dest = a.getLocation().applyDirection(firstAct.getDir());
+				System.out.println("Destionation " + dest);
+				System.out.println(a.getLocation());
+				System.out.println("DONE");
+				a.setLocation(dest);
+				map.setAgent(dest, a);
+				Integer id = new Integer(a.getId()) ;
+				graphicClient.move(id, firstAct.getDir()) ;
+				System.out.println("DONE");
+			}
+		}
+	}
+	
+	private int getNodeNum(Point p){
+		return p.y * map.getWid() + p.x;
+	}
+
 }
 
