@@ -1,5 +1,8 @@
 package javachallenge.graphics.util;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import javax.swing.ImageIcon;
 
 /**
@@ -36,6 +39,13 @@ public class ImageHolder {
 		public static ImageIcon[] grass = getAll(prefix + "grass", "green", 8, true);
 		public static ImageIcon[] ice = getAll(prefix + "frozen", "ice", 6, true);
 		public static ImageIcon[] beach = getAll(prefix + "sand", "beach", 8, true);
+		
+		public static ArrayList<ImageIcon[]> mapBlocks = new ArrayList<ImageIcon[]>(
+				Arrays.asList(new ImageIcon[][] {
+					grass,
+					ice,
+					beach,
+				}));
 	}
 	
 	public static class Objects {

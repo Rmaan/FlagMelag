@@ -14,14 +14,13 @@ public class GraphicTest {
 		while (true)
 		{
 			String com=scanner.next();
-			System.err.println("read " + com);
 			if (com.equals("spawn"))
 			{
 				int id=scanner.nextInt(),x=scanner.nextInt(),y=scanner.nextInt();
 				client.spawn(id,new Position(x,y));
 			}
 			else if (com.equals("kill"))
-			{
+			{	
 				int id=scanner.nextInt();
 				client.die(id);
 			}

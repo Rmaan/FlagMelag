@@ -121,6 +121,11 @@ public class MapPanel extends ScrollablePanel {
 
 	public void setBlock(int x, int y, int ordinal)
 	{
-		//To change body of created methods use File | Settings | File Templates.
+		blocks[x][y].setVisible(false);
+		container.remove (blocks[x][y]);		
+		ImageIcon[] environment = ImageHolder.Terrain.mapBlocks.get(ordinal);
+		int index = new Random().nextInt(environment.length);		
+		addToContainer(blocks[x][y] = new Sprite(environment[index], 
+				new Position(x, y)), 1);
 	}
 }

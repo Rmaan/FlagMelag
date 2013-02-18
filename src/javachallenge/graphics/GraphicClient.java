@@ -42,9 +42,9 @@ public class GraphicClient {
 		this.panel = panel;
 	}
 	private void init(int width,int height,Position[] positions) throws NullPointerException,OutOfMapException{
-		ground=new PlayGround(width, height);
+		ground=new PlayGround();
 
-		ground.addMapPanel(panel=new MapPanel(width,height) {
+		ground.createScreenElements(panel=new MapPanel(width,height) {
 			@Override
 			public void onClick(int x, int y) {
 				try
