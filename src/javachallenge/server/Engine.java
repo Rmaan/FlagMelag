@@ -237,11 +237,11 @@ public class Engine {
 	private void updateScores(){
 		for (Team t: teams)
 			t.updaetScore(COST_PER_STEP);
-		// TODO team 0?! 
-		graphicClient.setScore(teams.get(0).getScore()) ;
-		graphicClient.setTime(cycle) ;
-		//
-		System.err.println("SET TIME :D" + cycle);
+		if (teams.size() > 0){
+			// TODO team 0?! 
+			graphicClient.setScore(teams.get(0).getScore()) ;
+			graphicClient.setTime(cycle) ;
+		}
 	}
 	
 	private ArrayList<Integer> getScores(){
