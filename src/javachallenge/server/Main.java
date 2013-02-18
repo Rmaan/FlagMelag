@@ -51,7 +51,7 @@ public class Main {
 		
 		
 		while (!engine.gameIsOver()) {
-			System.out.println("Cylce filan " + engine.getCycle());
+			System.out.println("Cycle " + engine.getCycle());
 			
 			ArrayList<ServerMessage> stepMessage = engine.getStepMessage();
 			for (int i = 0; i < sampleMap.getTeamCount(); i++) {
