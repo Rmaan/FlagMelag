@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javachallenge.graphics.components.Label;
 import javachallenge.graphics.components.MapPanel;
 import javachallenge.graphics.components.Sprite;
 import javachallenge.graphics.util.AnimatedImage;
@@ -26,13 +27,17 @@ public class GraphicClient {
 	protected Map<Integer,Sprite> units=new TreeMap<Integer,Sprite>();
 	protected PlayGround ground;
 
+	protected Label time,score,status=new Label("Fuck");
+
 	public void setTime(int a)
 	{
-		ground.getStatus().getTime().setText(new Integer(a).toString());
+		time=new Label(new Integer(a).toString());
+		//ground.getStatus().getTime().setText(new Integer(a).toString());
 	}
 	public void setScore(int a)
 	{
-		ground.getStatus().getScore().setText(new Integer(a).toString());
+		score=new Label(new Integer(a).toString());
+		//	ground.getStatus().getScore().setText(new Integer(a).toString());
 	}
 
 	public MapPanel getPanel() {
@@ -53,11 +58,16 @@ public class GraphicClient {
 	}
 	public GraphicClient(javachallenge.common.Map map) throws OutOfMapException
 	{
+		setTime(0);
+		setScore(0);
 		Position[] positions=new Position[map.getFlagLocations().size()];
 		for (int i=0;i<map.getFlagLocations().size();i++)
 			positions[i]=new Position(map.getFlagLocations().get(i).getX(),map.getFlagLocations().get(i).getY());
 		ground=new PlayGround();
-
+		ground.addStatusBar();
+		ground.getStatus().addLabel(status);
+		ground.getStatus().addLabel(time);
+		ground.getStatus().addLabel(score);
 		ground.createScreenElements(panel=new MapPanel(map) {
 			@Override
 			public void onClick(int x, int y) {
