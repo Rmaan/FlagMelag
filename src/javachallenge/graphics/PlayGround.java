@@ -20,7 +20,7 @@ public class PlayGround extends Screen {
 	
 	protected MapPanel mapPanel;
 	protected Panel sidebar;
-	protected StatusPanel status=new StatusPanel(ColorMaker.shadedPanelBack);
+	protected StatusPanel status;
 	
 	public PlayGround() {
 		this ("Java Challenge - Play Ground");
@@ -86,11 +86,15 @@ public class PlayGround extends Screen {
 	public void addMapPanel (MapPanel mapPanel) {
 		add (this.mapPanel = mapPanel);
 	}
-	public void addStatusBar()
-	{
-		add(status);
+	public void addStatusBar() {
+		status = new StatusPanel(ColorMaker.panelBack) {
+			{ setBounds(0, 0, 100, 100); }
+		};
+		add (status);
 	}
 	public void addSideBar() {
-		add (sidebar = new Panel (ColorMaker.shadedPanelBack));
+		sidebar = new Panel (ColorMaker.shadedPanelBack);
+		//add (sidebar);
+		addStatusBar();
 	}
 }

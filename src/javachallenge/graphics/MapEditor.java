@@ -17,6 +17,7 @@ import javachallenge.common.Map;
 import javachallenge.common.Point;
 import javachallenge.graphics.components.FileChooser;
 import javachallenge.graphics.components.MapPanel;
+import javachallenge.graphics.components.Panel;
 import javachallenge.graphics.components.Sprite;
 import javachallenge.graphics.util.AnimatedImage;
 import javachallenge.graphics.util.ColorMaker;
@@ -42,9 +43,19 @@ public class MapEditor extends PlayGround {
 	}
 	
 	@Override
+	public void updateDimensions() {
+		Dimension size = getSize();
+		mapPanel.setLocation(10, 10);
+		mapPanel.setSize(size.width * 3 / 4, size.height - 60);
+		sidebar.setLocation(20 + mapPanel.getWidth(), 10);
+		sidebar.setSize(size.width - sidebar.getX() - 30, size.height - 60);
+	}
+	
+	@Override
 	public void addSideBar() {
 		// TODO Auto-generated method stub
-		super.addSideBar();
+		//super.addSideBar();
+		sidebar = new Panel (ColorMaker.shadedPanelBack);
 		sidebar.setLayout(new FlowLayout());
 		sidebar.add(new FileChooser.FileChooserButton("save", false, "Choose target", "data/maps/", "map", "Map files") {
 			{ setForeground(ColorMaker.fieldBackground); }

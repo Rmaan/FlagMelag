@@ -11,12 +11,13 @@ import java.util.ArrayList;
  */
 public class StatusPanel extends Panel
 {
-	public static int GAP_SIZE=50;
+	public static int GAP_SIZE=10;
 	protected ArrayList<Label> labels=new ArrayList<Label>();
+	protected Label time, score;
 	protected int yNow =GAP_SIZE;
 	public void addLabel(Label label)
 	{
-	//	System.err.println("");
+		//System.err.println("add label " + label);
 		label.setBounds(GAP_SIZE, yNow,getWidth()-2*GAP_SIZE,30);
 		labels.add(label);
 		add(label);
@@ -25,10 +26,22 @@ public class StatusPanel extends Panel
 	public StatusPanel(Color color)
 	{
 		super(color);
+		setLayout(new FlowLayout());
+		//addLabel(new Label("salam"));
+		addLabel(time = new Label("time: 0"));
+		addLabel(score = new Label("score: 0"));
 	}
 	public void updatePosition()
 	{
-		for (Label label:labels)
-			label.setBounds(GAP_SIZE,label.getY(),getWidth()-2*GAP_SIZE,30);
+		//for (Label label:labels)
+		//	label.setBounds(GAP_SIZE,label.getY(),getWidth()-2*GAP_SIZE,30);
+	}
+	
+	public void setTime(int a) {
+		time.setText("time: " + a);
+	}
+	
+	public void setScore(int a) {
+		score.setText("score: " + a);
 	}
 }
