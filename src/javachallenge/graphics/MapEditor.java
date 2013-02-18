@@ -55,7 +55,7 @@ public class MapEditor extends PlayGround {
 	public void addSideBar() {
 		// TODO Auto-generated method stub
 		//super.addSideBar();
-		sidebar = new Panel (ColorMaker.shadedPanelBack);
+		add (sidebar = new Panel (ColorMaker.shadedPanelBack));
 		sidebar.setLayout(new FlowLayout());
 		sidebar.add(new FileChooser.FileChooserButton("save", false, "Choose target", "data/maps/", "map", "Map files") {
 			{ setForeground(ColorMaker.fieldBackground); }
