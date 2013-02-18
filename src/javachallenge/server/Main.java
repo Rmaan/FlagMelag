@@ -19,7 +19,7 @@ public class Main {
 	private static int CYCLE_TIME = 500;
 	private GraphicClient graphicClient;
 	
-	public void run() throws IOException, InterruptedException {
+	public void run() throws IOException, InterruptedException, OutOfMapException {
 		ServerSocket ss = new ServerSocket(PORT);
 		ServerMap sampleMap = ServerMap.load("map/m1.txt");
 		
@@ -28,15 +28,8 @@ public class Main {
 			Point flag = sampleMap.getFlagLocations().get(i);
 			tmpFlagPositions[i] = new Position(flag.x, flag.y);
 		}
-		try {
-			graphicClient = new GraphicClient(sampleMap);
-		} catch (NullPointerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (OutOfMapException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		graphicClient = new GraphicClient(sampleMap);
 		Engine engine = new Engine(sampleMap, graphicClient);
 		
 		ArrayList<TeamConnection> connections = new ArrayList<TeamConnection>();
@@ -86,7 +79,7 @@ public class Main {
 		ss.close();
 	}
 	
-	public static void main(String[] args) throws IOException, InterruptedException {
+	public static void main(String[] args) throws IOException, InterruptedException, OutOfMapException {
 		new Main().run();
 	}
 }
