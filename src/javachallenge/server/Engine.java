@@ -29,6 +29,9 @@ public class Engine {
 	
 	private final int GAME_CYCLES = 725;
 	private GraphicClient graphicClient;
+	private final int SPAWN_MARGIN = 6;
+	private final int SPAWN_LOW_PERIOD = 0;
+	private final int SPAWN_NORM_PERIOD = 2;
 	
 	public boolean gameIsOver() {
 		return !gameEnded;
@@ -180,7 +183,8 @@ public class Engine {
 	//TODO no time?! 
 	private void respawn(){
 		for(Team team : teams){
-			if(map.getAgent(team.getSpawnLocation()) == null && team.isActiveSpawnPoint()){
+			int spawnRate = (team.getAgents().size() >= SPAWN_MARGIN ? SPAWN_LOW_PERIOD : SPAWN_NORM_PERIOD);
+			if(spawnRate > 0 && cycle % spawnRate == 0 && map.getAgent(team.getSpawnLocation()) == null && team.isActiveSpawnPoint()){
 				Agent newAgent = team.addAgent();
 				map.spawnAgent(newAgent) ;
 				spawnedAgents.add(newAgent);
