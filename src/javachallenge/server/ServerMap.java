@@ -81,7 +81,8 @@ public class ServerMap extends Map {
 			out = new OutputStreamWriter(new FileOutputStream(filename));
 			out.write(json);
 		} finally {
-			out.close();
+			if (out != null)
+				out.close();
 		}
 	}
 	
@@ -97,7 +98,8 @@ public class ServerMap extends Map {
 				line = f.readLine();
 			}
 		} finally {
-			f.close();
+			if (f != null)
+				f.close();
 		}
 		
 		String json = sb.toString();
