@@ -13,6 +13,7 @@ import javachallenge.graphics.util.AnimatedImage;
 import javachallenge.graphics.util.ImageHolder;
 import javachallenge.graphics.util.Mover;
 import javachallenge.graphics.util.Position;
+import javachallenge.server.ServerMap;
 
 public class GraphicClient {
 	public static int x[]={0,1,1,0,-1,-1};
@@ -45,7 +46,7 @@ public class GraphicClient {
 		this.panel = panel;
 	}
 	public GraphicClient(int width,int height, final Position[] positions) throws NullPointerException,OutOfMapException{
-		this (new javachallenge.common.Map(width, height, 0, null, null) {
+		this (new ServerMap(width, height, 0, null, null) {
 			{  
 				flagLocations = new ArrayList<Point>();
 				for (Position position : positions) 
@@ -53,7 +54,7 @@ public class GraphicClient {
 			}
 		});
 	}
-	public GraphicClient(javachallenge.common.Map map) throws OutOfMapException
+	public GraphicClient(ServerMap map) throws OutOfMapException
 	{
 		setTime(0);
 		setScore(0);

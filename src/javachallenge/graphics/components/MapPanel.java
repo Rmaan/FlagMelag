@@ -12,12 +12,13 @@ import javachallenge.common.Point;
 import javachallenge.graphics.util.ColorMaker;
 import javachallenge.graphics.util.ImageHolder;
 import javachallenge.graphics.util.Position;
+import javachallenge.server.ServerMap;
 
 import javax.swing.ImageIcon;
 
 @SuppressWarnings("serial")
 public class MapPanel extends ScrollablePanel {
-	protected Map map;
+	protected ServerMap map;
 	protected int width, height;
 	protected Sprite[][] blocks;
 	protected Sprite brush;
@@ -30,7 +31,7 @@ public class MapPanel extends ScrollablePanel {
 		return new Dimension(26 * w + 10, 36 * h + 18);
 	}
 	
-	public MapPanel(Map map) {
+	public MapPanel(ServerMap map) {
 		super(ColorMaker.black);
 		this.map = map;
 		this.width = map.getWid();
@@ -89,6 +90,14 @@ public class MapPanel extends ScrollablePanel {
 	
 	public Sprite getBrush() {
 		return brush;
+	}
+	
+	public ServerMap getMap() {
+		return map;
+	}
+	
+	public void setMap(ServerMap map) {
+		this.map = map;
 	}
 	
 	public void onClick(int x, int y) {}
