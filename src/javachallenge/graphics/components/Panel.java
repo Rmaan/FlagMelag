@@ -5,10 +5,6 @@ import java.awt.Component;
 
 import javax.swing.JLayeredPane;
 
-/**
- * This class is a simple layered panel which is directly derived from {@link JLayeredPane} and contains some useful features.
- * @see JLayeredPane
- */
 @SuppressWarnings("serial")
 public class Panel extends JLayeredPane {
 	public Panel() { }
