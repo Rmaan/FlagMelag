@@ -23,10 +23,6 @@ public class Main {
 		ServerSocket ss = new ServerSocket(PORT);
 		ServerMap sampleMap = ServerMap.load("map/m1.txt");
 		
-		for(int i = 0 ; i < sampleMap.getWid() ; i++)
-			for(int j = 0 ; j < sampleMap.getHei() ; j++)
-				System.err.println(i + " " + j + " : " + sampleMap.getBlockType(new Point(i, j)));
-		
 		Position[] tmpFlagPositions = new Position[sampleMap.getFlagLocations().size()];
 		for(int i = 0 ; i < sampleMap.getFlagLocations().size() ; i++) {
 			Point flag = sampleMap.getFlagLocations().get(i);

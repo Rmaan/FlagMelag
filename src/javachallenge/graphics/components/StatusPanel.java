@@ -1,6 +1,5 @@
 package javachallenge.graphics.components;
 
-import com.sun.deploy.net.proxy.StaticProxyManager;
 
 import java.awt.*;
 import java.util.ArrayList;

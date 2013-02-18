@@ -1,14 +1,11 @@
 package javachallenge.graphics;
 
-import javachallenge.common.BlockType;
-import javachallenge.common.Direction;
-import javachallenge.common.Point;
-import javachallenge.graphics.PlayGround;
-
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javachallenge.common.Direction;
+import javachallenge.common.Point;
 import javachallenge.graphics.components.Label;
 import javachallenge.graphics.components.MapPanel;
 import javachallenge.graphics.components.Sprite;
