@@ -58,6 +58,5 @@ public class PlayGround extends Screen {
 		status.setLocation(20+size.width*3/4,10);
 		status.setSize(size.width/4-50,size.height-60);
 		map.setSize(size.width * 3 / 4, size.height - 60);
-
 	}
 }

@@ -86,8 +86,12 @@ public class MapPanel extends ScrollablePanel {
 	}
 	
 	public void onClick(int x, int y) {}
-	public void onEnter(int x, int y) {}
 	public void onExit(int x, int y) {}
+	public void onEnter(int x, int y) {
+		Position pos = getAbsolutePosition(x, y);
+		brush.setLocation(pos.getX(), pos.getY());
+	}
+
 	
 	public boolean insideMap (Position position) {
 		return position.getX() >= 0 && position.getY() >= 0 &&

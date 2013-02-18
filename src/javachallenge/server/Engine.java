@@ -15,6 +15,8 @@ import javachallenge.common.InitMessage;
 import javachallenge.common.Point;
 import javachallenge.common.ServerMessage;
 import javachallenge.graphics.GraphicClient;
+import javachallenge.graphics.GraphicClient.DuplicateMemberException;
+import javachallenge.graphics.GraphicClient.OutOfMapException;
 import javachallenge.graphics.util.Position;
 
 public class Engine {
@@ -138,8 +140,7 @@ public class Engine {
 				agent.setLocation(dest);
 				
 				Integer id = new Integer(agent.getId()) ;
-				int direction = dir.ordinal() ;
-				graphicClient.move(id, direction) ;
+				graphicClient.move(id, dir) ;
 			}
 		}
 	}
@@ -186,7 +187,15 @@ public class Engine {
 				
 				Position p = new Position(newAgent.getLocation().x, newAgent.getLocation().y);
 				Integer id = new Integer(newAgent.getId()) ;
- 				graphicClient.spawn(id, p);
+ 				try {
+					graphicClient.spawn(id, p);
+				} catch (OutOfMapException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (DuplicateMemberException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				System.err.println("add one agent " + newAgent.getId());
 			}
 			else{

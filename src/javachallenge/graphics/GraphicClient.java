@@ -42,7 +42,7 @@ public class GraphicClient {
 		this.panel = panel;
 	}
 	private void init(int width,int height,Position[] positions) throws NullPointerException,OutOfMapException{
-		 ground=new PlayGround(width, height);
+		ground=new PlayGround(width, height);
 
 		ground.addMapPanel(panel=new MapPanel(width,height) {
 			@Override
@@ -57,10 +57,6 @@ public class GraphicClient {
 				{
 					e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 				}
-			}
-			public void onEnter(int x, int y) {
-				Position pos = getAbsolutePosition(x, y);
-				brush.setLocation(pos.getX(), pos.getY());
 			}
 		});
 		for (int i = 0; i < positions.length; i++) {
