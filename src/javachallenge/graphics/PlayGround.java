@@ -16,16 +16,17 @@ public class PlayGround extends Screen {
 		new Label(360, 270, 80, 20, new HTMLMaker("Loading...", ColorMaker.white, 10).toString()),
 	};
 	
-	protected MapPanel mapPanel;
-	protected Panel sidebar;
-	protected StatusPanel status;
-	
-	public PlayGround() {
-		this ("Java Challenge - Play Ground");
+	protected MapPanel map;
+	protected StatusPanel status=new StatusPanel(ColorMaker.background);
+
+	public StatusPanel getStatus()
+	{
+		return status;
 	}
-	
-	public PlayGround (String title) {
-		super(title);
+
+
+	public PlayGround (int width, int height) {
+		super("Play Ground");
 		getContentPane().setBackground(ColorMaker.black);
 		
 		for (Label loading : loadings) add(loading);
@@ -34,53 +35,25 @@ public class PlayGround extends Screen {
 		setVisible(true);
 	}
 	
-	public MapPanel getMapPanel() {
-		return mapPanel;
-	}
-	
-	public Panel getSidebar() {
-		return sidebar;
-	}
-	
-	public StatusPanel getStatus() {
-		return status;
-	}
-
-	public void updateDimensions() {
-		Dimension size = getSize();
-		mapPanel.setLocation(10, 10);
-		mapPanel.setSize(size.width * 3 / 4, size.height - 60);
-		sidebar.setLocation(20 + mapPanel.getWidth(), 10);
-		sidebar.setSize(size.width - sidebar.getX() - 10, size.height - 60);
-	}
-	
-	public void createScreenElements (MapPanel mapPanel) {
-		addMapPanel(mapPanel);
-		addSideBar();
-		
-		// remove loadings
+	public void addMapPanel (MapPanel map) {
+		this.map = map;
+		add (map);
+		add(status);
 		for (Label loading : loadings) remove(loading);
-		
-		// resize sensitive dimension updater
 		addComponentListener(new ComponentListener() {
 			public void componentShown(ComponentEvent arg0) {}
 			public void componentMoved(ComponentEvent arg0) {}
 			public void componentHidden(ComponentEvent arg0) {}
 			public void componentResized(ComponentEvent arg0) {
-				updateDimensions();
+				System.err.println("HI");
+				PlayGround.this.map.setLocation(10, 10);
+				Dimension size = arg0.getComponent().getSize();
+				status.setLocation(20+size.width*3/4,10);
+				status.setSize(size.width / 4 - 50, size.height - 60);
+				status.updatePosition();
+				PlayGround.this.map.setSize(size.width * 3 / 4, size.height - 60);
 			}
 		});
-		updateDimensions();
-		
-		pack();
-	}
-	
-	public void addMapPanel (MapPanel mapPanel) {
-		add (this.mapPanel = mapPanel);
-	}
-	
-	public void addSideBar() {
-		add (sidebar = new Panel (ColorMaker.shadedPanelBack));
-		sidebar.add(status = new StatusPanel(sidebar.getBackground()));
+		getComponentListeners()[2].componentResized(new ComponentEvent(this,-1));
 	}
 }
