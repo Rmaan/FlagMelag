@@ -1,19 +1,19 @@
 package javachallenge.graphics;
 
-import javachallenge.common.BlockType;
-import javachallenge.common.Direction;
-import javachallenge.common.Point;
-import javachallenge.graphics.PlayGround;
-
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javachallenge.common.Direction;
+import javachallenge.common.Point;
+import javachallenge.graphics.components.Label;
 import javachallenge.graphics.components.MapPanel;
 import javachallenge.graphics.components.Sprite;
 import javachallenge.graphics.util.AnimatedImage;
 import javachallenge.graphics.util.ImageHolder;
 import javachallenge.graphics.util.Mover;
 import javachallenge.graphics.util.Position;
+import javachallenge.server.ServerMap;
 
 public class GraphicClient {
 	public static int x[]={0,1,1,0,-1,-1};
@@ -25,13 +25,17 @@ public class GraphicClient {
 	protected Map<Integer,Sprite> units=new TreeMap<Integer,Sprite>();
 	protected PlayGround ground;
 
+	protected Label time=new Label(),score=new Label(),status=new Label("Fuck");
+
 	public void setTime(int a)
 	{
-		ground.getStatus().getTime().setText(new Integer(a).toString());
+		time.setText(new Integer(a).toString());
+		//ground.getStatus().getTime().setText(new Integer(a).toString());
 	}
 	public void setScore(int a)
 	{
-		ground.getStatus().getScore().setText(new Integer(a).toString());
+		score.setText(new Integer(a).toString());
+		//	ground.getStatus().getScore().setText(new Integer(a).toString());
 	}
 
 	public MapPanel getPanel() {
@@ -41,10 +45,28 @@ public class GraphicClient {
 	public void setPanel(MapPanel panel) {
 		this.panel = panel;
 	}
-	private void init(int width,int height,Position[] positions) throws NullPointerException,OutOfMapException{
+	public GraphicClient(int width,int height, final Position[] positions) throws NullPointerException,OutOfMapException{
+		this (new ServerMap(width, height, 0, null, null) {
+			{  
+				flagLocations = new ArrayList<Point>();
+				for (Position position : positions) 
+					flagLocations.add(new Point(position.getX(), position.getY()));
+			}
+		});
+	}
+	public GraphicClient(ServerMap map) throws OutOfMapException
+	{
+		setTime(0);
+		setScore(0);
+		Position[] positions=new Position[map.getFlagLocations().size()];
+		for (int i=0;i<map.getFlagLocations().size();i++)
+			positions[i]=new Position(map.getFlagLocations().get(i).getX(),map.getFlagLocations().get(i).getY());
 		ground=new PlayGround();
-
-		ground.createScreenElements(panel=new MapPanel(width,height) {
+		ground.addStatusBar();
+		ground.getStatus().addLabel(status);
+		ground.getStatus().addLabel(time);
+		ground.getStatus().addLabel(score);
+		ground.createScreenElements(panel=new MapPanel(map) {
 			@Override
 			public void onClick(int x, int y) {
 				try
@@ -66,23 +88,6 @@ public class GraphicClient {
 			flags.put(i+1, flag);
 			panel.addToContainer(flag ,2);
 		}
-	}
-	public GraphicClient(int width,int height,Position[] positions) throws NullPointerException,OutOfMapException{
-		init(width,height,positions);
-	}
-	public GraphicClient(javachallenge.common.Map map) throws OutOfMapException
-	{
-		Position[] positions=new Position[map.getFlagLocations().size()];
-		for (int i=0;i<map.getFlagLocations().size();i++)
-			positions[i]=new Position(map.getFlagLocations().get(i).getX(),map.getFlagLocations().get(i).getY());
-		init(map.getHei(),map.getHei(),positions);
-		for (int x=0;x<map.getWid();x++)
-			for (int y=0;y<map.getHei();y++)
-			{
-				BlockType type=map.getBlockType(new Point(x,y));
-				panel.setBlock(x,y,type.ordinal());
-			}
-
 	}
 	private boolean isOut(Position position)
 	{

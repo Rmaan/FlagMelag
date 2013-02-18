@@ -21,6 +21,9 @@ import javachallenge.graphics.GraphicClient.OutOfMapException;
 import javachallenge.graphics.util.Position;
 
 public class Engine {
+	private static final int FLAG_POINT = 50;
+	private static final int COST_PER_STEP = -1;
+	
 	private ServerMap map;
 	private int cycle, teamCount;
 	private ArrayList<Team> teams = new ArrayList<Team>();
@@ -30,12 +33,13 @@ public class Engine {
 	
 	private final int GAME_CYCLES = 725;
 	private GraphicClient graphicClient;
+	
 	private final int SPAWN_MARGIN = 6;
 	private final int SPAWN_LOW_PERIOD = 0;
 	private final int SPAWN_NORM_PERIOD = 1;
 	
 	public boolean gameIsOver() {
-		return !gameEnded;
+		return gameEnded;
 	}
 	
 	public Engine(ServerMap map, GraphicClient graphicClient) {
@@ -112,7 +116,12 @@ public class Engine {
 			}
 		}
 		cycle++;
-		if(cycle >= GAME_CYCLES){
+		//----------------------------------------------
+		int numFreeFlag = 0 ;
+		for (Flag flag : map.getFlags()) 
+			numFreeFlag += (flag.isAlive() ? 1 : 0) ;
+//		System.err.println(numFreeFlag);
+		if(cycle >= GAME_CYCLES || numFreeFlag == 0){
 			gameEnded = true;
 		}
 	}
@@ -144,6 +153,18 @@ public class Engine {
 				agent.setLocation(dest);
 				Integer id = new Integer(agent.getId()) ;
 				graphicClient.move(id, dir) ;
+				//--------------------------- Move On The Flag  
+				if (map.hasFlag(dest)){
+					Flag flag = map.getFlag(dest); 
+					if (flag.isAlive()){
+						flag.obtain() ;
+						//--------------------------- Update graphic
+						graphicClient.obtainFlag(flag.getId() + 1);
+						//--------------------------- Update score
+						int teamId = action.getTeamId(); 
+						getTeam(teamId).updaetScore(FLAG_POINT) ;
+					}
+				}
 				return true;
 			}
 		}
@@ -213,8 +234,12 @@ public class Engine {
 	//updates the scores of teams
 	private void updateScores(){
 		for (Team t: teams)
-			t.setScore(t.getScore() + 2);
-		// TODO
+			t.updaetScore(COST_PER_STEP);
+		// TODO team 0?! 
+		graphicClient.setScore(teams.get(0).getScore()) ;
+		graphicClient.setTime(cycle) ;
+		//
+		System.err.println("SET TIME :D" + cycle);
 	}
 	
 	private ArrayList<Integer> getScores(){

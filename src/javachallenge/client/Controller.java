@@ -10,6 +10,9 @@ import javachallenge.common.InitMessage;
 import javachallenge.common.ServerMessage;
 
 public class Controller {
+	private static int PORT = 5555;
+	private static String IP = "127.0.0.1";
+	
 	protected static final long WAIT_TIME = 50;
 	Player player ;
 	private ServerMessage serverMsg;
@@ -41,21 +44,22 @@ public class Controller {
 		System.out.println("Starting the game?!...");
 		new Thread(){
 			public void run() {
-					try {
-						while(!gameEnded){
-							//TODO: end game
-							ServerMessage tmp = (ServerMessage)in.readObject();
-							synchronized (lock) {
-								serverMsg = tmp;
-							}
+				try {
+					while(!gameEnded){
+						//TODO: end game
+						ServerMessage tmp = (ServerMessage)in.readObject();
+						synchronized (lock) {
+							serverMsg = tmp;
 						}
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						gameEnded = serverMsg.isGameEnded() ; 
 					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			};
 		}.start();
 		
@@ -92,6 +96,6 @@ public class Controller {
 	
 	
 	public static void main(String[] args) throws Exception {
-		new Controller("127.0.0.1", 1055);
+		new Controller(IP, PORT);
 	}
 }

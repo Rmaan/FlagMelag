@@ -1,8 +1,7 @@
 package javachallenge.graphics.components;
 
-import javachallenge.graphics.util.ColorMaker;
-
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,25 +11,24 @@ import java.awt.*;
  */
 public class StatusPanel extends Panel
 {
-	protected Label scoreIcon,timeIcon,score=new Label("0"),time=new Label("0");
-
-	public Label getScore()
+	public static int GAP_SIZE=50;
+	protected ArrayList<Label> labels=new ArrayList<Label>();
+	protected int yNow =GAP_SIZE;
+	public void addLabel(Label label)
 	{
-		return score;
+	//	System.err.println("");
+		label.setBounds(GAP_SIZE, yNow,getWidth()-2*GAP_SIZE,30);
+		labels.add(label);
+		add(label);
+		yNow+=30+GAP_SIZE;
 	}
-
-	public Label getTime()
-	{
-		return time;
-	}
-
 	public StatusPanel(Color color)
 	{
 		super(color);
-		updatePosition();
 	}
 	public void updatePosition()
 	{
-
+		for (Label label:labels)
+			label.setBounds(GAP_SIZE,label.getY(),getWidth()-2*GAP_SIZE,30);
 	}
 }

@@ -8,12 +8,12 @@ import javachallenge.ImproperlyConfiguredException;
 public class Map implements Serializable {
 	private static final long serialVersionUID = 96375824927929628L;
 	
-	private BlockType[][] map;
-	private int teamCount;
-	private int hei;
-	private int wid;
-	private ArrayList<Point> spawnLocations;
-	private ArrayList<Point> flagLocations;
+	protected BlockType[][] map;
+	protected int teamCount;
+	protected int hei;
+	protected int wid;
+	protected ArrayList<Point> spawnLocations;
+	protected ArrayList<Point> flagLocations;
 	
 	public Map(int wid, int hei, int teamCount, ArrayList<Point> spawnLocations, ArrayList<Point> flagLocations) {
 		if (wid % 2 == 1 || hei % 2 == 1)

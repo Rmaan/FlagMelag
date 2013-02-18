@@ -7,14 +7,18 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Random;
 
+import javachallenge.common.Map;
+import javachallenge.common.Point;
 import javachallenge.graphics.util.ColorMaker;
 import javachallenge.graphics.util.ImageHolder;
 import javachallenge.graphics.util.Position;
+import javachallenge.server.ServerMap;
 
 import javax.swing.ImageIcon;
 
 @SuppressWarnings("serial")
 public class MapPanel extends ScrollablePanel {
+	protected ServerMap map;
 	protected int width, height;
 	protected Sprite[][] blocks;
 	protected Sprite brush;
@@ -27,17 +31,17 @@ public class MapPanel extends ScrollablePanel {
 		return new Dimension(26 * w + 10, 36 * h + 18);
 	}
 	
-	public MapPanel(int width, int height) {
+	public MapPanel(ServerMap map) {
 		super(ColorMaker.black);
-		
-		this.width = width;
-		this.height = height;
+		this.map = map;
+		this.width = map.getWid();
+		this.height = map.getHei();
 		
 		// create blocks
 		blocks = new Sprite[width][height];
-		ImageIcon[] environment = ImageHolder.Terrain.grass;
 		for (int i = 0; i < width; i++)
 			for (int j = 0; j < height; j++) {
+				ImageIcon[] environment = ImageHolder.Terrain.mapBlocks.get (map.getBlockType(new Point(i, j)).ordinal());
 				int index = new Random().nextInt(environment.length);
 				addToContainer(blocks[i][j] = new Sprite(environment[index], 
 						new Position(i, j)), 1);
@@ -67,7 +71,10 @@ public class MapPanel extends ScrollablePanel {
 			public void mouseClicked(MouseEvent e) {
 				Position position = getPosition(e);
 				if (insideMap(position))
-					onClick(position.getX(), position.getY());
+					if (e.isControlDown())
+						onControllClick(position.getX(), position.getY());
+					else
+						onClick(position.getX(), position.getY());
 			}
 		});
 		setContainerSize(getAbsoluteSize(width, height));
@@ -85,11 +92,22 @@ public class MapPanel extends ScrollablePanel {
 		return brush;
 	}
 	
+	public ServerMap getMap() {
+		return map;
+	}
+	
+	public void setMap(ServerMap map) {
+		this.map = map;
+	}
+	
 	public void onClick(int x, int y) {}
 	public void onExit(int x, int y) {}
 	public void onEnter(int x, int y) {
 		Position pos = getAbsolutePosition(x, y);
 		brush.setLocation(pos.getX(), pos.getY());
+	}
+	public void onControllClick(int x, int y) {
+		onClick(x, y);
 	}
 
 	

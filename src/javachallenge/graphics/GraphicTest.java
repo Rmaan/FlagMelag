@@ -1,15 +1,20 @@
 package javachallenge.graphics;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.util.Scanner;
 
 import javachallenge.common.Direction;
+import javachallenge.common.Map;
 import javachallenge.graphics.GraphicClient;
 import javachallenge.graphics.util.Position;
+import javachallenge.server.ServerMap;
 
 public class GraphicTest {
 	public static void main(String[] args) throws Exception{
-		GraphicClient client=new GraphicClient(40,20,new Position[]{new Position(4,2)});
-		
+		ServerMap map=(ServerMap) ServerMap.load("data/maps/chert.map");
+		GraphicClient client=new GraphicClient(map);
 		Scanner scanner=new Scanner(System.in);
 		while (true)
 		{

@@ -11,6 +11,8 @@ public class ServerMessage implements Serializable {
 	ArrayList<AgentMessage> agentMsg;
 	ArrayList<Integer> deadAgents;
 	
+	boolean isGameEnded ; 
+	
 	public ServerMessage() {
 		spawnedId = -1;
 		scores = new ArrayList<Integer>();
@@ -55,5 +57,13 @@ public class ServerMessage implements Serializable {
 
 	public ArrayList<Integer> getDeadAgents() {
 		return deadAgents ;
+	}
+	
+	public void setGameEnded(){
+		isGameEnded = false ;
+	}
+	
+	public boolean isGameEnded(){
+		return isGameEnded ;
 	}
 }

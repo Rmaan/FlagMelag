@@ -15,28 +15,21 @@ import javachallenge.graphics.GraphicClient.OutOfMapException;
 import javachallenge.graphics.util.Position;
 
 public class Main {
-	private static int PORT = 1055;
+	private static int PORT = 5555;
 	private static int CYCLE_TIME = 500;
 	private GraphicClient graphicClient;
 	
-	public void run() throws IOException, InterruptedException {
+	public void run() throws IOException, InterruptedException, OutOfMapException {
 		ServerSocket ss = new ServerSocket(PORT);
-		ServerMap sampleMap = ServerMap.getSampleMap();
+		ServerMap sampleMap = ServerMap.load("map/m1.txt");
 		
 		Position[] tmpFlagPositions = new Position[sampleMap.getFlagLocations().size()];
 		for(int i = 0 ; i < sampleMap.getFlagLocations().size() ; i++) {
 			Point flag = sampleMap.getFlagLocations().get(i);
 			tmpFlagPositions[i] = new Position(flag.x, flag.y);
 		}
-		try {
-			graphicClient = new GraphicClient(sampleMap.getWid(), sampleMap.getHei(), tmpFlagPositions);
-		} catch (NullPointerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (OutOfMapException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		graphicClient = new GraphicClient(sampleMap);
 		Engine engine = new Engine(sampleMap, graphicClient);
 		
 		ArrayList<TeamConnection> connections = new ArrayList<TeamConnection>();
@@ -57,8 +50,8 @@ public class Main {
 		engine.endStep();
 		
 		
-		while (engine.gameIsOver()) {
-			System.out.println("Cylce filan " + engine.getCycle());
+		while (!engine.gameIsOver()) {
+			System.out.println("Cycle " + engine.getCycle());
 			
 			ArrayList<ServerMessage> stepMessage = engine.getStepMessage();
 			for (int i = 0; i < sampleMap.getTeamCount(); i++) {
@@ -86,7 +79,7 @@ public class Main {
 		ss.close();
 	}
 	
-	public static void main(String[] args) throws IOException, InterruptedException {
+	public static void main(String[] args) throws IOException, InterruptedException, OutOfMapException {
 		new Main().run();
 	}
 }
