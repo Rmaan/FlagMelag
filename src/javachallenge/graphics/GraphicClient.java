@@ -5,6 +5,7 @@ import javachallenge.common.Direction;
 import javachallenge.common.Point;
 import javachallenge.graphics.PlayGround;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -41,10 +42,23 @@ public class GraphicClient {
 	public void setPanel(MapPanel panel) {
 		this.panel = panel;
 	}
-	private void init(int width,int height,Position[] positions) throws NullPointerException,OutOfMapException{
+	public GraphicClient(int width,int height, final Position[] positions) throws NullPointerException,OutOfMapException{
+		this (new javachallenge.common.Map(width, height, 0, null, null) {
+			{  
+				flagLocations = new ArrayList<Point>();
+				for (Position position : positions) 
+					flagLocations.add(new Point(position.getX(), position.getY()));
+			}
+		});
+	}
+	public GraphicClient(javachallenge.common.Map map) throws OutOfMapException
+	{
+		Position[] positions=new Position[map.getFlagLocations().size()];
+		for (int i=0;i<map.getFlagLocations().size();i++)
+			positions[i]=new Position(map.getFlagLocations().get(i).getX(),map.getFlagLocations().get(i).getY());
 		ground=new PlayGround();
-		ground.addStatusBar();
-		ground.createScreenElements(panel=new MapPanel(width,height) {
+
+		ground.createScreenElements(panel=new MapPanel(map) {
 			@Override
 			public void onClick(int x, int y) {
 				try
@@ -66,23 +80,6 @@ public class GraphicClient {
 			flags.put(i+1, flag);
 			panel.addToContainer(flag ,2);
 		}
-	}
-	public GraphicClient(int width,int height,Position[] positions) throws NullPointerException,OutOfMapException{
-		init(width,height,positions);
-	}
-	public GraphicClient(javachallenge.common.Map map) throws OutOfMapException
-	{
-		Position[] positions=new Position[map.getFlagLocations().size()];
-		for (int i=0;i<map.getFlagLocations().size();i++)
-			positions[i]=new Position(map.getFlagLocations().get(i).getX(),map.getFlagLocations().get(i).getY());
-		init(map.getHei(),map.getHei(),positions);
-		for (int x=0;x<map.getWid();x++)
-			for (int y=0;y<map.getHei();y++)
-			{
-				BlockType type=map.getBlockType(new Point(x,y));
-				panel.setBlock(x,y,type.ordinal());
-			}
-
 	}
 	private boolean isOut(Position position)
 	{

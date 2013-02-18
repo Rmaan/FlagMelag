@@ -15,6 +15,7 @@ public class GraphicTest {
 		GraphicClient client=new GraphicClient(40,20,new Position[]{new Position(4,2)});
 		ObjectInputStream stream=new ObjectInputStream(new FileInputStream(new File("data/maps/test")));
 		Map map=(Map)stream.readObject();
+		stream.close();
 		//GraphicClient client=new GraphicClient(map);
 		Scanner scanner=new Scanner(System.in);
 		while (true)

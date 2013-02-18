@@ -7,6 +7,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Random;
 
+import javachallenge.common.Map;
+import javachallenge.common.Point;
 import javachallenge.graphics.util.ColorMaker;
 import javachallenge.graphics.util.ImageHolder;
 import javachallenge.graphics.util.Position;
@@ -15,6 +17,7 @@ import javax.swing.ImageIcon;
 
 @SuppressWarnings("serial")
 public class MapPanel extends ScrollablePanel {
+	protected Map map;
 	protected int width, height;
 	protected Sprite[][] blocks;
 	protected Sprite brush;
@@ -27,17 +30,17 @@ public class MapPanel extends ScrollablePanel {
 		return new Dimension(26 * w + 10, 36 * h + 18);
 	}
 	
-	public MapPanel(int width, int height) {
+	public MapPanel(Map map) {
 		super(ColorMaker.black);
-		
-		this.width = width;
-		this.height = height;
+		this.map = map;
+		this.width = map.getWid();
+		this.height = map.getHei();
 		
 		// create blocks
 		blocks = new Sprite[width][height];
-		ImageIcon[] environment = ImageHolder.Terrain.grass;
 		for (int i = 0; i < width; i++)
 			for (int j = 0; j < height; j++) {
+				ImageIcon[] environment = ImageHolder.Terrain.mapBlocks.get (map.getBlockType(new Point(i, j)).ordinal());
 				int index = new Random().nextInt(environment.length);
 				addToContainer(blocks[i][j] = new Sprite(environment[index], 
 						new Position(i, j)), 1);

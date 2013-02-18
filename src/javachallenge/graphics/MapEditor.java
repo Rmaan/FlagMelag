@@ -65,7 +65,7 @@ public class MapEditor extends PlayGround {
 	
 	public static void main(String[] args) {
 		final MapEditor mapEditor = new MapEditor();
-		mapEditor.createScreenElements(new MapPanel(30, 30) {
+		mapEditor.createScreenElements(new MapPanel(new Map(30, 30, 0, null, null)) {
 			@Override
 			public void onClick(int x, int y) {
 				int type = (mapEditor.getMap().getBlockType(new Point (x, y)).ordinal() + 1) % blockTypes;
