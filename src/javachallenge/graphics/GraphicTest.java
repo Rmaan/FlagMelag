@@ -13,7 +13,7 @@ import javachallenge.server.ServerMap;
 
 public class GraphicTest {
 	public static void main(String[] args) throws Exception{
-		Map map=(Map) ServerMap.load("data/maps/chert.map");
+		ServerMap map=(ServerMap) ServerMap.load("data/maps/chert.map");
 		GraphicClient client=new GraphicClient(map);
 		Scanner scanner=new Scanner(System.in);
 		while (true)
