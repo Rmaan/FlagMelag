@@ -27,16 +27,16 @@ public class GraphicClient {
 	protected Map<Integer,Sprite> units=new TreeMap<Integer,Sprite>();
 	protected PlayGround ground;
 
-	protected Label time,score,status=new Label("Fuck");
+	protected Label time=new Label(),score=new Label(),status=new Label("Fuck");
 
 	public void setTime(int a)
 	{
-		time=new Label(new Integer(a).toString());
+		time.setText(new Integer(a).toString());
 		//ground.getStatus().getTime().setText(new Integer(a).toString());
 	}
 	public void setScore(int a)
 	{
-		score=new Label(new Integer(a).toString());
+		score.setText(new Integer(a).toString());
 		//	ground.getStatus().getScore().setText(new Integer(a).toString());
 	}
 
