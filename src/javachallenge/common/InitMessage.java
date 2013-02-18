@@ -10,7 +10,10 @@ public class InitMessage implements Serializable {
 	
 	public InitMessage(Map map, int teamId) {
 		super();
+		//--------------- //TODO
 		this.map = map;
+		//this.map.setFlagLocations(null) ;
+		//---------------
 		this.teamId = teamId;
 	}
 

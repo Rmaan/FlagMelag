@@ -25,16 +25,14 @@ public class GraphicClient {
 	protected Map<Integer,Sprite> units=new TreeMap<Integer,Sprite>();
 	protected PlayGround ground;
 
-	protected Label time=new Label(),score=new Label(),status=new Label("Fuck");
-
 	public void setTime(int a)
 	{
-		time.setText(new Integer(a).toString());
+		ground.getStatus().setTime(a);
 		//ground.getStatus().getTime().setText(new Integer(a).toString());
 	}
 	public void setScore(int a)
 	{
-		score.setText(new Integer(a).toString());
+		ground.getStatus().setScore(a);
 		//	ground.getStatus().getScore().setText(new Integer(a).toString());
 	}
 
@@ -56,20 +54,14 @@ public class GraphicClient {
 	}
 	public GraphicClient(ServerMap map) throws OutOfMapException
 	{
-		setTime(0);
-		setScore(0);
 		Position[] positions=new Position[map.getFlagLocations().size()];
 		for (int i=0;i<map.getFlagLocations().size();i++)
 			positions[i]=new Position(map.getFlagLocations().get(i).getX(),map.getFlagLocations().get(i).getY());
 		ground=new PlayGround();
-		ground.addStatusBar();
-		ground.getStatus().addLabel(status);
-		ground.getStatus().addLabel(time);
-		ground.getStatus().addLabel(score);
 		ground.createScreenElements(panel=new MapPanel(map) {
 			@Override
 			public void onClick(int x, int y) {
-				try
+				/*try
 				{
 					spawn(units.size()+1, new Position(x, y));
 				} catch (OutOfMapException e)
@@ -78,7 +70,7 @@ public class GraphicClient {
 				} catch (DuplicateMemberException e)
 				{
 					e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-				}
+				}*/
 			}
 		});
 		for (int i = 0; i < positions.length; i++) {

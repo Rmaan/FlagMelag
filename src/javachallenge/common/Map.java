@@ -72,4 +72,8 @@ public class Map implements Serializable {
 		}
 		return blockTypes;
 	}
+
+	public void setFlagLocations(ArrayList<Point> flags) {
+		this.flagLocations = flags ;
+	}
 }
