@@ -9,12 +9,11 @@ import javachallenge.common.Direction;
 import javachallenge.common.Map;
 import javachallenge.graphics.GraphicClient;
 import javachallenge.graphics.util.Position;
+import javachallenge.server.ServerMap;
 
 public class GraphicTest {
 	public static void main(String[] args) throws Exception{
-		ObjectInputStream stream=new ObjectInputStream(new FileInputStream(new File("data/maps/chert.map")));
-		Map map=(Map)stream.readObject();
-		stream.close();
+		Map map=(Map) ServerMap.load("data/maps/fuck");
 		GraphicClient client=new GraphicClient(map);
 		Scanner scanner=new Scanner(System.in);
 		while (true)
