@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javachallenge.common.BlockType;
 import javachallenge.common.Map;
@@ -65,7 +66,8 @@ public class MapEditor extends PlayGround {
 	
 	public static void main(String[] args) {
 		final MapEditor mapEditor = new MapEditor();
-		mapEditor.createScreenElements(new MapPanel(new Map(30, 30, 0, null, null)) {
+		Scanner scanner = new Scanner(System.in);
+		mapEditor.createScreenElements(new MapPanel(new Map(scanner.nextInt(), scanner.nextInt(), 0, null, null)) {
 			@Override
 			public void onClick(int x, int y) {
 				int type = (mapEditor.getMap().getBlockType(new Point (x, y)).ordinal() + 1) % blockTypes;
@@ -73,5 +75,6 @@ public class MapEditor extends PlayGround {
 				mapEditor.getMap().setBlockType(new Point (x, y), BlockType.values()[type]);
 			}
 		});
+		scanner.close();
 	}
 }
