@@ -10,6 +10,9 @@ import javachallenge.common.InitMessage;
 import javachallenge.common.ServerMessage;
 
 public class Controller {
+	private static int PORT = 5555;
+	private static String IP = "127.0.0.1";
+	
 	protected static final long WAIT_TIME = 50;
 	Player player ;
 	private ServerMessage serverMsg;
@@ -92,6 +95,6 @@ public class Controller {
 	
 	
 	public static void main(String[] args) throws Exception {
-		new Controller("127.0.0.1", 1555);
+		new Controller(IP, PORT);
 	}
 }
