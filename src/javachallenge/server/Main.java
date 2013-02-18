@@ -21,7 +21,7 @@ public class Main {
 	
 	public void run() throws IOException, InterruptedException {
 		ServerSocket ss = new ServerSocket(PORT);
-		ServerMap sampleMap = ServerMap.getSampleMap();
+		ServerMap sampleMap = ServerMap.load("map/m1.txt");
 		
 		Position[] tmpFlagPositions = new Position[sampleMap.getFlagLocations().size()];
 		for(int i = 0 ; i < sampleMap.getFlagLocations().size() ; i++) {
