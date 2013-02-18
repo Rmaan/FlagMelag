@@ -38,7 +38,7 @@ public class Engine {
 	private final int SPAWN_NORM_PERIOD = 4;
 	
 	public boolean gameIsOver() {
-		return !gameEnded;
+		return gameEnded;
 	}
 	
 	public Engine(ServerMap map, GraphicClient graphicClient) {
@@ -115,7 +115,12 @@ public class Engine {
 			}
 		}
 		cycle++;
-		if(cycle >= GAME_CYCLES){
+		//----------------------------------------------
+		int numFreeFlag = 0 ;
+		for (Flag flag : map.getFlags()) 
+			numFreeFlag += (flag.isAlive() ? 1 : 0) ;
+//		System.err.println(numFreeFlag);
+		if(cycle >= GAME_CYCLES || numFreeFlag == 0){
 			gameEnded = true;
 		}
 	}
@@ -153,12 +158,16 @@ public class Engine {
 				Integer id = new Integer(agent.getId()) ;
 				graphicClient.move(id, dir) ;
 				//--------------------------- Move On The Flag  
-				if (map.getFlagLocations().contains(dest)){
-					int flagId = map.getFlagLocations().indexOf(dest) + 1; 
-					graphicClient.obtainFlag(flagId);
-					//--------------------------- Update score
-					int teamId = action.getTeamId(); 
-					getTeam(teamId).updaetScore(FLAG_POINT) ;
+				if (map.hasFlag(dest)){
+					Flag flag = map.getFlag(dest); 
+					if (flag.isAlive()){
+						flag.obtain() ;
+						//--------------------------- Update graphic
+						graphicClient.obtainFlag(flag.getId() + 1);
+						//--------------------------- Update score
+						int teamId = action.getTeamId(); 
+						getTeam(teamId).updaetScore(FLAG_POINT) ;
+					}
 				}
 			}
 		}
@@ -228,7 +237,9 @@ public class Engine {
 	private void updateScores(){
 		for (Team t: teams)
 			t.updaetScore(COST_PER_STEP);
-		// TODO
+		// TODO team 0?! 
+		graphicClient.setScore(teams.get(0).getScore()) ;
+		graphicClient.setTime(cycle) ;
 	}
 	
 	private ArrayList<Integer> getScores(){

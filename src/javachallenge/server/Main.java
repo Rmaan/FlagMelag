@@ -57,7 +57,7 @@ public class Main {
 		engine.endStep();
 		
 		
-		while (engine.gameIsOver()) {
+		while (!engine.gameIsOver()) {
 			System.out.println("Cylce filan " + engine.getCycle());
 			
 			ArrayList<ServerMessage> stepMessage = engine.getStepMessage();

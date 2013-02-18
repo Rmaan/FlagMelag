@@ -44,21 +44,22 @@ public class Controller {
 		System.out.println("Starting the game?!...");
 		new Thread(){
 			public void run() {
-					try {
-						while(!gameEnded){
-							//TODO: end game
-							ServerMessage tmp = (ServerMessage)in.readObject();
-							synchronized (lock) {
-								serverMsg = tmp;
-							}
+				try {
+					while(!gameEnded){
+						//TODO: end game
+						ServerMessage tmp = (ServerMessage)in.readObject();
+						synchronized (lock) {
+							serverMsg = tmp;
 						}
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						gameEnded = serverMsg.isGameEnded() ; 
 					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			};
 		}.start();
 		

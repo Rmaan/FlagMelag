@@ -18,9 +18,19 @@ public class ServerMap extends Map {
 	private static final long serialVersionUID = 1028425069786631534L;
 	
 	private transient Agent[][] agents;
+	private transient ArrayList<Flag> flags;
 	
 	private void init() {
 		agents = new Agent[getWid()][getHei()];
+		//------------------------------------
+		flags = new ArrayList<Flag>() ;
+		for(int i = 0 ; i < this.getFlagLocations().size() ; i++){
+			flags.add(new Flag(this.getFlagLocations().get(i), i)) ;
+		}
+	}
+	
+	public Flag getFlag(int id){
+		return flags.get(id) ;
 	}
 	
 	public ServerMap(int wid, int hei, int teamCount,
@@ -37,13 +47,11 @@ public class ServerMap extends Map {
 	}
 	
 	public void spawnAgent(Agent a){
-		//TODO deafq?!
 		Point p = a.getLocation() ;
 		agents[p.x][p.y] = a ;
 	}
 	
 	public void moveAgent(Agent a, Point p, Point p2){
-		//TODO deafq?!
 		agents[p.x][p.y] = null ;
 		agents[p2.x][p2.y] = a ;
 	}
@@ -98,5 +106,21 @@ public class ServerMap extends Map {
 		obj.init();
 		System.out.println(obj.agents);
 		return obj;
+	}
+
+	public boolean hasFlag(Point dest) {
+		return this.getFlagLocations().contains(dest) ;
+	}
+
+	public Flag getFlag(Point dest) {
+		for (Flag flag : flags) {
+			if (flag.getLocation().x == dest.x && flag.getLocation().y == dest.y )
+				return flag ;
+		}
+		return null ;
+	}
+
+	public ArrayList<Flag> getFlags() {
+		return flags;
 	}
 }
