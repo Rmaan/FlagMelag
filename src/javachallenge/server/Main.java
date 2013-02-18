@@ -15,7 +15,7 @@ import javachallenge.graphics.GraphicClient.OutOfMapException;
 import javachallenge.graphics.util.Position;
 
 public class Main {
-	private static int PORT = 1055;
+	private static int PORT = 1555;
 	private static int CYCLE_TIME = 500;
 	private GraphicClient graphicClient;
 	

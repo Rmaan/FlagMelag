@@ -136,15 +136,23 @@ public class Engine {
 		Direction dir = action.getDir() ;
 		Agent agent = getAgent(action.getTeamId(), action.getId());
 		Point dest = agent.getLocation().applyDirection(dir);
+		
 		if(actionType == ActionType.MOVE && !seenDest.contains(dest)){
 			//System.err.println("Dest is : " + dest.x + " " + dest.y + " - " + map.isInsideMap(dest));
 			
 			if(map.isInsideMap(dest) && map.getBlockType(dest) == BlockType.GROUND && !occupied(dest)){
 				map.moveAgent(agent, agent.getLocation(), dest) ;
 				agent.setLocation(dest);
+				//---------------------------
 				seenDest.add(dest);
+				//---------------------------
 				Integer id = new Integer(agent.getId()) ;
 				graphicClient.move(id, dir) ;
+				//--------------------------- on the flag 
+				if (map.getFlagLocations().contains(dest)){
+					int flagId = map.getFlagLocations().indexOf(dest) + 1; 
+					graphicClient.obtainFlag(flagId);
+				}
 			}
 		}
 	}
