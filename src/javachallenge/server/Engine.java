@@ -240,6 +240,8 @@ public class Engine {
 		// TODO team 0?! 
 		graphicClient.setScore(teams.get(0).getScore()) ;
 		graphicClient.setTime(cycle) ;
+		//
+		System.err.println("SET TIME :D" + cycle);
 	}
 	
 	private ArrayList<Integer> getScores(){
