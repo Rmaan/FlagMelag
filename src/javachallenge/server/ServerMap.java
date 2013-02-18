@@ -20,6 +20,8 @@ public class ServerMap extends Map {
 	private transient Agent[][] agents;
 	private transient ArrayList<Flag> flags;
 	
+	protected ArrayList<Point> flagLocations;
+	
 	private void init() {
 		agents = new Agent[getWid()][getHei()];
 		//------------------------------------
@@ -113,6 +115,9 @@ public class ServerMap extends Map {
 		return this.getFlagLocations().contains(dest) ;
 	}
 
+	public void setAgent(Point p, Agent agent){
+		agents[p.x][p.y] = agent;
+	}
 	public Flag getFlag(Point dest) {
 		for (Flag flag : flags) {
 			if (flag.getLocation().x == dest.x && flag.getLocation().y == dest.y )
