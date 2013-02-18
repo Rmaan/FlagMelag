@@ -1,19 +1,33 @@
 package javachallenge.server;
 
+import java.io.BufferedReader;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 import javachallenge.common.BlockType;
 import javachallenge.common.Map;
 import javachallenge.common.Point;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 public class ServerMap extends Map {
 	private static final long serialVersionUID = 1028425069786631534L;
 	
-	private Agent[][] agents = new Agent[getWid()][getHei()];
+	private transient Agent[][] agents;
+	
+	private void init() {
+		agents = new Agent[getWid()][getHei()];
+	}
 
 	public ServerMap(int wid, int hei, int teamCount,
 			ArrayList<Point> spawnLocations, ArrayList<Point> flagLocations) {
 		super(wid, hei, teamCount, spawnLocations, flagLocations);
+		// Put your code in init not constructor
+		init();
 	}
 	
 	public Agent getAgent(Point p){
@@ -50,8 +64,39 @@ public class ServerMap extends Map {
 		sampleMap.setBlockType(new Point(9, 7), BlockType.RIVER);
 	}
 	
-	public static ServerMap getSampleMap() {
-		return sampleMap;
+	public void save(String filename) throws IOException {
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		String json = gson.toJson(this);
+		
+		OutputStreamWriter out = null;
+		try {
+			out = new OutputStreamWriter(new FileOutputStream(filename));
+			out.write(json);
+		} finally {
+			out.close();
+		}
 	}
-
+	
+	public static ServerMap load(String filename) throws IOException {
+		BufferedReader f = null;
+		StringBuilder sb = new StringBuilder();
+		try {
+			f = new BufferedReader(new FileReader(filename));
+			String line = f.readLine();
+			while (line != null) {
+				sb.append(line);
+				sb.append("\n");
+				line = f.readLine();
+			}
+		} finally {
+			f.close();
+		}
+		
+		String json = sb.toString();
+		Gson gson = new Gson();
+		ServerMap obj = gson.fromJson(json, ServerMap.class);
+		obj.init();
+		System.out.println(obj.agents);
+		return obj;
+	}
 }
