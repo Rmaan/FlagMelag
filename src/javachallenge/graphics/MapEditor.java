@@ -22,10 +22,11 @@ import javachallenge.graphics.util.AnimatedImage;
 import javachallenge.graphics.util.ColorMaker;
 import javachallenge.graphics.util.ImageHolder;
 import javachallenge.graphics.util.Position;
+import javachallenge.server.ServerMap;
 
 public class MapEditor extends PlayGround {
 	public static int blockTypes = 3;
-	protected Map map;
+	protected ServerMap map;
 	
 	public MapEditor() {
 		super ("GoDitor");
@@ -36,7 +37,7 @@ public class MapEditor extends PlayGround {
 	public void addMapPanel(MapPanel mapPanel) {
 		ArrayList<Point> spawnLocations = new ArrayList<Point>();
 		ArrayList<Point> flagLocations = new ArrayList<Point>();	
-		this.map = new Map(mapPanel.getMapWidth(), mapPanel.getMapHeight(), 0, 
+		this.map = new ServerMap(mapPanel.getMapWidth(), mapPanel.getMapHeight(), 0,
 			spawnLocations, flagLocations);
 	
 		super.addMapPanel(mapPanel);
@@ -52,9 +53,7 @@ public class MapEditor extends PlayGround {
 			@Override
 			public void onAccept(String filename) {
 				try {
-					ObjectOutputStream objout = new ObjectOutputStream(new FileOutputStream(new File(filename)));
-					objout.writeObject(map);
-					objout.close();
+					map.save(filename);
 					System.err.println("Map saved Successfully");
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();

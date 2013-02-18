@@ -3,6 +3,7 @@
 bin/
 resources/
 data/
+map/
 *.class
 .DS_STORE
 thumbs.db

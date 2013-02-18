@@ -20,6 +20,9 @@ import javachallenge.graphics.GraphicClient.OutOfMapException;
 import javachallenge.graphics.util.Position;
 
 public class Engine {
+	private static final int FLAG_POINT = 50;
+	private static final int COST_PER_STEP = -1;
+	
 	private ServerMap map;
 	private int cycle, teamCount;
 	private ArrayList<Team> teams = new ArrayList<Team>();
@@ -29,9 +32,10 @@ public class Engine {
 	
 	private final int GAME_CYCLES = 725;
 	private GraphicClient graphicClient;
+	
 	private final int SPAWN_MARGIN = 6;
 	private final int SPAWN_LOW_PERIOD = 0;
-	private final int SPAWN_NORM_PERIOD = 2;
+	private final int SPAWN_NORM_PERIOD = 4;
 	
 	public boolean gameIsOver() {
 		return !gameEnded;
@@ -136,15 +140,26 @@ public class Engine {
 		Direction dir = action.getDir() ;
 		Agent agent = getAgent(action.getTeamId(), action.getId());
 		Point dest = agent.getLocation().applyDirection(dir);
+		
 		if(actionType == ActionType.MOVE && !seenDest.contains(dest)){
 			//System.err.println("Dest is : " + dest.x + " " + dest.y + " - " + map.isInsideMap(dest));
 			
 			if(map.isInsideMap(dest) && map.getBlockType(dest) == BlockType.GROUND && !occupied(dest)){
 				map.moveAgent(agent, agent.getLocation(), dest) ;
 				agent.setLocation(dest);
+				//---------------------------
 				seenDest.add(dest);
+				//---------------------------
 				Integer id = new Integer(agent.getId()) ;
 				graphicClient.move(id, dir) ;
+				//--------------------------- Move On The Flag  
+				if (map.getFlagLocations().contains(dest)){
+					int flagId = map.getFlagLocations().indexOf(dest) + 1; 
+					graphicClient.obtainFlag(flagId);
+					//--------------------------- Update score
+					int teamId = action.getTeamId(); 
+					getTeam(teamId).updaetScore(FLAG_POINT) ;
+				}
 			}
 		}
 	}
@@ -212,7 +227,7 @@ public class Engine {
 	//updates the scores of teams
 	private void updateScores(){
 		for (Team t: teams)
-			t.setScore(t.getScore() + 2);
+			t.updaetScore(COST_PER_STEP);
 		// TODO
 	}
 	

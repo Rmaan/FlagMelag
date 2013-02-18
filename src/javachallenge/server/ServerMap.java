@@ -22,7 +22,7 @@ public class ServerMap extends Map {
 	private void init() {
 		agents = new Agent[getWid()][getHei()];
 	}
-
+	
 	public ServerMap(int wid, int hei, int teamCount,
 			ArrayList<Point> spawnLocations, ArrayList<Point> flagLocations) {
 		super(wid, hei, teamCount, spawnLocations, flagLocations);

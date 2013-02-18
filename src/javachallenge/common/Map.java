@@ -1,17 +1,9 @@
 package javachallenge.common;
 
-import java.io.BufferedReader;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
 
 import javachallenge.ImproperlyConfiguredException;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 public class Map implements Serializable {
 	private static final long serialVersionUID = 96375824927929628L;

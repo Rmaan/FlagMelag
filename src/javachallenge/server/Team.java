@@ -54,4 +54,8 @@ public class Team {
 		agents.add(newAgent);
 		return newAgent;
 	}
+
+	public void updaetScore(int i) {
+		this.setScore(this.getScore() + i) ;
+	}
 }
