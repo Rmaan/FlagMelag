@@ -1,14 +1,22 @@
 package javachallenge.graphics;
 
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import javachallenge.common.BlockType;
 import javachallenge.common.Map;
 import javachallenge.common.Point;
+import javachallenge.graphics.components.FileChooser;
 import javachallenge.graphics.components.MapPanel;
+import javachallenge.graphics.util.ColorMaker;
 
 public class MapEditor extends PlayGround {
 	public static int blockTypes = 3;
@@ -32,6 +40,23 @@ public class MapEditor extends PlayGround {
 	public void addSideBar() {
 		// TODO Auto-generated method stub
 		super.addSideBar();
+		sidebar.setLayout(new FlowLayout());
+		sidebar.add(new FileChooser.FileChooserButton("save", false, "Choose target", "data/maps/", "map", "Map files") {
+			{ setForeground(ColorMaker.fieldBackground); }
+			@Override
+			public void onAccept(String filename) {
+				try {
+					ObjectOutputStream objout = new ObjectOutputStream(new FileOutputStream(new File(filename)));
+					objout.writeObject(map);
+					objout.close();
+					System.err.println("Map saved Successfully");
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 	
 	public Map getMap() {
