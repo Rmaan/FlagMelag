@@ -1,10 +1,12 @@
 package javachallenge.graphics;
 
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
 import javachallenge.graphics.components.*;
+import javachallenge.graphics.components.Label;
+import javachallenge.graphics.components.Panel;
 import javachallenge.graphics.util.ColorMaker;
 import javachallenge.graphics.util.HTMLMaker;
 import javachallenge.graphics.util.ImageHolder;
@@ -18,7 +20,7 @@ public class PlayGround extends Screen {
 	
 	protected MapPanel mapPanel;
 	protected Panel sidebar;
-	protected StatusPanel status;
+	protected StatusPanel status=new StatusPanel(ColorMaker.shadedPanelBack);
 	
 	public PlayGround() {
 		this ("Java Challenge - Play Ground");
@@ -41,7 +43,7 @@ public class PlayGround extends Screen {
 	public Panel getSidebar() {
 		return sidebar;
 	}
-	
+
 	public StatusPanel getStatus() {
 		return status;
 	}
@@ -50,8 +52,14 @@ public class PlayGround extends Screen {
 		Dimension size = getSize();
 		mapPanel.setLocation(10, 10);
 		mapPanel.setSize(size.width * 3 / 4, size.height - 60);
-		sidebar.setLocation(20 + mapPanel.getWidth(), 10);
-		sidebar.setSize(size.width - sidebar.getX() - 10, size.height - 60);
+		if (sidebar!=null)
+		{
+			sidebar.setLocation(20 + mapPanel.getWidth(), 10);
+			sidebar.setSize(size.width - sidebar.getX() - 30, size.height - 60);
+		}
+		status.setLocation(20 + mapPanel.getWidth(), 10);
+		status.setSize(size.width - sidebar.getX() - 30, size.height - 60);
+		status.updatePosition();
 	}
 	
 	public void createScreenElements (MapPanel mapPanel) {
@@ -78,9 +86,11 @@ public class PlayGround extends Screen {
 	public void addMapPanel (MapPanel mapPanel) {
 		add (this.mapPanel = mapPanel);
 	}
-	
+	public void addStatusBar()
+	{
+		add(status);
+	}
 	public void addSideBar() {
 		add (sidebar = new Panel (ColorMaker.shadedPanelBack));
-		sidebar.add(status = new StatusPanel(sidebar.getBackground()));
 	}
 }
