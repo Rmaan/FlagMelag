@@ -62,8 +62,9 @@ public class Engine {
 		if(PHASE_1 || cycle % 2 == 0){
 			//handle moves
 			Collections.shuffle(actions);
+			ArrayList<Point> seenDest = new ArrayList<Point>();
 			for(Action action : actions){
-				moveAgent(action);
+				moveAgent(action, seenDest);
 			}
 		}
 		if (!PHASE_1){
@@ -123,7 +124,7 @@ public class Engine {
 	
 	//method to move the agents and check for the destination to be empty
 	
-	private void moveAgent(Action action){
+	private void moveAgent(Action action, ArrayList<Point> seenDest){
 		ActionType actionType = action.getType();
 		if(actionType == ActionType.NONE){
 			return;
@@ -132,13 +133,13 @@ public class Engine {
 		Direction dir = action.getDir() ;
 		Agent agent = getAgent(action.getTeamId(), action.getId());
 		Point dest = agent.getLocation().applyDirection(dir);
-		if(actionType == ActionType.MOVE){
+		if(actionType == ActionType.MOVE && !seenDest.contains(dest)){
 			//System.err.println("Dest is : " + dest.x + " " + dest.y + " - " + map.isInsideMap(dest));
 			
 			if(map.isInsideMap(dest) && map.getBlockType(dest) == BlockType.GROUND && !occupied(dest)){
 				map.moveAgent(agent, agent.getLocation(), dest) ;
 				agent.setLocation(dest);
-				
+				seenDest.add(dest);
 				Integer id = new Integer(agent.getId()) ;
 				graphicClient.move(id, dir) ;
 			}
@@ -284,3 +285,4 @@ public class Engine {
 		return teams.get(i);
 	}
 }
+
