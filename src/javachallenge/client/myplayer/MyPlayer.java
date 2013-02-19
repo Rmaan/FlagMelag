@@ -1,5 +1,6 @@
 package javachallenge.client.myplayer;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import javachallenge.client.Agent;
@@ -16,7 +17,6 @@ public class MyPlayer extends Player {
 
 	public void step() {
 		Random rnd = new Random();
-		cycle++;
 		
 		for (int id: getAgentIds()) {
 			Agent agent = this.getAgentById(id);
