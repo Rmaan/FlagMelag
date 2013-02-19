@@ -3,9 +3,9 @@ package javachallenge.client;
 import java.util.ArrayList;
 
 import javachallenge.common.InitMessage;
-import javachallenge.common.Map;
 import javachallenge.common.Point;
 import javachallenge.common.ServerMessage;
+import javachallenge.server.Map;
 
 public class World {
 	private int score;

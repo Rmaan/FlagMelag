@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import javachallenge.common.BlockType;
-import javachallenge.common.Map;
 import javachallenge.common.Point;
 import javachallenge.graphics.components.FileChooser;
 import javachallenge.graphics.components.MapPanel;
@@ -23,6 +22,7 @@ import javachallenge.graphics.util.AnimatedImage;
 import javachallenge.graphics.util.ColorMaker;
 import javachallenge.graphics.util.ImageHolder;
 import javachallenge.graphics.util.Position;
+import javachallenge.server.Map;
 import javachallenge.server.ServerMap;
 
 public class MapEditor extends PlayGround {

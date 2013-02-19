@@ -8,7 +8,6 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 import javachallenge.common.BlockType;
-import javachallenge.common.Map;
 import javachallenge.common.Point;
 
 import com.google.gson.Gson;
