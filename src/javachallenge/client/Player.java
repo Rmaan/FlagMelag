@@ -39,6 +39,9 @@ public abstract class Player {
 		}
 	}
 	
+	/**
+	 * @return ID of your agents
+	 */
 	public ArrayList<Integer> getAgentIds(){
 		return agentAliveId ;
 	}
@@ -55,14 +58,13 @@ public abstract class Player {
 		agents.add(agent) ;
 	}
 	
-	public ArrayList<Agent> getAgents(){
-		return agents ;
-	}
-
 	public int getTeamId(){
 		return id ;
 	}
 	
+	/**
+	 * @return Agent with specified id or null if wrong id
+	 */
 	public Agent getAgentById(int agentId){
 		for (Agent agent : agents) {
 			if (agent.getId() == agentId)
