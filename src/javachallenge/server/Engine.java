@@ -23,6 +23,11 @@ import javachallenge.graphics.util.Position;
 public class Engine {
 	private static final int FLAG_POINT = 100;
 	private static final int COST_PER_STEP = -1;
+	private static final int GAME_CYCLES = 725;
+	private static final int SPAWN_MARGIN = 6;
+	private static final int SPAWN_LOW_PERIOD = 0;
+	private static final int SPAWN_NORM_PERIOD = 3;
+
 	
 	private ServerMap map;
 	private int cycle, teamCount;
@@ -30,13 +35,8 @@ public class Engine {
 	private boolean gameEnded = false;
 	private ArrayList<Agent> deadAgents;
 	private ArrayList<Agent> spawnedAgents;
-	
-	private final int GAME_CYCLES = 725;
 	private GraphicClient graphicClient;
 	
-	private final int SPAWN_MARGIN = 6;
-	private final int SPAWN_LOW_PERIOD = 0;
-	private final int SPAWN_NORM_PERIOD = 1;
 	
 	public boolean gameIsOver() {
 		return gameEnded;
