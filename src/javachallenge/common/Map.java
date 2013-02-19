@@ -76,10 +76,4 @@ public class Map implements Serializable {
 	public void setFlagLocations(ArrayList<Point> flags) {
 		this.flagLocations = flags ;
 	}
-	
-	public Map shallowClone() {
-		Map m = new Map(wid, hei, teamCount, spawnLocations, flagLocations);
-		m.map = this.map;
-		return m;
-	}
 }
