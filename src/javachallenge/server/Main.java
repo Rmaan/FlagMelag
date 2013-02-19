@@ -81,7 +81,7 @@ public class Main {
 			for (int i = 0; i < sampleMap.getTeamCount(); i++) {
 				ClientMessage msg = connections.get(i).getClientMessage();
 				if (msg == null) {
-					System.out.println("Team " + i + " message miss");
+					System.out.println("Team " + i + " message loss");
 				} else {
 					allActions.addAll(msg.getActions(i));
 				}

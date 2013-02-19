@@ -8,6 +8,7 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 import javachallenge.common.BlockType;
+import javachallenge.common.Direction;
 import javachallenge.common.Point;
 
 import com.google.gson.Gson;
@@ -127,5 +128,14 @@ public class ServerMap extends Map {
 
 	public ArrayList<Flag> getFlags() {
 		return flags;
+	}
+	
+	public boolean[] getFire(Point p) {
+		boolean[] b = new boolean[6];
+		for (int i = 0; i < 6; i++) {
+			Point newp = p.applyDirection(Direction.values()[i]);
+			b[i] = hasFlag(newp);
+		}
+		return b;
 	}
 }

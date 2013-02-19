@@ -20,7 +20,12 @@ public class MyPlayer extends Player {
 		
 		for (int id: getAgentIds()) {
 			Agent agent = this.getAgentById(id);
+			
 			agent.doMove(Direction.values()[rnd.nextInt(6)]);
+			
+			for (Direction d: Direction.values())
+				if (agent.hasFire(d))
+					agent.doMove(d);
 		}
 	}
 }

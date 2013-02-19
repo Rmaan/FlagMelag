@@ -268,7 +268,7 @@ public class Engine {
 					agentTeamId[i] = opAgent.getTeamId();
 				}
 			}
-			result.add(new AgentMessage(agent.getId(), loc, map.getBlockTypes(loc), agentTeamId));
+			result.add(new AgentMessage(agent.getId(), loc, map.getBlockTypes(loc), map.getFire(loc), agentTeamId));
 		}
 		return result;
 	}
