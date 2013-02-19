@@ -1,9 +1,12 @@
-package javachallenge.common;
+package javachallenge.server;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 import javachallenge.ImproperlyConfiguredException;
+import javachallenge.common.BlockType;
+import javachallenge.common.Direction;
+import javachallenge.common.Point;
 
 public class Map implements Serializable {
 	private static final long serialVersionUID = 96375824927929628L;
@@ -55,7 +58,7 @@ public class Map implements Serializable {
 	
 	public BlockType getBlockType(Point p) {
 		if (!isInsideMap(p))
-			return BlockType.OUT ;
+			return BlockType.OUT_OF_MAP ;
 		return map[p.x][p.y];
 	}
 	

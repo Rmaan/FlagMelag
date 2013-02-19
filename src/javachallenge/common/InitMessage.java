@@ -2,6 +2,8 @@ package javachallenge.common;
 
 import java.io.Serializable;
 
+import javachallenge.server.Map;
+
 public class InitMessage implements Serializable {
 	public int getMapWidth() {
 		return mapWidth;

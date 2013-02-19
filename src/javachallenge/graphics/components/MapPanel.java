@@ -7,11 +7,11 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Random;
 
-import javachallenge.common.Map;
 import javachallenge.common.Point;
 import javachallenge.graphics.util.ColorMaker;
 import javachallenge.graphics.util.ImageHolder;
 import javachallenge.graphics.util.Position;
+import javachallenge.server.Map;
 import javachallenge.server.ServerMap;
 
 import javax.swing.ImageIcon;

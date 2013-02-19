@@ -4,5 +4,5 @@ public enum BlockType {
 	GROUND,
 	WALL,
 	RIVER,
-	OUT,
+	OUT_OF_MAP,
 }

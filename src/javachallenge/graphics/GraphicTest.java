@@ -6,9 +6,9 @@ import java.io.ObjectInputStream;
 import java.util.Scanner;
 
 import javachallenge.common.Direction;
-import javachallenge.common.Map;
 import javachallenge.graphics.GraphicClient;
 import javachallenge.graphics.util.Position;
+import javachallenge.server.Map;
 import javachallenge.server.ServerMap;
 
 public class GraphicTest {
