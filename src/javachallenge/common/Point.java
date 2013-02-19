@@ -119,5 +119,7 @@ public class Point implements Serializable {
 		return true;
 	}
 	
-	
+	public String toString(){
+		return "(" + x + " , " + y + ")";
+	}
 }

@@ -35,4 +35,10 @@ public class Action implements Serializable{
 	public void setTeamId(int teamId){
 		this.teamId = teamId;
 	}
+
+	@Override
+	public String toString() {
+		return "Action [type=" + type + ", dir=" + dir + ", id=" + id
+				+ ", teamId=" + teamId + "]";
+	}
 }
