@@ -106,7 +106,7 @@ public class ServerMap extends Map {
 		Gson gson = new Gson();
 		ServerMap obj = gson.fromJson(json, ServerMap.class);
 		obj.init();
-		System.out.println(obj.agents);
+	//	System.out.println(obj.agents);
 		
 		return obj;
 	}
