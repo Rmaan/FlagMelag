@@ -59,7 +59,7 @@ public abstract class Player {
 		return agents ;
 	}
 
-	public int getTeamId(){
+	int getTeamId(){
 		return id ;
 	}
 	
@@ -77,7 +77,7 @@ public abstract class Player {
 		}
 	}
 	
-	public ClientMessage endStep(){
+	ClientMessage endStep(){
 		ClientMessage clientMsg = new ClientMessage();
 		for (Agent agent: agents) {
 			Action act = agent.endStep();
