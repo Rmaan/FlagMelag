@@ -21,7 +21,6 @@ public class MyPlayer extends Player {
 		Random rnd = new Random();
 		cycle++;
 		
-		
 		for (int id: getAgentIds()) {
 			Agent agent = this.getAgentById(id);
 			
