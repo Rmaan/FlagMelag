@@ -32,6 +32,9 @@ public class Agent {
 		this.direction = null;
 	}
 	
+	/**
+	 * Moves agent in specified direction it end of cycle 
+	 */
 	public void doMove(Direction d) {
 		this.direction = d;
 	}
@@ -42,14 +45,23 @@ public class Agent {
 		return null;
 	}
 	
+	/**
+	 *  @return the block type of agent's passed direction
+	 */
 	public BlockType getAdjBlockType(Direction dir){
 		return blockTypes[dir.ordinal()];
 	}
 	
+	/**
+	 * @return true if there is a fire at agent's passed direction 
+	 */
 	public boolean hasFire(Direction dir) {
 		return fire[dir.ordinal()];
 	}
 	
+	/**
+	 * @return location agent standing
+	 */
 	public Point getLocation(){
 		return location ;
 	}

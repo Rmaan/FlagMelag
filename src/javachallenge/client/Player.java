@@ -39,6 +39,9 @@ public abstract class Player {
 		}
 	}
 	
+	/**
+	 * @return ID of your agents
+	 */
 	public ArrayList<Integer> getAgentIds(){
 		return agentAliveId ;
 	}
@@ -63,6 +66,9 @@ public abstract class Player {
 		return id ;
 	}
 	
+	/**
+	 * @return Agent with specified id or null if wrong id
+	 */
 	public Agent getAgentById(int agentId){
 		for (Agent agent : agents) {
 			if (agent.getId() == agentId)

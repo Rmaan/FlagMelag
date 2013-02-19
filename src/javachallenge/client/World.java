@@ -4,6 +4,9 @@ import javachallenge.common.InitMessage;
 import javachallenge.common.Point;
 import javachallenge.common.ServerMessage;
 
+/**
+ *  General information about the game (map width, height, spawn location, score)
+ */
 public class World {
 	private int score;
 	private int mapWidth, mapHeight;
