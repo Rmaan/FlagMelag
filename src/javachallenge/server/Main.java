@@ -24,9 +24,9 @@ public class Main {
 	private final int DBG_PAUSE_CYCLE_NUM = 30;
 	private final int DBG_PAUSE_CYCLE_TIME = 100;
 	
-	public void run() throws IOException, InterruptedException, OutOfMapException {
-		ServerSocket ss = new ServerSocket(PORT);
-		ServerMap sampleMap = ServerMap.load("map/m1.txt");
+	public void run(int listenPort, String mapFilename) throws IOException, InterruptedException, OutOfMapException {
+		ServerSocket ss = new ServerSocket(listenPort);
+		ServerMap sampleMap = ServerMap.load(mapFilename);
 		
 		Position[] tmpFlagPositions = new Position[sampleMap.getFlagLocations().size()];
 		for(int i = 0 ; i < sampleMap.getFlagLocations().size() ; i++) {
@@ -81,7 +81,7 @@ public class Main {
 			for (int i = 0; i < sampleMap.getTeamCount(); i++) {
 				ClientMessage msg = connections.get(i).getClientMessage();
 				if (msg == null) {
-			//		System.out.println("Team " + i + " message miss");
+					System.out.println("Team " + i + " message loss");
 				} else {
 					allActions.addAll(msg.getActions(i));
 				}
@@ -96,6 +96,6 @@ public class Main {
 	}
 	
 	public static void main(String[] args) throws IOException, InterruptedException, OutOfMapException {
-		new Main().run();
+		new Main().run(PORT, args.length < 1 ? "map/m1.txt" : args[0]);
 	}
 }

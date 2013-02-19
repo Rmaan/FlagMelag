@@ -12,6 +12,7 @@ public class Agent {
 	
 	private Point location;
 	private BlockType[] blockTypes;
+	private boolean[] fire;
 	int id;
 
 	private Direction direction;
@@ -22,8 +23,9 @@ public class Agent {
 	}
 
 	void updateAgent(AgentMessage msg){
-		this.setLocation(msg.getLocation());
-		this.setAdjBlockType(msg.getBlockTypes()) ;
+		location = msg.getLocation();
+		blockTypes = msg.getBlockTypes();
+		fire = msg.getFire();
 	}
 	
 	void beginStep() {
@@ -40,16 +42,12 @@ public class Agent {
 		return null;
 	}
 	
-	private void setAdjBlockType(BlockType[] blockTypes) {
-		this.blockTypes = blockTypes ;
-	}
-
-	private void setLocation(Point location) {
-		this.location = location ;
-	}
-	
 	public BlockType getAdjBlockType(Direction dir){
 		return blockTypes[dir.ordinal()];
+	}
+	
+	public boolean hasFire(Direction dir) {
+		return fire[dir.ordinal()];
 	}
 	
 	public Point getLocation(){
