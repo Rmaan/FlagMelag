@@ -64,8 +64,8 @@ public class Player extends Behrooz {
 		Random random = new Random(System.currentTimeMillis());
 		World myWorld = this.getWorld();
 		// myWorld.getMap().get
-		int height = this.getWorld().getMap().getHei();
-		int width = this.getWorld().getMap().getWid();
+		int height = this.getWorld().getMapHeight();
+		int width = this.getWorld().getMapWidth();
 		// Point[] flagLocs= (Point[])
 		// (myWorld.getMap().getFlagLocations().toArray());
 

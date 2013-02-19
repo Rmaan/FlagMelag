@@ -2,6 +2,7 @@ package javachallenge.client;
 
 import java.util.ArrayList;
 
+
 import javachallenge.common.Action;
 import javachallenge.common.AgentMessage;
 import javachallenge.common.ClientMessage;
@@ -11,11 +12,9 @@ import javachallenge.common.ServerMessage;
 
 public class Behrooz {
 	private int id ;
-	private Point spawnLocation ;
 	private ArrayList<Agent> agents ;
 	private ArrayList<Integer> agentAliveId ;
 	private World world ;
-	private ArrayList<Integer> deadAgentsId;
 	private ClientMessage clientMsg; 
 	
 	public Behrooz(World world) {
@@ -23,27 +22,21 @@ public class Behrooz {
 		//-------------------
 		agents = new ArrayList<Agent>() ;
 		agentAliveId = null ;
-		deadAgentsId = null ;
 	}
 	
 	
 	public World getWorld(){
 		return this.world;
 	}
+	
 	void initMsg(InitMessage msg){
-		world.setMap(msg.getMap()) ;
-		this.id = msg.getTeamId() ;
-		this.spawnLocation = world.getSpawnLocation(this.id);
-		
-		//------------------------
-//		System.err.println(msg.getMap().getHei() + " " + msg.getMap().getWid());
-//		System.err.println(msg.getTeamId());
-//		System.err.println("(" + this.spawnLocation.x + ", " + this.spawnLocation.y + ")");
+		this.id = 0;
+		world.update(msg);
 	}
 	
 	void updateMsg(ServerMessage msg){
+		world.update(msg);
 		respawn(msg.getSpawnedId()) ;
-		setScore(msg.getScores());
 		//-------------------------------
 		agentAliveId = new ArrayList<Integer>() ;
 		for (AgentMessage agentMsg : msg.getAgentMsg()) {
@@ -51,59 +44,59 @@ public class Behrooz {
 			agentAliveId.add(agentMsg.getId()) ;
 		}
 		//-------------------------------
-		setDeadAgent(msg.getDeadAgents());
+//		setDeadAgent(msg.getDeadAgents());
 	}
 	
 	public ArrayList<Integer> getAgentAliveId(){
 		return agentAliveId ;
 	}
 	
-	public ArrayList<Integer> getDeadAgentId(){
-		return deadAgentsId ;
-	}
+//	public ArrayList<Integer> getDeadAgentId(){
+//		return deadAgentsId ;
+//	}
 	
-	private void setDeadAgent(ArrayList<Integer> deadAgentsId) {
-		for (Integer agentId : deadAgentsId) {
-			Agent agent = getAgentById(agentId) ;
-			agent.die() ;
-		}
-		this.deadAgentsId = deadAgentsId ;
-	}
+//	private void setDeadAgent(ArrayList<Integer> deadAgentsId) {
+//		for (Integer agentId : deadAgentsId) {
+//			Agent agent = getAgentById(agentId) ;
+//			agent.die() ;
+//		}
+//		this.deadAgentsId = deadAgentsId ;
+//	}
 
 	private void setAgentMsg(AgentMessage agentMsg) {
 		Agent agent = getAgentById(agentMsg.getId());
 		agent.updateAgent(agentMsg); 
 	}
 
-	private void setScore(ArrayList<Integer> scores) {
-		world.setScore(scores) ;
-	}
+//	private void setScore(ArrayList<Integer> scores) {
+//		world.setScore(scores) ;
+//	}
 
 	private void respawn(int spawnedId) {
 		
 		if (spawnedId == Agent.noAgent) 
 			return ;
-		Agent agent = new Agent(spawnedId, this.spawnLocation) ;
+		Agent agent = new Agent(spawnedId, world.getSpawnLocation()) ;
 		agents.add(agent) ;
 		
 	//	System.err.println("Client, Spawn:" + agent.getId());
 	}
 	
-	public int getScore(){
-		return world.getScore(id) ;
-	}
-
-	public int getTeamScore(int teamId){
-		return world.getScore(teamId) ;
-	}
+//	public int getScore(){
+//		return world.getScore(id) ;
+//	}
+//
+//	public int getTeamScore(int teamId){
+//		return world.getScore(teamId) ;
+//	}
 	
 	public ArrayList<Agent> getAgents(){
 		return agents ;
 	}
 
-	public Point getSpawnLocation(){
-		return spawnLocation ;
-	}
+//	public Point getSpawnLocation(){
+//		return spawnLocation ;
+//	}
 	
 	public int getTeamId(){
 		return id ;

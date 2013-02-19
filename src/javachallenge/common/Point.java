@@ -93,6 +93,11 @@ public class Point implements Serializable {
 		}
 		return new Point(x, y);
 	}
+	
+	@Override
+	public String toString() {
+		return String.format("Point(%d, %d)", this.x, this.y);
+	}
 
 	@Override
 	public int hashCode() {
@@ -119,7 +124,4 @@ public class Point implements Serializable {
 		return true;
 	}
 	
-	public String toString(){
-		return "(" + x + " , " + y + ")";
-	}
 }
