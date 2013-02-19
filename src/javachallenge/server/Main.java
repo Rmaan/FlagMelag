@@ -50,7 +50,10 @@ public class Main {
 		engine.endStep();
 		
 		
-		while (!engine.gameIsOver()) {
+		int temp = 3 ;
+		while (!engine.gameIsOver() || temp != 0) {
+			temp += (engine.gameIsOver() ? -1 : 0) ;
+			
 			System.out.println("Cycle " + engine.getCycle());
 			
 			ArrayList<ServerMessage> stepMessage = engine.getStepMessage();
