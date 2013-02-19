@@ -59,8 +59,8 @@ public class ServerMessage implements Serializable {
 		return deadAgents ;
 	}
 	
-	public void setGameEnded(){
-		isGameEnded = false ;
+	public void setGameEnded(boolean gameEnded){
+		isGameEnded = gameEnded ;
 	}
 	
 	public boolean isGameEnded(){

@@ -21,7 +21,7 @@ import javachallenge.graphics.GraphicClient.OutOfMapException;
 import javachallenge.graphics.util.Position;
 
 public class Engine {
-	private static final int FLAG_POINT = 50;
+	private static final int FLAG_POINT = 100;
 	private static final int COST_PER_STEP = -1;
 	
 	private ServerMap map;
@@ -305,6 +305,7 @@ public class Engine {
 			msg.setScores(scores);
 			msg.setDeadAgents(getDeadAgents(t.getId()));
 			msg.setAgentMsg(getAgentMessages(t.getId()));
+			msg.setGameEnded(this.gameIsOver()) ;
 			msgs.add(msg);
 		}
 		

@@ -56,7 +56,7 @@ public class Main {
 		
 		Scanner scn = DBG_PAUSE_ENABLED ? new Scanner(System.in) : null;
 		
-		int temp = 3 ;
+		int temp = 1 ;
 		while (!engine.gameIsOver() || temp != 0) {
 			temp += (engine.gameIsOver() ? -1 : 0) ;
 			
