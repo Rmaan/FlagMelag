@@ -20,8 +20,6 @@ public class ServerMap extends Map {
 	private transient Agent[][] agents;
 	private transient ArrayList<Flag> flags;
 	
-	protected ArrayList<Point> flagLocations;
-	
 	private void init() {
 		agents = new Agent[getWid()][getHei()];
 		//------------------------------------
