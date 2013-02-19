@@ -9,11 +9,8 @@ public class InitMessage implements Serializable {
 	int teamId;
 	
 	public InitMessage(Map map, int teamId) {
-		super();
-		//--------------- //TODO
-		this.map = map;
-		//this.map.setFlagLocations(null) ;
-		//---------------
+		this.map = map.shallowClone();
+		this.map.setFlagLocations(null) ;
 		this.teamId = teamId;
 	}
 
