@@ -24,7 +24,6 @@ public class Behrooz {
 		agentAliveId = null ;
 	}
 	
-	
 	public World getWorld(){
 		return this.world;
 	}
@@ -47,6 +46,9 @@ public class Behrooz {
 //		setDeadAgent(msg.getDeadAgents());
 	}
 	
+	/**
+	 * @return an ArrayList of Id's of the team's agents
+	 */
 	public ArrayList<Integer> getAgentAliveId(){
 		return agentAliveId ;
 	}
@@ -63,6 +65,7 @@ public class Behrooz {
 //		this.deadAgentsId = deadAgentsId ;
 //	}
 
+	
 	private void setAgentMsg(AgentMessage agentMsg) {
 		Agent agent = getAgentById(agentMsg.getId());
 		agent.updateAgent(agentMsg); 
@@ -90,6 +93,9 @@ public class Behrooz {
 //		return world.getScore(teamId) ;
 //	}
 	
+	/**
+	 * @return an ArrayList of Agent objects of all the team's agents
+	 */
 	public ArrayList<Agent> getAgents(){
 		return agents ;
 	}
@@ -102,6 +108,10 @@ public class Behrooz {
 		return id ;
 	}
 	
+	/**
+	 * @param agentId
+	 * @return the Agent object of the given id, null if the id is invalid.
+	 */
 	public Agent getAgentById(int agentId){
 		for (Agent agent : agents) {
 			if (agent.getId() == agentId)
