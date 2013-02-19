@@ -3,8 +3,6 @@ package javachallenge.common;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import javachallenge.NotImplementedException;
-
 public class ClientMessage implements Serializable{
 	private static final long serialVersionUID = 9109211941037476652L;
 	

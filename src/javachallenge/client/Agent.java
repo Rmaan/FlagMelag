@@ -12,6 +12,7 @@ public class Agent {
 	
 	private Point location;
 	private BlockType[] blockTypes;
+	private boolean[] fire;
 	int id;
 
 	private Direction direction;
@@ -22,14 +23,18 @@ public class Agent {
 	}
 
 	void updateAgent(AgentMessage msg){
-		this.setLocation(msg.getLocation());
-		this.setAdjBlockType(msg.getBlockTypes()) ;
+		location = msg.getLocation();
+		blockTypes = msg.getBlockTypes();
+		fire = msg.getFire();
 	}
 	
 	void beginStep() {
 		this.direction = null;
 	}
 	
+	/**
+	 * Moves agent in specified direction it end of cycle 
+	 */
 	public void doMove(Direction d) {
 		this.direction = d;
 	}
@@ -40,18 +45,23 @@ public class Agent {
 		return null;
 	}
 	
-	private void setAdjBlockType(BlockType[] blockTypes) {
-		this.blockTypes = blockTypes ;
-	}
-
-	private void setLocation(Point location) {
-		this.location = location ;
-	}
-	
+	/**
+	 *  @return the block type of agent's passed direction
+	 */
 	public BlockType getAdjBlockType(Direction dir){
 		return blockTypes[dir.ordinal()];
 	}
 	
+	/**
+	 * @return true if there is a fire at agent's passed direction 
+	 */
+	public boolean hasFire(Direction dir) {
+		return fire[dir.ordinal()];
+	}
+	
+	/**
+	 * @return location agent standing
+	 */
 	public Point getLocation(){
 		return location ;
 	}

@@ -39,6 +39,9 @@ public abstract class Player {
 		}
 	}
 	
+	/**
+	 * @return ID of your agents
+	 */
 	public ArrayList<Integer> getAgentIds(){
 		return agentAliveId ;
 	}
@@ -59,10 +62,13 @@ public abstract class Player {
 		return agents ;
 	}
 
-	public int getTeamId(){
+	int getTeamId(){
 		return id ;
 	}
 	
+	/**
+	 * @return Agent with specified id or null if wrong id
+	 */
 	public Agent getAgentById(int agentId){
 		for (Agent agent : agents) {
 			if (agent.getId() == agentId)
@@ -77,7 +83,7 @@ public abstract class Player {
 		}
 	}
 	
-	public ClientMessage endStep(){
+	ClientMessage endStep(){
 		ClientMessage clientMsg = new ClientMessage();
 		for (Agent agent: agents) {
 			Action act = agent.endStep();

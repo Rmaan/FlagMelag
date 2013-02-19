@@ -1,12 +1,12 @@
 package javachallenge.client;
 
-import java.util.ArrayList;
-
 import javachallenge.common.InitMessage;
 import javachallenge.common.Point;
 import javachallenge.common.ServerMessage;
-import javachallenge.server.Map;
 
+/**
+ *  General information about the game (map width, height, spawn location, score)
+ */
 public class World {
 	private int score;
 	private int mapWidth, mapHeight;
@@ -28,13 +28,13 @@ public class World {
 		return spawnLocation;
 	}
 
-	public void update(InitMessage msg) {
+	void update(InitMessage msg) {
 		this.mapHeight = msg.getMapHeight();
 		this.mapWidth = msg.getMapWidth();
 		this.spawnLocation = msg.getSpawnLocation();
 	}
 
-	public void update(ServerMessage msg) {
+	void update(ServerMessage msg) {
 		this.score = msg.getScores().get(0);
 	}
 }
