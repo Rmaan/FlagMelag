@@ -287,7 +287,7 @@ public class Engine {
 		ArrayList<InitMessage> msgs = new ArrayList<InitMessage>();
 
 		for (Team t: teams) {
-			InitMessage msg = new InitMessage(this.map, t.getId());
+			InitMessage msg = new InitMessage(this.map);
 			msgs.add(msg);
 		}
 		return msgs;
