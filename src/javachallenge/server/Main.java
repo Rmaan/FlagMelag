@@ -40,7 +40,7 @@ public class Main {
 		ArrayList<TeamConnection> connections = new ArrayList<TeamConnection>();
 		
 		for (int i = 0; i < sampleMap.getTeamCount(); i++) {
-			System.out.println("Waiting for team " + i);
+	//		System.out.println("Waiting for team " + i);
 			Socket socket = ss.accept();
 			connections.add(new TeamConnection(engine.getTeam(i), socket));
 		}
@@ -57,7 +57,7 @@ public class Main {
 		Scanner scn = DBG_PAUSE_ENABLED ? new Scanner(System.in) : null;
 		
 		while (!engine.gameIsOver()) {
-			System.out.println("Cycle " + engine.getCycle());
+	//		System.out.println("Cycle " + engine.getCycle());
 			
 			ArrayList<ServerMessage> stepMessage = engine.getStepMessage();
 			for (int i = 0; i < sampleMap.getTeamCount(); i++) {
@@ -78,7 +78,7 @@ public class Main {
 			for (int i = 0; i < sampleMap.getTeamCount(); i++) {
 				ClientMessage msg = connections.get(i).getClientMessage();
 				if (msg == null) {
-					System.out.println("Team " + i + " message miss");
+			//		System.out.println("Team " + i + " message miss");
 				} else {
 					allActions.addAll(msg.getActions(i));
 				}

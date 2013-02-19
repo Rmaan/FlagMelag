@@ -28,20 +28,20 @@ public class Controller {
 	
 	public Controller(String IP, int PORT) throws Exception{
 		
-		System.out.println("Creating socket...");
+	//	System.out.println("Creating socket...");
 		Socket s = new Socket(IP, PORT);
 		in = new ObjectInputStream(s.getInputStream());
 		out = new ObjectOutputStream(s.getOutputStream());
 		
-		System.out.println("Creating player & world...");
+	//	System.out.println("Creating player & world...");
 		world = new World();
 		player = new 	Player(world) ;
 		
-		System.out.println("Waiting for initial Msg...");
+	//	System.out.println("Waiting for initial Msg...");
 		InitMessage initMsg = (InitMessage)in.readObject();
 		player.initMsg(initMsg);
 		
-		System.out.println("Starting the game?!...");
+	//	System.out.println("Starting the game?!...");
 		new Thread(){
 			public void run() {
 				try {

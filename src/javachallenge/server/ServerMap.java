@@ -20,8 +20,6 @@ public class ServerMap extends Map {
 	private transient Agent[][] agents;
 	private transient ArrayList<Flag> flags;
 	
-	protected ArrayList<Point> flagLocations;
-	
 	private void init() {
 		agents = new Agent[getWid()][getHei()];
 		//------------------------------------
@@ -108,7 +106,7 @@ public class ServerMap extends Map {
 		Gson gson = new Gson();
 		ServerMap obj = gson.fromJson(json, ServerMap.class);
 		obj.init();
-		System.out.println(obj.agents);
+	//	System.out.println(obj.agents);
 		
 		return obj;
 	}

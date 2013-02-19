@@ -74,7 +74,7 @@ public class GraphicClient {
 			}
 		});
 		for (int i = 0; i < positions.length; i++) {
-			System.err.println(i+ positions[i].getX()+" "+positions[i].getY());
+		//	System.err.println(i+ positions[i].getX()+" "+positions[i].getY());
 			if (isOut(positions[i])) throw new OutOfMapException();
 			Sprite flag = new AnimatedImage(ImageHolder.Objects.fire, 125, positions[i]);
 			flags.put(i+1, flag);
