@@ -4,15 +4,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
+import javachallenge.client.myplayer.MyPlayer;
 import javachallenge.common.ClientMessage;
 import javachallenge.common.InitMessage;
 import javachallenge.common.ServerMessage;
 
 public class Controller {
-	private static int PORT = 5555;
-	private static String IP = "127.0.0.1";
-	
 	protected static final long WAIT_TIME = 50;
 	Player player ;
 	private ServerMessage serverMsg;
@@ -21,27 +20,25 @@ public class Controller {
 	private boolean gameEnded = false;
 	private World world;
 	
-	private final int CYCLE_TIME = 500;
 	private ObjectOutputStream out;
 	private ObjectInputStream   in;
 	
 	
-	public Controller(String IP, int PORT) throws Exception{
-		
+	public Controller(String IP, int PORT) throws UnknownHostException, IOException, ClassNotFoundException {
 		System.out.println("Creating socket...");
-		Socket s = new Socket(IP, PORT);
+		final Socket s = new Socket(IP, PORT);
 		in = new ObjectInputStream(s.getInputStream());
 		out = new ObjectOutputStream(s.getOutputStream());
 		
-		System.out.println("Creating player & world...");
+//		System.out.println("Creating player & world...");
 		world = new World();
-		player = new 	Player(world) ;
+		player = new MyPlayer(world) ;
 		
 		System.out.println("Waiting for initial Msg...");
 		InitMessage initMsg = (InitMessage)in.readObject();
 		player.initMsg(initMsg);
 		
-		System.out.println("Starting the game?!...");
+		System.out.println("Starting game");
 		new Thread(){
 			public void run() {
 				try {
@@ -76,15 +73,17 @@ public class Controller {
 							}
 							player.updateMsg(msg) ;
 							//------------------------
-							player.prepareClientMsg();
+							player.beginStep();
 							player.step() ;
-							ClientMessage cMsg = player.getClientMsg() ;
+							ClientMessage cMsg = player.endStep() ;
+							System.out.println("Sending actions");
 							out.writeObject(cMsg);
 						}
 						else{
 							Thread.sleep(WAIT_TIME);
 						}
 					}
+					s.close();
 				}
 				catch (Exception e) {
 					// TODO: handle exception
@@ -92,10 +91,5 @@ public class Controller {
 				}
 			};
 		}.start();
-	}
-	
-	
-	public static void main(String[] args) throws Exception {
-		new Controller(IP, PORT);
 	}
 }

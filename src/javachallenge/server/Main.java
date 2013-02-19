@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javachallenge.common.Action;
 import javachallenge.common.ClientMessage;
@@ -18,6 +19,10 @@ public class Main {
 	private static int PORT = 5555;
 	private static int CYCLE_TIME = 500;
 	private GraphicClient graphicClient;
+	
+	private final boolean DBG_PAUSE_ENABLED = false;
+	private final int DBG_PAUSE_CYCLE_NUM = 30;
+	private final int DBG_PAUSE_CYCLE_TIME = 100;
 	
 	public void run() throws IOException, InterruptedException, OutOfMapException {
 		ServerSocket ss = new ServerSocket(PORT);
@@ -35,7 +40,7 @@ public class Main {
 		ArrayList<TeamConnection> connections = new ArrayList<TeamConnection>();
 		
 		for (int i = 0; i < sampleMap.getTeamCount(); i++) {
-			System.out.println("Waiting for team " + i);
+			System.out.println("Waiting for team " + i + " to connect...");
 			Socket socket = ss.accept();
 			connections.add(new TeamConnection(engine.getTeam(i), socket));
 		}
@@ -49,6 +54,7 @@ public class Main {
 		engine.teamStep(new ArrayList<Action>());
 		engine.endStep();
 		
+		Scanner scn = DBG_PAUSE_ENABLED ? new Scanner(System.in) : null;
 		
 		int temp = 3 ;
 		while (!engine.gameIsOver() || temp != 0) {
@@ -62,13 +68,20 @@ public class Main {
 				connections.get(i).clearClientMessage();
 			}
 			
-			Thread.sleep(CYCLE_TIME);
+			if (DBG_PAUSE_ENABLED) {
+				if (engine.getCycle() < DBG_PAUSE_CYCLE_NUM)
+					Thread.sleep(DBG_PAUSE_CYCLE_TIME);
+				else
+					scn.nextLine();
+			} else {
+				Thread.sleep(CYCLE_TIME);
+			}
 
 			ArrayList<Action> allActions = new ArrayList<Action>();
 			for (int i = 0; i < sampleMap.getTeamCount(); i++) {
 				ClientMessage msg = connections.get(i).getClientMessage();
 				if (msg == null) {
-					System.out.println("Team " + i + " message miss");
+			//		System.out.println("Team " + i + " message miss");
 				} else {
 					allActions.addAll(msg.getActions(i));
 				}

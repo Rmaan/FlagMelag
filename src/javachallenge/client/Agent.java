@@ -1,5 +1,7 @@
 package javachallenge.client;
 
+import javachallenge.common.Action;
+import javachallenge.common.ActionType;
 import javachallenge.common.AgentMessage;
 import javachallenge.common.BlockType;
 import javachallenge.common.Direction;
@@ -10,10 +12,9 @@ public class Agent {
 	
 	private Point location;
 	private BlockType[] blockTypes;
-	private int[] agentTeamId;
 	int id;
 
-	private boolean alive;
+	private Direction direction;
 
 	public Agent(int spawnedId, Point spawnLocation) {
 		this.id = spawnedId ;
@@ -23,13 +24,22 @@ public class Agent {
 	void updateAgent(AgentMessage msg){
 		this.setLocation(msg.getLocation());
 		this.setAdjBlockType(msg.getBlockTypes()) ;
-		this.setAdjAgentId(msg.getAgentTeamId()) ;
 	}
-
-	private void setAdjAgentId(int[] agentTeamId) {
-		this.agentTeamId = agentTeamId ;
+	
+	void beginStep() {
+		this.direction = null;
 	}
-
+	
+	public void doMove(Direction d) {
+		this.direction = d;
+	}
+	
+	Action endStep() {
+		if (direction != null)
+			return new Action(ActionType.MOVE, direction, id);
+		return null;
+	}
+	
 	private void setAdjBlockType(BlockType[] blockTypes) {
 		this.blockTypes = blockTypes ;
 	}
@@ -38,16 +48,8 @@ public class Agent {
 		this.location = location ;
 	}
 	
-	public int getAdjEnemyTeamId(Direction dir){
-		return agentTeamId[dir.ordinal()];
-	}
-	
 	public BlockType getAdjBlockType(Direction dir){
 		return blockTypes[dir.ordinal()];
-	}
-	
-	public boolean hasAdjEnemy(Direction dir){
-		return getAdjEnemyTeamId(dir) != noAgent ;
 	}
 	
 	public Point getLocation(){
@@ -56,14 +58,5 @@ public class Agent {
 
 	public int getId() {
 		return this.id;
-	}
-
-	public void die() {
-		this.alive = false ;
-		
-	}
-
-	public boolean isAlive() {
-		return this.alive;
 	}
 }

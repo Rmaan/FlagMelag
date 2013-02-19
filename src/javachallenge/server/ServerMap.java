@@ -8,7 +8,6 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 import javachallenge.common.BlockType;
-import javachallenge.common.Map;
 import javachallenge.common.Point;
 
 import com.google.gson.Gson;
@@ -19,8 +18,6 @@ public class ServerMap extends Map {
 	
 	private transient Agent[][] agents;
 	private transient ArrayList<Flag> flags;
-	
-	protected ArrayList<Point> flagLocations;
 	
 	private void init() {
 		agents = new Agent[getWid()][getHei()];
@@ -83,7 +80,8 @@ public class ServerMap extends Map {
 			out = new OutputStreamWriter(new FileOutputStream(filename));
 			out.write(json);
 		} finally {
-			out.close();
+			if (out != null)
+				out.close();
 		}
 	}
 	
@@ -99,14 +97,15 @@ public class ServerMap extends Map {
 				line = f.readLine();
 			}
 		} finally {
-			f.close();
+			if (f != null)
+				f.close();
 		}
 		
 		String json = sb.toString();
 		Gson gson = new Gson();
 		ServerMap obj = gson.fromJson(json, ServerMap.class);
 		obj.init();
-		System.out.println(obj.agents);
+	//	System.out.println(obj.agents);
 		
 		return obj;
 	}

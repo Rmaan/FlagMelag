@@ -2,26 +2,29 @@ package javachallenge.common;
 
 import java.io.Serializable;
 
+import javachallenge.server.Map;
+
 public class InitMessage implements Serializable {
+	public int getMapWidth() {
+		return mapWidth;
+	}
+
+	public int getMapHeight() {
+		return mapHeight;
+	}
+
+	public Point getSpawnLocation() {
+		return spawnLocation;
+	}
+
 	private static final long serialVersionUID = -8951571199681260311L;
 	
-	Map map;
-	int teamId;
+	private int mapWidth, mapHeight;
+	private Point spawnLocation;
 	
-	public InitMessage(Map map, int teamId) {
-		super();
-		//--------------- //TODO
-		this.map = map;
-		//this.map.setFlagLocations(null) ;
-		//---------------
-		this.teamId = teamId;
-	}
-
-	public Map getMap() {
-		return map;
-	}
-
-	public int getTeamId() {
-		return teamId;
+	public InitMessage(Map map) {
+		mapWidth = map.getWid();
+		mapHeight = map.getHei();
+		spawnLocation = map.getSpawnLocations().get(0);
 	}
 }

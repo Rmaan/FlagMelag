@@ -223,7 +223,7 @@ public class Engine {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				System.err.println("add one agent " + newAgent.getId());
+//				System.err.println("add one agent " + newAgent.getId());
 			}
 			else{
 				spawnedAgents.add(null);
@@ -287,7 +287,7 @@ public class Engine {
 		ArrayList<InitMessage> msgs = new ArrayList<InitMessage>();
 
 		for (Team t: teams) {
-			InitMessage msg = new InitMessage(this.map, t.getId());
+			InitMessage msg = new InitMessage(this.map);
 			msgs.add(msg);
 		}
 		return msgs;
@@ -339,11 +339,11 @@ public class Engine {
 			if(map.isInsideMap(dest)){
 				int locNum = getNodeNum(loc);
 				int destNum = getNodeNum(dest);
-				System.out.println("ACtion");
-				System.out.println(loc);
-				System.out.println(locNum);
-				System.out.println(dest);
-				System.out.println(destNum);
+//				System.out.println("ACtion");
+//				System.out.println(loc);
+//				System.out.println(locNum);
+//				System.out.println(dest);
+//				System.out.println(destNum);
 				out.set(locNum, destNum);
 				outAct.set(locNum, act);
 				firstIn.get(destNum).add(locNum);
@@ -400,7 +400,7 @@ public class Engine {
 				routeActs.add(outAct.get(node));
 				seen[node] = true;
 				node = out.get(node);
-				System.out.print(node + " ");
+			//	System.out.print(node + " ");
 			}
 	//		System.out.println();
 	//		System.out.println(routeActs);
@@ -421,23 +421,23 @@ public class Engine {
 			}
 			if(cycleActs.size() > 2){
 				Action firstAct = cycleActs.get(0);
-				System.out.println("REMOVE " + getAgent(firstAct.getTeamId(), firstAct.getId()).getLocation());
+			//	System.out.println("REMOVE " + getAgent(firstAct.getTeamId(), firstAct.getId()).getLocation());
 				map.setAgent(getAgent(firstAct.getTeamId(), firstAct.getId()).getLocation(), null);
 				for(int j = cycleActs.size() - 1; j > 0; j--){
 					System.out.println(cycleActs.get(j));
 					moveAgent(cycleActs.get(j));
 				}
-				System.out.println("MOVES DONE");
+			//	System.out.println("MOVES DONE");
 				Agent a = getAgent(firstAct.getTeamId(), firstAct.getId());
 				Point dest = a.getLocation().applyDirection(firstAct.getDir());
-				System.out.println("Destionation " + dest);
-				System.out.println(a.getLocation());
-				System.out.println("DONE");
+			//	System.out.println("Destionation " + dest);
+			//	System.out.println(a.getLocation());
+			//	System.out.println("DONE");
 				a.setLocation(dest);
 				map.setAgent(dest, a);
 				Integer id = new Integer(a.getId()) ;
 				graphicClient.move(id, firstAct.getDir()) ;
-				System.out.println("DONE");
+			//	System.out.println("DONE");
 			}
 		}
 	}
