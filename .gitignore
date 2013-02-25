@@ -1,5 +1,6 @@
 .classpath
 .project
+.settings
 bin/
 resources/
 data/
@@ -7,3 +8,4 @@ map/
 *.class
 .DS_STORE
 thumbs.db
+*.jar

@@ -1,7 +1,6 @@
 package javachallenge.graphics;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.TreeMap;
 
 import javachallenge.common.Direction;
@@ -13,7 +12,8 @@ import javachallenge.graphics.util.AnimatedImage;
 import javachallenge.graphics.util.ImageHolder;
 import javachallenge.graphics.util.Mover;
 import javachallenge.graphics.util.Position;
-import javachallenge.server.ServerMap;
+import javachallenge.server.Game;
+import javachallenge.server.Map;
 
 public class GraphicClient {
 	public static int x[]={0,1,1,0,-1,-1};
@@ -21,8 +21,8 @@ public class GraphicClient {
 	public static int moveSpeed = 300, moveSteps = 25;
 	
 	protected MapPanel panel;
-	protected Map<Integer,Sprite> flags=new TreeMap<Integer,Sprite>();
-	protected Map<Integer,Sprite> units=new TreeMap<Integer,Sprite>();
+	protected java.util.Map<Integer,Sprite> flags=new TreeMap<Integer,Sprite>();
+	protected java.util.Map<Integer,Sprite> units=new TreeMap<Integer,Sprite>();
 	protected PlayGround ground;
 
 	public void setTime(int a)
@@ -44,7 +44,7 @@ public class GraphicClient {
 		this.panel = panel;
 	}
 	public GraphicClient(int width,int height, final Position[] positions) throws NullPointerException,OutOfMapException{
-		this (new ServerMap(width, height, 0, null, null) {
+		this (new Map(width, height, 0, null, null) {
 			{  
 				flagLocations = new ArrayList<Point>();
 				for (Position position : positions) 
@@ -52,7 +52,8 @@ public class GraphicClient {
 			}
 		});
 	}
-	public GraphicClient(ServerMap map) throws OutOfMapException
+	
+	public GraphicClient(Map map) throws OutOfMapException
 	{
 		Position[] positions=new Position[map.getFlagLocations().size()];
 		for (int i=0;i<map.getFlagLocations().size();i++)
