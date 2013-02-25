@@ -78,8 +78,12 @@ public class PlayGround extends Screen {
 				updateDimensions();
 			}
 		});
-		updateDimensions();
 		
+		// update dimensions based on size
+		Dimension dimension = MapPanel.getAbsoluteSize(mapPanel.getMapWidth(), mapPanel.getMapHeight());
+		setPreferredSize(new Dimension(dimension.width*4/3+40, dimension.height+60));
+
+		updateDimensions();
 		pack();
 	}
 	

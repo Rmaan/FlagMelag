@@ -19,7 +19,8 @@ public class GraphicTest {
 	public static void main(String[] args) throws Exception{
 		Map map=Map.load("data/maps/chert.map");
 		GraphicClient client=new GraphicClient(map);
-		JFrame frame=new JFrame();
+		//GraphicClient client = new GraphicClient(30, 14, new Position[] {}); 
+		/*JFrame frame=new JFrame();
 		frame.setLayout(null);
 		frame.getContentPane().setPreferredSize(new Dimension(400, 400));
 		final ProgressBar bar=new ProgressBar(10,10,100,20, Color.green,Color.red,0);
@@ -34,7 +35,7 @@ public class GraphicTest {
 				{
 					try
 					{
-						sleep(100);
+						sleep(20);
 					} catch (InterruptedException e)
 					{
 						e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -42,7 +43,7 @@ public class GraphicTest {
 					bar.updateProgressBar((double)i/100);
 				}
 			}
-		}.start();
+		}.start();*/
 		Scanner scanner=new Scanner(System.in);
 		while (true)
 		{
