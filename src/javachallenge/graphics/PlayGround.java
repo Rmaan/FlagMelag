@@ -51,7 +51,8 @@ public class PlayGround extends Screen {
 	public void updateDimensions() {
 		Dimension size = getSize();
 		mapPanel.setLocation(10, 10);
-		mapPanel.setSize(size.width * 3 / 4, size.height - 60);
+		mapPanel.setSize(size.width * 3 / 4, size.height - 110);
+		mapPanel.getPosition().setBounds(10, size.height-90,size.width*3/4,30);
 		if (sidebar!=null)
 		{
 			sidebar.setLocation(20 + mapPanel.getWidth(), 10);
@@ -64,8 +65,8 @@ public class PlayGround extends Screen {
 	
 	public void createScreenElements (MapPanel mapPanel) {
 		addMapPanel(mapPanel);
+		add(mapPanel.getPosition());
 		addSideBar();
-		
 		// remove loadings
 		for (Label loading : loadings) remove(loading);
 		
@@ -81,8 +82,7 @@ public class PlayGround extends Screen {
 		
 		// update dimensions based on size
 		Dimension dimension = MapPanel.getAbsoluteSize(mapPanel.getMapWidth(), mapPanel.getMapHeight());
-		setPreferredSize(new Dimension(dimension.width*4/3+40, dimension.height+60));
-
+		setPreferredSize(new Dimension(dimension.width*4/3+40, dimension.height+110));
 		updateDimensions();
 		pack();
 	}

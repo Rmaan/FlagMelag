@@ -23,7 +23,13 @@ public class MapPanel extends ScrollablePanel {
 	protected Sprite[][] blocks;
 	protected Sprite[][] fogs;
 	protected Sprite brush;
-	
+	protected Label position=new Label();
+
+	public Label getPosition()
+	{
+		return position;
+	}
+
 	public static Position getAbsolutePosition (int x, int y) {
 		return new Position(26 * x, 36 * y + 18 * (Math.abs(x) % 2));
 	}
@@ -108,6 +114,7 @@ public class MapPanel extends ScrollablePanel {
 	public void onExit(int x, int y) {}
 	public void onEnter(int x, int y) {
 		Position pos = getAbsolutePosition(x, y);
+		position.setText("Coordinate: ( "+x+" , "+y+" )");
 		brush.setLocation(pos.getX(), pos.getY());
 	}
 	public void onControllClick(int x, int y) {
