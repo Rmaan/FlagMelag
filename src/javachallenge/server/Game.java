@@ -50,14 +50,14 @@ public class Game {
 	}
 	
 	public boolean hasFlag(Point dest) {
-		return getFlag(dest) != null;
+		return getFlagByLocation(dest) != null;
 	}
 
 	public void setAgent(Point p, Agent agent){
 		agents[p.x][p.y] = agent;
 	}
 	
-	public Flag getFlag(Point dest) {
+	public Flag getFlagByLocation(Point dest) {
 		for (Flag flag : flags) {
 			if (flag.getLocation().equals(dest))
 				return flag ;

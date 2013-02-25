@@ -151,18 +151,20 @@ public class Engine {
 				agent.setLocation(dest);
 				Integer id = new Integer(agent.getId()) ;
 				graphicClient.move(id, dir) ;
+				
+				// TODO phase2 implement
 				//--------------------------- Move On The Flag  
-				if (game.hasFlag(dest)){
-					Flag flag = game.getFlag(dest); 
-					if (flag.isAlive()){
-						flag.obtain() ;
-						//--------------------------- Update graphic
-						graphicClient.obtainFlag(flag.getId() + 1);
-						//--------------------------- Update score
-						int teamId = action.getTeamId(); 
-						getTeam(teamId).updaetScore(FLAG_POINT) ;
-					}
-				}
+//				if (game.hasFlag(dest)){
+//					Flag flag = game.getFlagByLocation(dest); 
+//					if (flag.isAlive()){
+//						flag.obtain() ;
+//						//--------------------------- Update graphic
+//						graphicClient.obtainFlag(flag.getId() + 1);
+//						//--------------------------- Update score
+//						int teamId = action.getTeamId(); 
+//						getTeam(teamId).updaetScore(FLAG_POINT) ;
+//					}
+//				}
 				return true;
 			}
 		}
