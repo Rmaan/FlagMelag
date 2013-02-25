@@ -22,7 +22,6 @@ import javachallenge.graphics.util.Position;
 
 public class Engine {
 	private static final int FLAG_POINT = 100;
-	private static final int COST_PER_STEP = -1;
 	private static final int GAME_CYCLES = 725;
 	private static final int SPAWN_MARGIN = 6;
 	private static final int SPAWN_LOW_PERIOD = 0;
@@ -63,21 +62,15 @@ public class Engine {
 		spawnedAgents = new ArrayList<Agent>();
 	}
 	
-	private boolean PHASE_1 = true; 
 	
 	public void teamStep(ArrayList<Action> actions){
 		if(gameEnded){
 			return;
 		}
-		if(PHASE_1 || cycle % 2 == 0){
-			//handle moves
+		if(cycle % 2 == 0){
 			handleMoves(actions);
-//			Collections.shuffle(actions);
-//			for(Action action : actions){
-//				moveAgent(action);
-//			}
 		}
-		if (!PHASE_1){
+		else{
 			//handle attacks
 			HashMap<Integer, ArrayList<Integer>> attackNum = new HashMap<Integer, ArrayList<Integer>>();
 			int[][] spawnAttacks = new int[teamCount][teamCount];
@@ -134,6 +127,13 @@ public class Engine {
 				}
 			}
 		}
+		
+		for(Flag flag : game.getFlags()){
+			Agent agent = game.getAgent(flag.getLocation());
+			Team team = (agent == null ? null : teams.get(agent.getTeamId()));
+			flag.step(team);
+		}
+		
 		cycle++;
 		//----------------------------------------------
 		if(cycle >= GAME_CYCLES){
@@ -250,8 +250,12 @@ public class Engine {
 	
 	//updates the scores of teams
 	private void updateScores(){
-		for (Team t: teams)
-			t.updaetScore(COST_PER_STEP);
+		for(Flag flag : game.getFlags()){
+			Team owner = flag.getOwner();
+			if(owner != null){
+				owner.updaetScore(FLAG_POINT);
+			}
+		}
 		if (teams.size() > 0){
 			// TODO team 0?! 
 			graphicClient.setScore(teams.get(0).getScore()) ;
@@ -285,7 +289,7 @@ public class Engine {
 					agentTeamId[i] = opAgent.getTeamId();
 				}
 			}
-			result.add(new AgentMessage(agent.getId(), loc, map.getBlockTypes(loc), game.getFire(loc), agentTeamId));
+			result.add(new AgentMessage(agent.getId(), loc, map.getBlockTypes(loc), agentTeamId));
 		}
 		return result;
 	}

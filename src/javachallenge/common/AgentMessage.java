@@ -11,7 +11,7 @@ public class AgentMessage implements Serializable {
 	private int[] agentTeamId;
 	private boolean[] fire;
 	
-	public AgentMessage(int id, Point location, BlockType[] blockTypes, boolean[] fire, int[] agentTeamId) {
+	public AgentMessage(int id, Point location, BlockType[] blockTypes, int[] agentTeamId) {
 		super();
 		this.id = id;
 		this.location = location;
