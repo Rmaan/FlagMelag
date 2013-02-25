@@ -109,16 +109,25 @@ public class Engine {
 				
 			}
 			for(Action action : actions){
-				Agent agent = getAgent(action.getTeamId(), action.getId());
-				Point dest = agent.getLocation().applyDirection(action.getDir());
-				Agent opAgent = map.getAgent(dest);
-				int firstTeamAttacks = Collections.frequency(attackNum.get(agent.getId()), opAgent.getId());
-				int secondTeamAttacks = Collections.frequency(attackNum.get(opAgent.getId()), agent.getId());
-				if(firstTeamAttacks >= secondTeamAttacks){
-					if(opAgent.isAlive()){
-						deadAgents.add(opAgent);
+				if(action.getType() == ActionType.NONE || action.getType() != ActionType.ATTACK){
+					continue;
+				}
+				try{
+					Agent agent = getAgent(action.getTeamId(), action.getId());
+					Point dest = agent.getLocation().applyDirection(action.getDir());
+					Agent opAgent = map.getAgent(dest);
+					int firstTeamAttacks = Collections.frequency(attackNum.get(opAgent.getId()), agent.getTeamId());
+					int secondTeamAttacks = Collections.frequency(attackNum.get(agent.getId()), opAgent.getTeamId());
+					if(firstTeamAttacks >= secondTeamAttacks){
+						if(opAgent.isAlive()){
+							deadAgents.add(opAgent);
+						}
+						opAgent.setAlive(false);
 					}
-					opAgent.setAlive(false);
+				}
+				catch (Exception e) {
+					System.out.println("Bad Agent : Team " + action.getTeamId());
+					continue;
 				}
 			}
 		}
