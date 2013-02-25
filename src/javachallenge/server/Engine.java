@@ -134,11 +134,6 @@ public class Engine {
 			flag.step(team);
 		}
 		
-		cycle++;
-		//----------------------------------------------
-		if(cycle >= GAME_CYCLES){
-			gameEnded = true;
-		}
 	}
 	
 	public int getCycle() {
@@ -148,6 +143,11 @@ public class Engine {
 	public void endStep(){
 		respawn();
 		updateScores();
+		cycle++;
+		//----------------------------------------------
+		if(cycle >= GAME_CYCLES){
+			gameEnded = true;
+		}
 	}
 	
 	//method to move the agents and check for the destination to be empty
@@ -223,10 +223,13 @@ public class Engine {
 	private void respawn(){
 		for(Team team : teams){
 			int spawnRate = (team.getAgents().size() >= SPAWN_MARGIN ? SPAWN_LOW_PERIOD : SPAWN_NORM_PERIOD);
-			if(spawnRate > 0 && cycle % spawnRate == 0 && game.getAgent(team.getSpawnLocation()) == null && team.isActiveSpawnPoint()){
+			int lastSpawned = team.getLastSpawned();
+			if(spawnRate > 0 && (lastSpawned < 0 || cycle - lastSpawned > spawnRate || (cycle - lastSpawned) % spawnRate == 0) 
+					&& game.getAgent(team.getSpawnLocation()) == null && team.isActiveSpawnPoint()){
 				Agent newAgent = team.addAgent();
 				game.spawnAgent(newAgent) ;
 				spawnedAgents.add(newAgent);
+				team.setLastSpawned(cycle);
 				
 				
 				Position p = new Position(newAgent.getLocation().x, newAgent.getLocation().y);

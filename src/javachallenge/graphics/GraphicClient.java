@@ -128,6 +128,10 @@ public class GraphicClient {
 		flags.put(id, new Sprite(ImageHolder.Objects.underFire, flag.getPosition()));
 		panel.addToContainer(flags.get(id), 2);
 	}
+	
+	public void setFlagStatus(Integer id, int progressTeam, int progressPercent, int curTeam){
+		
+	}
 	public static class DuplicateMemberException extends Exception
 	{
 

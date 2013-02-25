@@ -10,7 +10,16 @@ public class Team {
 	private boolean activeSpawnPoint;
 	private Point spawnLocation;
 	private int id;
+	private int lastSpawned = -1;
 	
+	public int getLastSpawned() {
+		return lastSpawned;
+	}
+
+	public void setLastSpawned(int lastSpawned) {
+		this.lastSpawned = lastSpawned;
+	}
+
 	public Team(Point spawnLocation, int id){
 		this.spawnLocation = spawnLocation;
 		this.id = id;
