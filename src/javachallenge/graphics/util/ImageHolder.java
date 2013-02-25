@@ -54,6 +54,7 @@ public class ImageHolder {
 		//public static ImageIcon scepture = new ImageIcon(corePrefix + "items/sceptre-of-fire.png");
 		public static ImageIcon brazier[] = getAll(corePrefix + "items", "brazier-lit", 8, false); 
 		public static ImageIcon fire[] = getAll(corePrefix + "scenery", "fire", 8, false);
+		public static ImageIcon mage[] = getAll(corePrefix + "halo", "mage-halo", 5, false);
 		public static ImageIcon underFire = new ImageIcon(corePrefix + "scenery/rune2-glow.png");
 	}
 }
