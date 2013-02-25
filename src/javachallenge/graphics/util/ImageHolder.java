@@ -50,11 +50,23 @@ public class ImageHolder {
 	}
 	
 	public static class Objects {
-		public static ImageIcon blueFlag = new ImageIcon(menuPrefix + "editor/tool-overlay-starting-position.png");
-		public static ImageIcon longFlag = new ImageIcon(menuPrefix + "flags/long-flag-1.png");
+		// Flags!
+		/* Hue Saturation Lightness:
+		 * yellow: 52 61 30
+		 * blue: 224 64 1
+		 */
+		//public static ImageIcon blueFlag = new ImageIcon(menuPrefix + "editor/tool-overlay-starting-position.png");
+		public static ImageIcon[] greenFlag = getAll(menuPrefix + "flags", "long-flag-", 4, false);
+		public static ImageIcon[] yellowFlag = getAll(menuPrefix + "flags", "long-flag-yellow-", 4, false);
+		public static ImageIcon[] redFlag = getAll(menuPrefix + "flags", "long-flag-red-", 4, false);
+		public static ImageIcon[] blueFlag = getAll(menuPrefix + "flags", "long-flag-blue-", 4, false);
+		public static ImageIcon[] blackFlag = getAll(menuPrefix + "flags", "long-flag-black-", 4, false);
+		//public static ImageIcon[] longFlag = getAll(menuPrefix + "flags", "long-flag-", 1, false);
+		public static ImageIcon[][] flags = { blackFlag, redFlag, yellowFlag, blueFlag }; 
+		
 		//public static ImageIcon scepture = new ImageIcon(corePrefix + "items/sceptre-of-fire.png");
-		public static ImageIcon brazier[] = getAll(corePrefix + "items", "brazier-lit", 8, false); 
-		public static ImageIcon fire[] = getAll(corePrefix + "scenery", "fire", 8, false);
+		public static ImageIcon[] brazier = getAll(corePrefix + "items", "brazier-lit", 8, false); 
+		public static ImageIcon[] fire = getAll(corePrefix + "scenery", "fire", 8, false);
 		public static ImageIcon mage[] = getAll(corePrefix + "halo", "mage-halo", 5, false);
 		public static ImageIcon underFire = new ImageIcon(corePrefix + "scenery/rune2-glow.png");
 	}

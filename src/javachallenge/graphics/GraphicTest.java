@@ -17,7 +17,7 @@ import javax.swing.*;
 
 public class GraphicTest {
 	public static void main(String[] args) throws Exception{
-		Map map=Map.load("data/maps/chert.map");
+		Map map=Map.load("map/m1.txt");
 		GraphicClient client=new GraphicClient(map);
 		//GraphicClient client = new GraphicClient(30, 14, new Position[] {}); 
 		/*JFrame frame=new JFrame();

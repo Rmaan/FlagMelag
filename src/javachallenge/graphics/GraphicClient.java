@@ -75,7 +75,8 @@ public class GraphicClient {
 		for (int i = 0; i < map.getFlagLocations().size(); i++) {
 			Position position = new Position(map.getFlagLocations().get(i));
 			if (isOut(position)) throw new OutOfMapException();
-			Sprite flag = new AnimatedImage(ImageHolder.Objects.fire, 125, position);
+			//Sprite flag = new AnimatedImage(ImageHolder.Objects.fire, 125, position);
+			Sprite flag = new AnimatedImage(ImageHolder.Objects.flags[i % ImageHolder.Objects.flags.length], 200, position);
 			panel.addToContainer(flag ,2);
 			flags.put(i+1, flag);
 		}
