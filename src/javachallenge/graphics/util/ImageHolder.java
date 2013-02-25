@@ -39,6 +39,7 @@ public class ImageHolder {
 		public static ImageIcon[] grass = getAll(prefix + "grass", "green", 8, true);
 		public static ImageIcon[] ice = getAll(prefix + "frozen", "ice", 6, true);
 		public static ImageIcon[] beach = getAll(prefix + "sand", "beach", 8, true);
+		public static ImageIcon fog = new ImageIcon(prefix + "darken.png");
 		
 		public static ArrayList<ImageIcon[]> mapBlocks = new ArrayList<ImageIcon[]>(
 				Arrays.asList(new ImageIcon[][] {

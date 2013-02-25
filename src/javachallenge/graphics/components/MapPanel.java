@@ -21,6 +21,7 @@ public class MapPanel extends ScrollablePanel {
 	protected Map map;
 	protected int width, height;
 	protected Sprite[][] blocks;
+	protected Sprite[][] fogs;
 	protected Sprite brush;
 	
 	public static Position getAbsolutePosition (int x, int y) {
@@ -39,12 +40,15 @@ public class MapPanel extends ScrollablePanel {
 		
 		// create blocks
 		blocks = new Sprite[width][height];
+		fogs = new Sprite[width][height];
 		for (int i = 0; i < width; i++)
 			for (int j = 0; j < height; j++) {
 				ImageIcon[] environment = ImageHolder.Terrain.mapBlocks.get (map.getBlockType(new Point(i, j)).ordinal());
 				int index = new Random().nextInt(environment.length);
 				addToContainer(blocks[i][j] = new Sprite(environment[index], 
-						new Position(i, j)), 1);
+						new Position(i, j)), 0);
+				//addToContainer(fogs[i][j] = new Sprite(ImageHolder.Terrain.fog, 
+				//		new Position(i, j)), 1);
 			}
 		
 		addToContainer(brush = new Sprite(ImageHolder.mapBrush, new Position(-2, -2)), 3);

@@ -82,7 +82,6 @@ public class GraphicClient {
 		for (int i = 0; i < map.getSpawnLocations().size(); i++) {
 			Position position = new Position(map.getSpawnLocations().get(i));
 			if (isOut(position)) throw new OutOfMapException();
-			System.err.println("spawn " + position);
 			Sprite spawn = new AnimatedImage(ImageHolder.Objects.mage, 250, position);
 			panel.addToContainer(spawn ,2);
 			spawnPoints.put(i+1, spawn);
