@@ -65,20 +65,11 @@ public class Game {
 		return null;
 	}
 
-//	public ArrayList<Flag> getFlags() {
-//		return flags;
-//	}
-	
-	public boolean[] getFire(Point p) {
-		boolean[] b = new boolean[6];
-		for (int i = 0; i < 6; i++) {
-			Point newp = p.applyDirection(Direction.values()[i]);
-			b[i] = hasFlag(newp);
-		}
-		return b;
-	}
-
 	public Map getMap() {
 		return this.map;
+	}
+	
+	public ArrayList<Flag> getFlags(){
+		return flags;
 	}
 }

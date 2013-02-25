@@ -19,7 +19,6 @@ public class MyPlayer extends Player {
 
 	public void step() {
 		Random rnd = new Random();
-		cycle++;
 		
 		for (int id: getAgentIds()) {
 			Agent agent = this.getAgentById(id);

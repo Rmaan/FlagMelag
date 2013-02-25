@@ -17,7 +17,7 @@ import javachallenge.graphics.util.Position;
 
 public class Main {
 	private static int PORT = 5555;
-	private static int CYCLE_TIME = 500;
+	private static int CYCLE_TIME = 200;
 	private GraphicClient graphicClient;
 	
 	private final boolean DBG_PAUSE_ENABLED = false;
@@ -61,7 +61,7 @@ public class Main {
 		while (!engine.gameIsOver() || temp != 0) {
 			temp += (engine.gameIsOver() ? -1 : 0) ;
 			
-			System.out.println("Cycle " + engine.getCycle());
+			//System.out.println("Cycle " + engine.getCycle());
 			
 			ArrayList<ServerMessage> stepMessage = engine.getStepMessage();
 			for (int i = 0; i < map.getTeamCount(); i++) {
@@ -94,9 +94,10 @@ public class Main {
 		}
 		
 		ss.close();
+		System.out.println(engine.getTeamScore());
 	}
 	
 	public static void main(String[] args) throws IOException, InterruptedException, OutOfMapException {
-		new Main().run(PORT, args.length < 1 ? "map/m1.txt" : args[0]);
+		new Main().run(PORT, args.length < 1 ? "map/final4.txt" : args[0]);
 	}
 }

@@ -22,7 +22,6 @@ import javachallenge.graphics.util.Position;
 
 public class Engine {
 	private static final int FLAG_POINT = 100;
-	private static final int COST_PER_STEP = -1;
 	private static final int GAME_CYCLES = 725;
 	private static final int SPAWN_MARGIN = 6;
 	private static final int SPAWN_LOW_PERIOD = 0;
@@ -63,21 +62,15 @@ public class Engine {
 		spawnedAgents = new ArrayList<Agent>();
 	}
 	
-	private boolean PHASE_1 = true; 
 	
 	public void teamStep(ArrayList<Action> actions){
 		if(gameEnded){
 			return;
 		}
-		if(PHASE_1 || cycle % 2 == 0){
-			//handle moves
+		if(cycle % 2 == 0){
 			handleMoves(actions);
-//			Collections.shuffle(actions);
-//			for(Action action : actions){
-//				moveAgent(action);
-//			}
 		}
-		if (!PHASE_1){
+		else{
 			//handle attacks
 			HashMap<Integer, ArrayList<Integer>> attackNum = new HashMap<Integer, ArrayList<Integer>>();
 			int[][] spawnAttacks = new int[teamCount][teamCount];
@@ -85,43 +78,62 @@ public class Engine {
 				if(action.getType() == ActionType.NONE || action.getType() != ActionType.ATTACK){
 					continue;
 				}
-				Agent agent = getAgent(action.getTeamId(), action.getId());
-				Point dest = agent.getLocation().applyDirection(action.getDir());
-				Agent opAgent = game.getAgent(dest);
-				if(opAgent != null){
-					int opId = opAgent.getId();
-					if(attackNum.get(opId) == null){
-						attackNum.put(opId, new ArrayList<Integer>());
+				try{
+					Agent agent = getAgent(action.getTeamId(), action.getId());
+					Point dest = agent.getLocation().applyDirection(action.getDir());
+					Agent opAgent = game.getAgent(dest);
+					if(opAgent != null){
+						int opId = opAgent.getId();
+						if(attackNum.get(opId) == null){
+							attackNum.put(opId, new ArrayList<Integer>());
+						}
+						ArrayList<Integer> tmp = attackNum.get(opId);
+						tmp.add(agent.getTeamId());
+						attackNum.put(opId, tmp);
 					}
-					ArrayList<Integer> tmp = attackNum.get(opId);
-					tmp.add(agent.getTeamId());
-					attackNum.put(opId, tmp);
+					
+					//Handle spawn point attacks
+					if(getSpawnLocationTeam(dest) != -1){
+						spawnAttacks[getSpawnLocationTeam(dest)][agent.getTeamId()]++;
+					}
+				}
+				catch(Exception e){
+					System.out.println("Bad Agent : Team " + action.getTeamId());
+					continue;
 				}
 				
-				//Handle spawn point attacks
-				if(getSpawnLocationTeam(dest) != -1){
-					spawnAttacks[getSpawnLocationTeam(dest)][agent.getTeamId()]++;
-				}
 			}
 			for(Action action : actions){
-				Agent agent = getAgent(action.getTeamId(), action.getId());
-				Point dest = agent.getLocation().applyDirection(action.getDir());
-				Agent opAgent = game.getAgent(dest);
-				int firstTeamAttacks = Collections.frequency(attackNum.get(agent.getId()), opAgent.getId());
-				int secondTeamAttacks = Collections.frequency(attackNum.get(opAgent.getId()), agent.getId());
-				if(firstTeamAttacks >= secondTeamAttacks){
-					if(opAgent.isAlive()){
-						deadAgents.add(opAgent);
+				if(action.getType() == ActionType.NONE || action.getType() != ActionType.ATTACK){
+					continue;
+				}
+				try{
+					Agent agent = getAgent(action.getTeamId(), action.getId());
+					Point dest = agent.getLocation().applyDirection(action.getDir());
+					Agent opAgent = game.getAgent(dest);
+					int firstTeamAttacks = Collections.frequency(attackNum.get(opAgent.getId()), agent.getTeamId());
+					int secondTeamAttacks = Collections.frequency(attackNum.get(agent.getId()), opAgent.getTeamId());
+					if(firstTeamAttacks >= secondTeamAttacks){
+						if(opAgent.isAlive()){
+							deadAgents.add(opAgent);
+						}
+						opAgent.setAlive(false);
+				
 					}
-					opAgent.setAlive(false);
+				}
+				catch (Exception e) {
+					System.out.println("Bad Agent : Team " + action.getTeamId());
+					continue;
 				}
 			}
 		}
-		cycle++;
-		//----------------------------------------------
-		if(cycle >= GAME_CYCLES){
-			gameEnded = true;
+		
+		for(Flag flag : game.getFlags()){
+			Agent agent = game.getAgent(flag.getLocation());
+			Team team = (agent == null ? null : teams.get(agent.getTeamId()));
+			flag.step(team);
 		}
+		
 	}
 	
 	public int getCycle() {
@@ -131,6 +143,11 @@ public class Engine {
 	public void endStep(){
 		respawn();
 		updateScores();
+		cycle++;
+		//----------------------------------------------
+		if(cycle >= GAME_CYCLES){
+			gameEnded = true;
+		}
 	}
 	
 	//method to move the agents and check for the destination to be empty
@@ -206,10 +223,13 @@ public class Engine {
 	private void respawn(){
 		for(Team team : teams){
 			int spawnRate = (team.getAgents().size() >= SPAWN_MARGIN ? SPAWN_LOW_PERIOD : SPAWN_NORM_PERIOD);
-			if(spawnRate > 0 && cycle % spawnRate == 0 && game.getAgent(team.getSpawnLocation()) == null && team.isActiveSpawnPoint()){
+			int lastSpawned = team.getLastSpawned();
+			if(spawnRate > 0 && (lastSpawned < 0 || cycle - lastSpawned > spawnRate || (cycle - lastSpawned) % spawnRate == 0) 
+					&& game.getAgent(team.getSpawnLocation()) == null && team.isActiveSpawnPoint()){
 				Agent newAgent = team.addAgent();
 				game.spawnAgent(newAgent) ;
 				spawnedAgents.add(newAgent);
+				team.setLastSpawned(cycle);
 				
 				
 				Position p = new Position(newAgent.getLocation().x, newAgent.getLocation().y);
@@ -233,8 +253,12 @@ public class Engine {
 	
 	//updates the scores of teams
 	private void updateScores(){
-		for (Team t: teams)
-			t.updaetScore(COST_PER_STEP);
+		for(Flag flag : game.getFlags()){
+			Team owner = flag.getOwner();
+			if(owner != null){
+				owner.updaetScore(FLAG_POINT);
+			}
+		}
 		if (teams.size() > 0){
 			// TODO team 0?! 
 			graphicClient.setScore(teams.get(0).getScore()) ;
@@ -268,7 +292,7 @@ public class Engine {
 					agentTeamId[i] = opAgent.getTeamId();
 				}
 			}
-			result.add(new AgentMessage(agent.getId(), loc, map.getBlockTypes(loc), game.getFire(loc), agentTeamId));
+			result.add(new AgentMessage(agent.getId(), loc, map.getBlockTypes(loc), agentTeamId));
 		}
 		return result;
 	}
@@ -445,6 +469,10 @@ public class Engine {
 	
 	private int getNodeNum(Point p){
 		return p.y * map.getWid() + p.x;
+	}
+	
+	public int getTeamScore(){
+		return teams.get(0).getScore();
 	}
 
 }
