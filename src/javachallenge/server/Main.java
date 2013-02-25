@@ -26,20 +26,21 @@ public class Main {
 	
 	public void run(int listenPort, String mapFilename) throws IOException, InterruptedException, OutOfMapException {
 		ServerSocket ss = new ServerSocket(listenPort);
-		ServerMap sampleMap = ServerMap.load(mapFilename);
+		Map map = Map.load(mapFilename);
 		
-		Position[] tmpFlagPositions = new Position[sampleMap.getFlagLocations().size()];
-		for(int i = 0 ; i < sampleMap.getFlagLocations().size() ; i++) {
-			Point flag = sampleMap.getFlagLocations().get(i);
+		Position[] tmpFlagPositions = new Position[map.getFlagLocations().size()];
+		for(int i = 0 ; i < map.getFlagLocations().size() ; i++) {
+			Point flag = map.getFlagLocations().get(i);
 			tmpFlagPositions[i] = new Position(flag.x, flag.y);
 		}
 		
-		graphicClient = new GraphicClient(sampleMap);
-		Engine engine = new Engine(sampleMap, graphicClient);
+		Game g = new Game(map);
+		graphicClient = new GraphicClient(map);
+		Engine engine = new Engine(g, graphicClient);
 		
 		ArrayList<TeamConnection> connections = new ArrayList<TeamConnection>();
 		
-		for (int i = 0; i < sampleMap.getTeamCount(); i++) {
+		for (int i = 0; i < map.getTeamCount(); i++) {
 			System.out.println("Waiting for team " + i + " to connect...");
 			Socket socket = ss.accept();
 			connections.add(new TeamConnection(engine.getTeam(i), socket));
@@ -63,7 +64,7 @@ public class Main {
 			System.out.println("Cycle " + engine.getCycle());
 			
 			ArrayList<ServerMessage> stepMessage = engine.getStepMessage();
-			for (int i = 0; i < sampleMap.getTeamCount(); i++) {
+			for (int i = 0; i < map.getTeamCount(); i++) {
 				connections.get(i).sendStepMessage(stepMessage.get(i));
 				connections.get(i).clearClientMessage();
 			}
@@ -78,7 +79,7 @@ public class Main {
 			}
 
 			ArrayList<Action> allActions = new ArrayList<Action>();
-			for (int i = 0; i < sampleMap.getTeamCount(); i++) {
+			for (int i = 0; i < map.getTeamCount(); i++) {
 				ClientMessage msg = connections.get(i).getClientMessage();
 				if (msg == null) {
 					System.out.println("Team " + i + " message loss");

@@ -23,7 +23,7 @@ import javachallenge.graphics.util.ColorMaker;
 import javachallenge.graphics.util.ImageHolder;
 import javachallenge.graphics.util.Position;
 import javachallenge.server.Map;
-import javachallenge.server.ServerMap;
+import javachallenge.server.Game;
 
 public class MapEditor extends PlayGround {
 	public static int blockTypes = 3;
@@ -36,7 +36,7 @@ public class MapEditor extends PlayGround {
 	public void addMapPanel(MapPanel mapPanel) {
 		ArrayList<Point> spawnLocations = new ArrayList<Point>();
 		ArrayList<Point> flagLocations = new ArrayList<Point>();	
-		mapPanel.setMap(new ServerMap(mapPanel.getMapWidth(), mapPanel.getMapHeight(), 0,
+		mapPanel.setMap(new Map(mapPanel.getMapWidth(), mapPanel.getMapHeight(), 0,
 			spawnLocations, flagLocations));
 	
 		super.addMapPanel(mapPanel);
@@ -76,7 +76,7 @@ public class MapEditor extends PlayGround {
 	public static void main(String[] args) {
 		final MapEditor mapEditor = new MapEditor();
 		Scanner scanner = new Scanner(System.in);
-		mapEditor.createScreenElements(new MapPanel(new ServerMap(scanner.nextInt(), scanner.nextInt(), 0, 
+		mapEditor.createScreenElements(new MapPanel(new Map(scanner.nextInt(), scanner.nextInt(), 0, 
 				new ArrayList<Point>(), new ArrayList<Point>())) {
 			@Override
 			public void onClick(int x, int y) {

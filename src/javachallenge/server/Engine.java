@@ -29,21 +29,23 @@ public class Engine {
 	private static final int SPAWN_NORM_PERIOD = 3;
 
 	
-	private ServerMap map;
+	private Map map;
 	private int cycle, teamCount;
 	private ArrayList<Team> teams = new ArrayList<Team>();
 	private boolean gameEnded = false;
 	private ArrayList<Agent> deadAgents;
 	private ArrayList<Agent> spawnedAgents;
 	private GraphicClient graphicClient;
+	private Game game;
 	
 	
 	public boolean gameIsOver() {
 		return gameEnded;
 	}
 	
-	public Engine(ServerMap map, GraphicClient graphicClient) {
-		this.map = map;
+	public Engine(Game game, GraphicClient graphicClient) {
+		this.game = game;
+		this.map = game.getMap();
 		this.cycle = 0;
 		teamCount = map.getTeamCount();
 		ArrayList<Point> spawnLoc = map.getSpawnLocations();
@@ -85,7 +87,7 @@ public class Engine {
 				}
 				Agent agent = getAgent(action.getTeamId(), action.getId());
 				Point dest = agent.getLocation().applyDirection(action.getDir());
-				Agent opAgent = map.getAgent(dest);
+				Agent opAgent = game.getAgent(dest);
 				if(opAgent != null){
 					int opId = opAgent.getId();
 					if(attackNum.get(opId) == null){
@@ -104,7 +106,7 @@ public class Engine {
 			for(Action action : actions){
 				Agent agent = getAgent(action.getTeamId(), action.getId());
 				Point dest = agent.getLocation().applyDirection(action.getDir());
-				Agent opAgent = map.getAgent(dest);
+				Agent opAgent = game.getAgent(dest);
 				int firstTeamAttacks = Collections.frequency(attackNum.get(agent.getId()), opAgent.getId());
 				int secondTeamAttacks = Collections.frequency(attackNum.get(opAgent.getId()), agent.getId());
 				if(firstTeamAttacks >= secondTeamAttacks){
@@ -117,11 +119,7 @@ public class Engine {
 		}
 		cycle++;
 		//----------------------------------------------
-		int numFreeFlag = 0 ;
-		for (Flag flag : map.getFlags()) 
-			numFreeFlag += (flag.isAlive() ? 1 : 0) ;
-//		System.err.println(numFreeFlag);
-		if(cycle >= GAME_CYCLES || numFreeFlag == 0){
+		if(cycle >= GAME_CYCLES){
 			gameEnded = true;
 		}
 	}
@@ -149,13 +147,13 @@ public class Engine {
 		if(actionType == ActionType.MOVE){
 			//System.err.println("Dest is : " + dest.x + " " + dest.y + " - " + map.isInsideMap(dest));
 			if(map.isInsideMap(dest) && map.getBlockType(dest) == BlockType.GROUND && !occupied(dest)){
-				map.moveAgent(agent, agent.getLocation(), dest) ;
+				game.moveAgent(agent, agent.getLocation(), dest) ;
 				agent.setLocation(dest);
 				Integer id = new Integer(agent.getId()) ;
 				graphicClient.move(id, dir) ;
 				//--------------------------- Move On The Flag  
-				if (map.hasFlag(dest)){
-					Flag flag = map.getFlag(dest); 
+				if (game.hasFlag(dest)){
+					Flag flag = game.getFlag(dest); 
 					if (flag.isAlive()){
 						flag.obtain() ;
 						//--------------------------- Update graphic
@@ -183,7 +181,7 @@ public class Engine {
 	
 	//checks if the given location is occupied by an agent, a flag or a spawned point
 	private boolean occupied(Point p){
-		return (map.getAgent(p) !=  null /*|| getSpawnLocationTeam(p) != -1*/);
+		return (game.getAgent(p) !=  null /*|| getSpawnLocationTeam(p) != -1*/);
 	}
 	
 	//checks if the given location is a flag
@@ -206,9 +204,9 @@ public class Engine {
 	private void respawn(){
 		for(Team team : teams){
 			int spawnRate = (team.getAgents().size() >= SPAWN_MARGIN ? SPAWN_LOW_PERIOD : SPAWN_NORM_PERIOD);
-			if(spawnRate > 0 && cycle % spawnRate == 0 && map.getAgent(team.getSpawnLocation()) == null && team.isActiveSpawnPoint()){
+			if(spawnRate > 0 && cycle % spawnRate == 0 && game.getAgent(team.getSpawnLocation()) == null && team.isActiveSpawnPoint()){
 				Agent newAgent = team.addAgent();
-				map.spawnAgent(newAgent) ;
+				game.spawnAgent(newAgent) ;
 				spawnedAgents.add(newAgent);
 				
 				
@@ -263,12 +261,12 @@ public class Engine {
 			}
 			Direction[] dirs = Direction.values();
 			for (int i = 0; i < dirs.length; i++) {
-				Agent opAgent = map.getAgent(loc.applyDirection(dirs[i]));
+				Agent opAgent = game.getAgent(loc.applyDirection(dirs[i]));
 				if(opAgent != null){
 					agentTeamId[i] = opAgent.getTeamId();
 				}
 			}
-			result.add(new AgentMessage(agent.getId(), loc, map.getBlockTypes(loc), map.getFire(loc), agentTeamId));
+			result.add(new AgentMessage(agent.getId(), loc, map.getBlockTypes(loc), game.getFire(loc), agentTeamId));
 		}
 		return result;
 	}
@@ -423,7 +421,7 @@ public class Engine {
 			if(cycleActs.size() > 2){
 				Action firstAct = cycleActs.get(0);
 			//	System.out.println("REMOVE " + getAgent(firstAct.getTeamId(), firstAct.getId()).getLocation());
-				map.setAgent(getAgent(firstAct.getTeamId(), firstAct.getId()).getLocation(), null);
+				game.setAgent(getAgent(firstAct.getTeamId(), firstAct.getId()).getLocation(), null);
 				for(int j = cycleActs.size() - 1; j > 0; j--){
 					System.out.println(cycleActs.get(j));
 					moveAgent(cycleActs.get(j));
@@ -435,7 +433,7 @@ public class Engine {
 			//	System.out.println(a.getLocation());
 			//	System.out.println("DONE");
 				a.setLocation(dest);
-				map.setAgent(dest, a);
+				game.setAgent(dest, a);
 				Integer id = new Integer(a.getId()) ;
 				graphicClient.move(id, firstAct.getDir()) ;
 			//	System.out.println("DONE");

@@ -9,11 +9,11 @@ import javachallenge.common.Direction;
 import javachallenge.graphics.GraphicClient;
 import javachallenge.graphics.util.Position;
 import javachallenge.server.Map;
-import javachallenge.server.ServerMap;
+import javachallenge.server.Game;
 
 public class GraphicTest {
 	public static void main(String[] args) throws Exception{
-		ServerMap map=(ServerMap) ServerMap.load("data/maps/chert.map");
+		Map map=Map.load("data/maps/chert.map");
 		GraphicClient client=new GraphicClient(map);
 		Scanner scanner=new Scanner(System.in);
 		while (true)
