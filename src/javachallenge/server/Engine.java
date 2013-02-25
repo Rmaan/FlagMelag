@@ -83,23 +83,30 @@ public class Engine {
 				if(action.getType() == ActionType.NONE || action.getType() != ActionType.ATTACK){
 					continue;
 				}
-				Agent agent = getAgent(action.getTeamId(), action.getId());
-				Point dest = agent.getLocation().applyDirection(action.getDir());
-				Agent opAgent = map.getAgent(dest);
-				if(opAgent != null){
-					int opId = opAgent.getId();
-					if(attackNum.get(opId) == null){
-						attackNum.put(opId, new ArrayList<Integer>());
+				try{
+					Agent agent = getAgent(action.getTeamId(), action.getId());
+					Point dest = agent.getLocation().applyDirection(action.getDir());
+					Agent opAgent = map.getAgent(dest);
+					if(opAgent != null){
+						int opId = opAgent.getId();
+						if(attackNum.get(opId) == null){
+							attackNum.put(opId, new ArrayList<Integer>());
+						}
+						ArrayList<Integer> tmp = attackNum.get(opId);
+						tmp.add(agent.getTeamId());
+						attackNum.put(opId, tmp);
 					}
-					ArrayList<Integer> tmp = attackNum.get(opId);
-					tmp.add(agent.getTeamId());
-					attackNum.put(opId, tmp);
+					
+					//Handle spawn point attacks
+					if(getSpawnLocationTeam(dest) != -1){
+						spawnAttacks[getSpawnLocationTeam(dest)][agent.getTeamId()]++;
+					}
+				}
+				catch(Exception e){
+					System.out.println("Bad Agent : Team " + action.getTeamId());
+					continue;
 				}
 				
-				//Handle spawn point attacks
-				if(getSpawnLocationTeam(dest) != -1){
-					spawnAttacks[getSpawnLocationTeam(dest)][agent.getTeamId()]++;
-				}
 			}
 			for(Action action : actions){
 				Agent agent = getAgent(action.getTeamId(), action.getId());
@@ -445,6 +452,10 @@ public class Engine {
 	
 	private int getNodeNum(Point p){
 		return p.y * map.getWid() + p.x;
+	}
+	
+	public int getTeamScore(){
+		return teams.get(0).getScore();
 	}
 
 }
