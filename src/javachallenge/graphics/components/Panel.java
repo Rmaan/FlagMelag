@@ -11,6 +11,8 @@ public class Panel extends JLayeredPane {
 	
 	public Panel (int x, int y, int w, int h) {
 		setBounds(x, y, w, h);
+		setLayout(null);
+		setOpaque(true);
 	}
 	
 	public Panel (Color color) {

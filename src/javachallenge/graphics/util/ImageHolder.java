@@ -39,6 +39,7 @@ public class ImageHolder {
 		public static ImageIcon[] grass = getAll(prefix + "grass", "green", 8, true);
 		public static ImageIcon[] ice = getAll(prefix + "frozen", "ice", 6, true);
 		public static ImageIcon[] beach = getAll(prefix + "sand", "beach", 8, true);
+		public static ImageIcon fog = new ImageIcon(prefix + "darken.png");
 		
 		public static ArrayList<ImageIcon[]> mapBlocks = new ArrayList<ImageIcon[]>(
 				Arrays.asList(new ImageIcon[][] {
@@ -54,6 +55,7 @@ public class ImageHolder {
 		//public static ImageIcon scepture = new ImageIcon(corePrefix + "items/sceptre-of-fire.png");
 		public static ImageIcon brazier[] = getAll(corePrefix + "items", "brazier-lit", 8, false); 
 		public static ImageIcon fire[] = getAll(corePrefix + "scenery", "fire", 8, false);
+		public static ImageIcon mage[] = getAll(corePrefix + "halo", "mage-halo", 5, false);
 		public static ImageIcon underFire = new ImageIcon(corePrefix + "scenery/rune2-glow.png");
 	}
 }

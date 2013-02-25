@@ -2,41 +2,36 @@ package javachallenge.graphics.util;
 
 import java.io.Serializable;
 
-/**
- * {@link Position} is a class that provides position for every {@link Positionable} object.
- */
+import javachallenge.common.Point;
+
 @SuppressWarnings("serial")
-public class Position implements Serializable {
-	private int X, Y;
-
+public class Position extends Point {
 	public Position (int x, int y) {
-		X = x;
-		Y = y;
+		super (x, y);
 	}
-
-	public int getX() {
-		return X;
-	}
-	public void setX(int x) {
-		X = x;
-	}
-	public int getY() {
-		return Y;
-	}
-	public void setY(int y) {
-		Y = y;
+	
+	public Position (Point point) {
+		this (point.x, point.y);
 	}
 	
 	public String toString() {
 		return "(" + getX() + ", " + getY() + ")";
+	}
+	
+	public void setX (int x) {
+		this.x = x;
+	}
+
+	public void setY (int y) {
+		this.y = y;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + X;
-		result = prime * result + Y;
+		result = prime * result + x;
+		result = prime * result + y;
 		return result;
 	}
 
@@ -49,9 +44,9 @@ public class Position implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Position other = (Position) obj;
-		if (X != other.X)
+		if (x != other.x)
 			return false;
-		if (Y != other.Y)
+		if (y != other.y)
 			return false;
 		return true;
 	}

@@ -1,5 +1,6 @@
 package javachallenge.graphics;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
@@ -7,14 +8,41 @@ import java.util.Scanner;
 
 import javachallenge.common.Direction;
 import javachallenge.graphics.GraphicClient;
+import javachallenge.graphics.components.ProgressBar;
 import javachallenge.graphics.util.Position;
 import javachallenge.server.Map;
 import javachallenge.server.Game;
+
+import javax.swing.*;
 
 public class GraphicTest {
 	public static void main(String[] args) throws Exception{
 		Map map=Map.load("data/maps/chert.map");
 		GraphicClient client=new GraphicClient(map);
+		JFrame frame=new JFrame();
+		frame.setLayout(null);
+		frame.getContentPane().setPreferredSize(new Dimension(400, 400));
+		final ProgressBar bar=new ProgressBar(10,10,100,20, Color.green,Color.red,0);
+		frame.pack();
+		frame.setVisible(true);
+		frame.add(bar);
+		new Thread()
+		{
+			public void run()
+			{
+				for (int i=0;i<=100;i++)
+				{
+					try
+					{
+						sleep(100);
+					} catch (InterruptedException e)
+					{
+						e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+					}
+					bar.updateProgressBar((double)i/100);
+				}
+			}
+		}.start();
 		Scanner scanner=new Scanner(System.in);
 		while (true)
 		{

@@ -22,6 +22,7 @@ public class GraphicClient {
 	
 	protected MapPanel panel;
 	protected java.util.Map<Integer,Sprite> flags=new TreeMap<Integer,Sprite>();
+	protected java.util.Map<Integer,Sprite> spawnPoints=new TreeMap<Integer,Sprite>();
 	protected java.util.Map<Integer,Sprite> units=new TreeMap<Integer,Sprite>();
 	protected PlayGround ground;
 
@@ -55,9 +56,6 @@ public class GraphicClient {
 	
 	public GraphicClient(Map map) throws OutOfMapException
 	{
-		Position[] positions=new Position[map.getFlagLocations().size()];
-		for (int i=0;i<map.getFlagLocations().size();i++)
-			positions[i]=new Position(map.getFlagLocations().get(i).getX(),map.getFlagLocations().get(i).getY());
 		ground=new PlayGround();
 		ground.createScreenElements(panel=new MapPanel(map) {
 			@Override
@@ -74,12 +72,19 @@ public class GraphicClient {
 				}*/
 			}
 		});
-		for (int i = 0; i < positions.length; i++) {
-		//	System.err.println(i+ positions[i].getX()+" "+positions[i].getY());
-			if (isOut(positions[i])) throw new OutOfMapException();
-			Sprite flag = new AnimatedImage(ImageHolder.Objects.fire, 125, positions[i]);
-			flags.put(i+1, flag);
+		for (int i = 0; i < map.getFlagLocations().size(); i++) {
+			Position position = new Position(map.getFlagLocations().get(i));
+			if (isOut(position)) throw new OutOfMapException();
+			Sprite flag = new AnimatedImage(ImageHolder.Objects.fire, 125, position);
 			panel.addToContainer(flag ,2);
+			flags.put(i+1, flag);
+		}
+		for (int i = 0; i < map.getSpawnLocations().size(); i++) {
+			Position position = new Position(map.getSpawnLocations().get(i));
+			if (isOut(position)) throw new OutOfMapException();
+			Sprite spawn = new AnimatedImage(ImageHolder.Objects.mage, 250, position);
+			panel.addToContainer(spawn ,2);
+			spawnPoints.put(i+1, spawn);
 		}
 	}
 	private boolean isOut(Position position)
