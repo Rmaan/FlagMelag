@@ -45,7 +45,7 @@ public class StatusPanel extends Panel
 		setLayout(null);
 		time=new Label();
 		setTime(0);
-		time.setBounds(10, 0, 200, 50);
+		time.setBounds(10, 0, PlayGround.statusWidth-20, 30);
 		add(time);
 	//	addLabel(score = new Label("score: 0"));
 	}

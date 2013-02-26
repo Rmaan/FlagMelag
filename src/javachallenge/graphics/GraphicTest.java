@@ -23,6 +23,8 @@ public class GraphicTest {
 	//		client.log("salam" + i);
 		//client.log("kiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiirr");
 		Scanner scanner=new Scanner(System.in);
+		client.log("hiiii");
+		client.setScore(0,1000,0.75);
 		while (true)
 		{
 			String com=scanner.next();

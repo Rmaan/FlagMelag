@@ -22,9 +22,10 @@ public class PlayGround extends Screen {
 	protected Panel sidebar;
 	protected StatusPanel status;
 	protected ScrollableList logMonitor;
+	protected Label play=new Label("Play"),pause=new Label("Pause"),fastforward=new Label("forward");
 	public static int statusWidth=(1<<8);
 	public PlayGround() {
-		this ("Java Challenge - Play Ground");
+		this("Java Challenge - Play Ground");
 	}
 	
 	public PlayGround (String title) {
@@ -52,8 +53,12 @@ public class PlayGround extends Screen {
 	public void updateDimensions() {
 		Dimension size = getSize();
 		mapPanel.setLocation(10, 10);
-		mapPanel.setSize(size.width -statusWidth-50, size.height - 110);
-		mapPanel.getPosition().setBounds(10, size.height-90,size.width*3/4,30);
+		mapPanel.setSize(size.width - statusWidth - 50, size.height - 110);
+		mapPanel.getPosition().setBounds(10, size.height - 90, 300, 30);
+		play.setBounds(320, size.height - 90, 100, 30);
+		pause.setBounds(430, size.height - 90, 100, 30);
+		fastforward.setBounds(540, size.height - 90, 100, 30);
+
 		if (sidebar!=null)
 		{
 			sidebar.setLocation(20 + mapPanel.getWidth(), 10);
@@ -75,6 +80,9 @@ public class PlayGround extends Screen {
 	public void createScreenElements (MapPanel mapPanel) {
 		addMapPanel(mapPanel);
 		add(mapPanel.getPosition());
+		add(play);
+		add(pause);
+		add(fastforward);
 		addSideBar();
 		// remove loadings
 		for (Label loading : loadings) remove(loading);
@@ -114,11 +122,6 @@ public class PlayGround extends Screen {
 	}
 	
 	public void addLog (String message) {
-		logMonitor.addComponent(new Label(new HTMLMaker("&nbsp;&nbsp;"+ message, ColorMaker.green, 9).toString()), 20);
-	}
-
-	public void addScoreBar(int players)
-	{
-		//To change body of created methods use File | Settings | File Templates.
+		logMonitor.addComponent(new Label(new HTMLMaker("&nbsp;&nbsp;" + message, ColorMaker.green, 9).toString()), 20);
 	}
 }
