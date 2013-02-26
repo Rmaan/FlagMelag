@@ -161,7 +161,7 @@ public class MapPanel extends ScrollablePanel {
 	public Sprite setFlag(Position position, int index) throws OutOfMapException {
 		if (isOut(position)) throw new OutOfMapException();
 		//Sprite flag = new AnimatedImage(ImageHolder.Objects.fire, 125, position);
-		Sprite flag = new AnimatedImage(ImageHolder.Objects.flags[index % 4], 200, position);
+		Sprite flag = new AnimatedImage(ImageHolder.Objects.flags[0], 130, position);
 		addToContainer(flag, 4);
 		if (index < 2) return flag;
 		ImageIcon[] castle = ImageHolder.Terrain.castle;

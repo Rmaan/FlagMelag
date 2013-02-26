@@ -166,7 +166,7 @@ public class GraphicClient {
 		panel.remove(flag);
 		((AnimatedImage) flag).destroy();
 		flags.remove(id);
-		flags.put(id, new AnimatedImage(ImageHolder.Objects.flags[curTeam + 1], 200, flag.getPosition()));
+		flags.put(id, new AnimatedImage(ImageHolder.Objects.flags[curTeam + 1], 130, flag.getPosition()));
 		panel.addToContainer(flags.get(id), 2);
 	}
 	
