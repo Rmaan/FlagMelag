@@ -8,8 +8,6 @@ import java.awt.event.MouseMotionListener;
 import java.util.Random;
 
 import javachallenge.common.Point;
-import javachallenge.graphics.GraphicClient.OutOfMapException;
-import javachallenge.graphics.util.AnimatedImage;
 import javachallenge.graphics.util.ColorMaker;
 import javachallenge.graphics.util.ImageHolder;
 import javachallenge.graphics.util.Position;
@@ -58,7 +56,7 @@ public class MapPanel extends ScrollablePanel {
 				//		new Position(i, j)), 1);
 			}
 		
-		addToContainer(brush = new Sprite(ImageHolder.mapBrush, new Position(-2, -2)), 10);
+		addToContainer(brush = new Sprite(ImageHolder.mapBrush, new Position(-2, -2)), 3);
 		
 		scroll.getViewport().getView().addMouseMotionListener(new MouseMotionListener() {
 			private Position lastPosition = new Position(-2, -2);
@@ -121,6 +119,7 @@ public class MapPanel extends ScrollablePanel {
 	public void onControlClick(int x, int y) {
 		onClick(x, y);
 	}
+
 	
 	public boolean insideMap (Position position) {
 		return position.getX() >= 0 && position.getY() >= 0 &&
@@ -156,29 +155,5 @@ public class MapPanel extends ScrollablePanel {
 		int index = new Random().nextInt(environment.length);		
 		addToContainer(blocks[x][y] = new Sprite(environment[index], 
 				new Position(x, y)), 1);
-	}
-	
-	public Sprite setFlag(Position position, int index) throws OutOfMapException {
-		if (isOut(position)) throw new OutOfMapException();
-		//Sprite flag = new AnimatedImage(ImageHolder.Objects.fire, 125, position);
-		Sprite flag = new AnimatedImage(ImageHolder.Objects.flags[index % ImageHolder.Objects.flags.length], 200, position);
-		addToContainer(flag, 4);
-		ImageIcon[] castle = ImageHolder.Terrain.castle;
-		int[] offsetX = { -25, 2, -25, 0, 25, 25 };
-		int[] offsetY = { -78, -64, -80, -88, -80, -80 };
-		int[] offsetL = { 6, 6, 3, 3, 3, 3 };
-		for (int i = 0; i < 4; i++) {
-			Point point = getAbsolutePosition(position.x, position.y);
-			Label label = new Label(point.x + offsetX[i], point.y + offsetY[i], 200, 200, castle[i]);
-			addToContainer(label, offsetL[i]);
-		}
-		//addToContainer(new Sprite(ImageHolder.Objects.flagRock, position), 2);
-		return flag;
-	}
-
-	public boolean isOut(Position position)
-	{
-		if (position.getX()<0 || position.getY()<0 || position.getX()>=getMapWidth() || position.getY()>=getMapHeight()) return true;
-		return false;
 	}
 }

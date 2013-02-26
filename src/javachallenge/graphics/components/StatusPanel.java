@@ -16,7 +16,19 @@ public class StatusPanel extends Panel
 {
 	public static int GAP_SIZE=10;
 	protected ArrayList<Label> labels=new ArrayList<Label>();
-	protected Label time, score;
+	protected Label time;
+	protected ScoreBar[] scores;
+	public static Color[] filled={Color.GREEN,Color.BLUE,Color.YELLOW,Color.pink};
+	public static Color[] empty={Color.RED, Color.RED, Color.RED,Color.RED};
+	public void addBars(int no)
+	{
+		scores=new ScoreBar[no];
+		for (int i=0;i<no;i++)
+		{
+			scores[i]=new ScoreBar(10,(i+1)*50,200,50,filled[i],empty[i],"Player "+i);
+			add(scores[i]);
+		}
+	}
 	public StatusPanel(Color color)
 	{
 		super(color);
@@ -25,6 +37,11 @@ public class StatusPanel extends Panel
 		time.setBounds(10, 0, 200, 50);
 		add(time);
 	//	addLabel(score = new Label("score: 0"));
+	}
+	public void updateScore(int id,int score,double ratio)
+	{
+		scores[id].updateBar(ratio);
+		scores[id].setScore(score);
 	}
 	public void updatePosition()
 	{
@@ -35,8 +52,5 @@ public class StatusPanel extends Panel
 	public void setTime(int a) {
 		time.setText("time: " + a);
 	}
-	
-	public void setScore(int a) {
-		//score.setText("score: " + a);
-	}
+
 }
