@@ -142,6 +142,7 @@ public class Engine {
 			Agent agent = game.getAgent(flag.getLocation());
 			Team team = (agent == null ? null : teams.get(agent.getTeamId()));
 			flag.step(team);
+			graphicClient.setFlagStatus(flag.getId() + 1, (team == null || team == flag.getOwner()) ? -1 : team.getId(), flag.getPercent(), flag.getOwner() == null ? -1 : flag.getOwner().getId());
 		}
 		
 	}

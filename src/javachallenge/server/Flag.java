@@ -35,6 +35,14 @@ public class Flag implements Serializable {
 	public Team getOwner() {
 		return owner;
 	}
+	
+	public int getPercent() {
+		if (state == FlagState.UP)
+			return 100 * (TURNS_UP - counter) / TURNS_UP;
+		if (state == FlagState.DOWN)
+			return 100 * (TURNS_DOWN - counter) / TURNS_DOWN;
+		return 0;
+	}
 
 	/**
 	 * @param t Team standing on the flag in this turn

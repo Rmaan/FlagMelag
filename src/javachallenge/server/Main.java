@@ -44,6 +44,7 @@ public class Main {
 			System.out.println("Waiting for team " + i + " to connect...");
 			Socket socket = ss.accept();
 			connections.add(new TeamConnection(engine.getTeam(i), socket));
+			System.out.println("connected");
 		}
 
 		ArrayList<InitMessage> initialMessage = engine.getInitialMessage();
