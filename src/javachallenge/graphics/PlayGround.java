@@ -95,7 +95,8 @@ public class PlayGround extends Screen {
 	}
 	public void addStatusBar() {
 		status = new StatusPanel(ColorMaker.panelBack) {
-			{ setBounds(0, 0, 100, 100); }
+			{ setBounds(0, 0, 100, 100);
+			}
 		};
 		add (status);
 	}
