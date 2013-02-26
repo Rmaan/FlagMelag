@@ -140,11 +140,7 @@ public class GraphicClient {
 	}
 	
 	public void log (String message) {
-		if (logMonitor == null) {
-			logMonitor = new LogMonitor();
-			logMonitor.setVisible(true);
-		}
-		logMonitor.addLog(message);
+		ground.addLog(message);
 	}
 	
 	public static class DuplicateMemberException extends Exception

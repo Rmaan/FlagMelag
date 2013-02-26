@@ -21,6 +21,7 @@ public class PlayGround extends Screen {
 	protected MapPanel mapPanel;
 	protected Panel sidebar;
 	protected StatusPanel status;
+	protected ScrollableList logMonitor;
 	
 	public PlayGround() {
 		this ("Java Challenge - Play Ground");
@@ -62,6 +63,10 @@ public class PlayGround extends Screen {
 		{
 			status.setLocation(20 + mapPanel.getWidth(), 10);
 			status.setSize(size.width - sidebar.getX() - 30, size.height - 60);
+		}
+		if (logMonitor != null) {
+			logMonitor.setLocation(10, sidebar.getHeight() / 2);
+			logMonitor.setSize(sidebar.getWidth() - 20, sidebar.getHeight() / 2 - 10);
 			status.updatePosition();
 		}
 	}
@@ -98,12 +103,17 @@ public class PlayGround extends Screen {
 			{ setBounds(0, 0, 100, 100);
 			}
 		};
+		status.add(logMonitor = new ScrollableList(0, 100, 300, 300, ColorMaker.black, true));
 		add (status);
 	}
 	public void addSideBar() {
 		sidebar = new Panel (ColorMaker.shadedPanelBack);
 		//add (sidebar);
 		addStatusBar();
+	}
+	
+	public void addLog (String message) {
+		logMonitor.addComponent(new Label(new HTMLMaker(message, ColorMaker.green, 10).toString()), 20);
 	}
 
 	public void addScoreBar(int players)
