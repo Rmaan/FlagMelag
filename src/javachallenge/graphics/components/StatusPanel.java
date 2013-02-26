@@ -19,8 +19,18 @@ public class StatusPanel extends Panel
 	protected ArrayList<Label> labels=new ArrayList<Label>();
 	protected Label time;
 	protected ScoreBar[] scores;
-	public static Color[] filled={Color.GREEN,Color.BLUE,Color.YELLOW,Color.pink};
-	public static Color[] empty={Color.RED, Color.RED, Color.RED,Color.RED};
+	public static Color[] filled={ 
+		new ColorMaker(250, 75, 75), 
+		new ColorMaker(250, 250, 75) , 
+		new ColorMaker(150, 150, 250),
+		Color.RED
+	};
+	public static Color[] empty={ 
+		new ColorMaker(150, 75, 75), 
+		new ColorMaker(150, 150, 75) , 
+		new ColorMaker(100, 100, 150),
+		Color.RED
+	};
 	public void addBars(int no)
 	{
 		scores=new ScoreBar[no];

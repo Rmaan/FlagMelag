@@ -161,9 +161,9 @@ public class MapPanel extends ScrollablePanel {
 	public Sprite setFlag(Position position, int index) throws OutOfMapException {
 		if (isOut(position)) throw new OutOfMapException();
 		//Sprite flag = new AnimatedImage(ImageHolder.Objects.fire, 125, position);
-		Sprite flag = new AnimatedImage(ImageHolder.Objects.flags[0], 200, position);
+		Sprite flag = new AnimatedImage(ImageHolder.Objects.flags[index % 4], 200, position);
 		addToContainer(flag, 4);
-		/*if (index < 2) return flag;
+		if (index < 2) return flag;
 		ImageIcon[] castle = ImageHolder.Terrain.castle;
 		int[] offsetX = { -25, 2, -25, 0, 25, 25 };
 		int[] offsetY = { -78, -64, -80, -88, -80, -80 };
