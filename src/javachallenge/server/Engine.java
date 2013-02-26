@@ -255,7 +255,7 @@ public class Engine {
 				owner.updaetScore(FLAG_POINT);
 			}
 		}
-		
+		//-----------------------
 		for (Team t : teams) {
 			graphicClient.setScore(t.getId(), t.getScore()) ;
 		}

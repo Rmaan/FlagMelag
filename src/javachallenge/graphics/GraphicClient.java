@@ -5,14 +5,12 @@ import java.util.TreeMap;
 
 import javachallenge.common.Direction;
 import javachallenge.common.Point;
-import javachallenge.graphics.components.Label;
 import javachallenge.graphics.components.MapPanel;
 import javachallenge.graphics.components.Sprite;
 import javachallenge.graphics.util.AnimatedImage;
 import javachallenge.graphics.util.ImageHolder;
 import javachallenge.graphics.util.Mover;
 import javachallenge.graphics.util.Position;
-import javachallenge.server.Game;
 import javachallenge.server.Map;
 
 public class GraphicClient {
