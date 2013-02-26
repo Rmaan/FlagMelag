@@ -218,9 +218,7 @@ public class Engine {
 		}
 		return -1;
 	}
-	
-	//respawns an agent for each team if the spawn point is active and not occupied by another agent
-	//TODO no time?! 
+	 
 	private void respawn(){
 		for(Team team : teams){
 			int spawnRate = (team.getAgents().size() >= SPAWN_MARGIN ? SPAWN_LOW_PERIOD : SPAWN_NORM_PERIOD);
@@ -238,13 +236,10 @@ public class Engine {
  				try {
 					graphicClient.spawn(id, p);
 				} catch (OutOfMapException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (DuplicateMemberException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-//				System.err.println("add one agent " + newAgent.getId());
 			}
 			else{
 				spawnedAgents.add(null);
@@ -260,11 +255,11 @@ public class Engine {
 				owner.updaetScore(FLAG_POINT);
 			}
 		}
-		if (teams.size() > 0){
-			// TODO team 0?! 
-			graphicClient.setScore(teams.get(0).getScore()) ;
-			graphicClient.setTime(cycle) ;
+		
+		for (Team t : teams) {
+			graphicClient.setScore(t.getId(), t.getScore()) ;
 		}
+		graphicClient.setTime(cycle) ;
 	}
 	
 	private ArrayList<Integer> getScores(){
@@ -306,7 +301,7 @@ public class Engine {
 		ArrayList<InitMessage> msgs = new ArrayList<InitMessage>();
 
 		for (Team t: teams) {
-			InitMessage msg = new InitMessage(this.map);
+			InitMessage msg = new InitMessage(t.getId(), this.map);
 			msgs.add(msg);
 		}
 		return msgs;

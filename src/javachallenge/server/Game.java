@@ -67,7 +67,7 @@ public class Game {
 	}
 
 	public VisionPoint getVision(Point p) {
-		BlockType[] blockTypes = map.getBlockTypes(p) ;;
+		BlockType[] blockTypes = map.getBlockTypes(p) ;
 		int[] agentTeamId = new int[Direction.values().length];
 		for (Direction dir : Direction.values()) {
 			Agent opAgent = this.getAgent(p.applyDirection(dir));

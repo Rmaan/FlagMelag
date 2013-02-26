@@ -31,7 +31,7 @@ public class GraphicClient {
 		ground.getStatus().setTime(a);
 		//ground.getStatus().getTime().setText(new Integer(a).toString());
 	}
-	public void setScore(int a)
+	public void setScore(int id, int a)
 	{
 		ground.getStatus().setScore(a);
 		//	ground.getStatus().getScore().setText(new Integer(a).toString());

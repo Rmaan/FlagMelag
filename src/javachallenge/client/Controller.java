@@ -31,12 +31,19 @@ public class Controller {
 		out = new ObjectOutputStream(s.getOutputStream());
 		
 //		System.out.println("Creating player & world...");
-		world = new World();
-		player = new MyPlayer(world) ;
+		
 		
 		System.out.println("Waiting for initial Msg...");
 		InitMessage initMsg = (InitMessage)in.readObject();
+		
+		
+		//---------------------------
+		world = new World();
+		player = new MyPlayer() ;
+		player.setWorld(world) ;
 		player.initMsg(initMsg);
+		//---------------------------
+		
 		
 		System.out.println("Starting game");
 		new Thread(){

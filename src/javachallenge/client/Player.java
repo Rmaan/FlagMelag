@@ -14,10 +14,13 @@ public abstract class Player {
 	private ArrayList<Integer> agentAliveId ;
 	private World world ;
 	
-	public Player(World world) {
-		this.world =  world ;
+	public Player() {
 		agents = new ArrayList<Agent>() ;
 		agentAliveId = null ;
+	}
+	
+	void setWorld(World world){
+		this.world = world ;
 	}
 	
 	public World getWorld(){
@@ -54,7 +57,7 @@ public abstract class Player {
 	private void spawn(int spawnedId) {
 		if (spawnedId == Agent.noAgent) 
 			return ;
-		Agent agent = new Agent(spawnedId, world.getSpawnLocation()) ;
+		Agent agent = new Agent(spawnedId, world.getMySpawnLocation()) ;
 		agents.add(agent) ;
 	}
 	

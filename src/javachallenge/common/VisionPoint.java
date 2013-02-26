@@ -1,6 +1,10 @@
 package javachallenge.common;
 
-public class VisionPoint {
+import java.io.Serializable;
+
+public class VisionPoint implements Serializable {
+	private static final long serialVersionUID = 4360952701992884079L;
+	
 	private Point location;
 	private BlockType[] blockTypes;
 	private int[] agentTeamId;
@@ -44,4 +48,11 @@ public class VisionPoint {
 	public boolean hasAdjAgent(Direction dir){
 		return (agentTeamId[dir.ordinal()] == -1);
 	}
+	
+//	/**
+//	 *  @return  
+//	 */
+//	public int getAdjTeamId(Direction dir){
+//		return agentTeamId[dir.ordinal()];
+//	}
 }
