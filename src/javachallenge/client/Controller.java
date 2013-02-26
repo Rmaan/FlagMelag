@@ -45,8 +45,14 @@ public class Controller {
 					while(!gameEnded){
 						//TODO: end game
 						ServerMessage tmp = (ServerMessage)in.readObject();
+						System.out.println("Got server message : " + serverMsg);
 						synchronized (lock) {
+							if(serverMsg != null){
+								System.out.println("TIMED OUT SEEEEEEEEEEEEEET");
+								player.setTimedOut(true);
+							}
 							serverMsg = tmp;
+							player.spawn(serverMsg.getSpawnedId());
 						}
 						gameEnded = serverMsg.isGameEnded() ; 
 					}
@@ -66,11 +72,11 @@ public class Controller {
 					while(!gameEnded){
 						synchronized (lock) {
 							msg = serverMsg;
+							serverMsg = null;
+							player.setTimedOut(false);
+							System.out.println("Read Message " + msg);
 						}
 						if(msg != null){
-							synchronized (lock) {
-								serverMsg = null;
-							}
 							player.updateMsg(msg) ;
 							//------------------------
 							player.beginStep();

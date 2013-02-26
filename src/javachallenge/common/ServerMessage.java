@@ -66,4 +66,12 @@ public class ServerMessage implements Serializable {
 	public boolean isGameEnded(){
 		return isGameEnded ;
 	}
+
+	@Override
+	public String toString() {
+		return "ServerMessage [spawnedId=" + spawnedId + ", scores=" + scores
+				+ ", agentMsg=" + agentMsg + ", deadAgents=" + deadAgents
+				+ ", isGameEnded=" + isGameEnded + "]";
+	}
+	
 }

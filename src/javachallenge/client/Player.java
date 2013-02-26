@@ -13,6 +13,7 @@ public abstract class Player {
 	private ArrayList<Agent> agents ;
 	private ArrayList<Integer> agentAliveId ;
 	private World world ;
+	private boolean timedOut = false;
 	
 	public Player(World world) {
 		this.world =  world ;
@@ -33,9 +34,11 @@ public abstract class Player {
 		world.update(msg);
 		spawn(msg.getSpawnedId()) ;
 		agentAliveId = new ArrayList<Integer>() ;
+		int i = 0;
 		for (AgentMessage agentMsg : msg.getAgentMsg()) {
 			setAgentMsg(agentMsg);
 			agentAliveId.add(agentMsg.getId()) ;
+			i++;
 		}
 	}
 	
@@ -51,7 +54,7 @@ public abstract class Player {
 		agent.updateAgent(agentMsg); 
 	}
 
-	private void spawn(int spawnedId) {
+	void spawn(int spawnedId) {
 		if (spawnedId == Agent.noAgent) 
 			return ;
 		Agent agent = new Agent(spawnedId, world.getSpawnLocation()) ;
@@ -95,4 +98,11 @@ public abstract class Player {
 	
 	public abstract void step();
 	
+	void setTimedOut(boolean timedOut){
+		this.timedOut = timedOut;
+	}
+	
+	public boolean isTimedOut(){
+		return timedOut;
+	}
 }
