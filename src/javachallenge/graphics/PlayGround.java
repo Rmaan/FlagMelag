@@ -54,11 +54,12 @@ public class PlayGround extends Screen {
 		Dimension size = getSize();
 		mapPanel.setLocation(10, 10);
 		mapPanel.setSize(size.width - statusWidth - 50, size.height - 110);
-		if (bottomBar!=null)
+		if (bottomBar!=null) {
 			bottomBar.setBounds(10, size.height - 90, size.width - statusWidth - 50, 30);
-		play.setBounds(320, size.height - 90, 100, 30);
-		pause.setBounds(430, size.height - 90, 100, 30);
-		forward.setBounds(540, size.height - 90, 100, 30);
+			play.setBounds(10,0,100,30);
+			pause.setBounds(60, 0, 100, 30);
+			forward.setBounds(110, 0, 100, 30);
+		}
 
 		if (sidebar!=null)
 		{
@@ -107,12 +108,12 @@ public class PlayGround extends Screen {
 	{
 		bottomBar=new Panel(ColorMaker.black);
 		Label play2=new Label("Play");
-		play2.setBounds(10,0,100,30);
+		play.setBounds(10,0,100,30);
 		pause.setBounds(120, 0, 100, 30);
 		forward.setBounds(230, 0, 100, 30);
 	//	System.err.println(play.getText());
 	//	play.setForeground(Color.white);
-		bottomBar.add(play2);
+		bottomBar.add(play);
 		bottomBar.add(pause);
 		bottomBar.add(forward);
 		mapPanel.getPosition().setBounds(240,0,300,30);

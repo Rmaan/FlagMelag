@@ -86,12 +86,14 @@ public class GraphicClient {
 				}*/
 			}
 		});
+		
 		ground.getStatus().addBars(Players);
+		ground.addBottomBar();
+		
 		for (int i = 0; i < map.getFlagLocations().size(); i++) {
 			Position position = new Position(map.getFlagLocations().get(i));
 			flags.put(i+1, panel.setFlag(position, i));
 		}
-		ground.addBottomBar();
 
 		for (int i = 0; i < map.getSpawnLocations().size(); i++) {
 			Position position = new Position(map.getSpawnLocations().get(i));
