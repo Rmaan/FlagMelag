@@ -98,6 +98,6 @@ public class Main {
 	}
 	
 	public static void main(String[] args) throws IOException, InterruptedException, OutOfMapException {
-		new Main().run(PORT, args.length < 1 ? "map/final4.txt" : args[0]);
+		new Main().run(PORT, args.length < 1 ? "map/m1.txt" : args[0]);
 	}
 }

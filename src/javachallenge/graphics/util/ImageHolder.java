@@ -36,10 +36,22 @@ public class ImageHolder {
 	public static class Terrain {
 		public static String prefix = corePrefix + "terrain/";
 		
+		public static ImageIcon[] getAllDirs(String path, String type) {
+			ImageIcon[] ret = new ImageIcon[6];
+			int index = 0;
+			for (String dir : new String[] { "bl", "br", "l", "r", "tl", "tr" }) {
+				ret[index] = new ImageIcon(path + "/" + type + "-" + dir + ".png");
+				index++;
+			}
+			return ret;
+		}
+		
 		public static ImageIcon[] grass = getAll(prefix + "grass", "green", 8, true);
 		public static ImageIcon[] ice = getAll(prefix + "frozen", "ice", 6, true);
 		public static ImageIcon[] beach = getAll(prefix + "sand", "beach", 8, true);
 		public static ImageIcon fog = new ImageIcon(prefix + "darken.png");
+		
+		public static ImageIcon[] castle = getAllDirs (prefix + "castle", "castle-convex");
 		
 		public static ArrayList<ImageIcon[]> mapBlocks = new ArrayList<ImageIcon[]>(
 				Arrays.asList(new ImageIcon[][] {
@@ -54,8 +66,9 @@ public class ImageHolder {
 		/* Hue Saturation Lightness:
 		 * yellow: 52 61 30
 		 * blue: 224 64 1
+		 * red: 10 100 11
+		 * black: 180 0 -70
 		 */
-		//public static ImageIcon blueFlag = new ImageIcon(menuPrefix + "editor/tool-overlay-starting-position.png");
 		public static ImageIcon[] greenFlag = getAll(menuPrefix + "flags", "long-flag-", 4, false);
 		public static ImageIcon[] yellowFlag = getAll(menuPrefix + "flags", "long-flag-yellow-", 4, false);
 		public static ImageIcon[] redFlag = getAll(menuPrefix + "flags", "long-flag-red-", 4, false);
@@ -67,7 +80,8 @@ public class ImageHolder {
 		//public static ImageIcon scepture = new ImageIcon(corePrefix + "items/sceptre-of-fire.png");
 		public static ImageIcon[] brazier = getAll(corePrefix + "items", "brazier-lit", 8, false); 
 		public static ImageIcon[] fire = getAll(corePrefix + "scenery", "fire", 8, false);
-		public static ImageIcon mage[] = getAll(corePrefix + "halo", "mage-halo", 5, false);
+		public static ImageIcon[] mage = getAll(corePrefix + "halo", "mage-halo", 5, false);
+		public static ImageIcon flagRock = new ImageIcon(corePrefix + "scenery/rock-cairn.png");
 		public static ImageIcon underFire = new ImageIcon(corePrefix + "scenery/rune2-glow.png");
 	}
 }
