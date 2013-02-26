@@ -154,7 +154,6 @@ public class GraphicClient {
 	}
 
 	public void setFlagStatus(Integer id, int progressTeam, int progressPercent, int curTeam){
-
 	}
 	
 	public void log (String message) {
