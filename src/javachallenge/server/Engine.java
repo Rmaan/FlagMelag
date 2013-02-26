@@ -132,6 +132,10 @@ public class Engine {
 					continue;
 				}
 			}
+			
+			for(Agent agent : deadAgents){
+				game.setAgent(agent.getLocation(), null);
+			}
 		}
 		
 		for(Flag flag : game.getFlags()){

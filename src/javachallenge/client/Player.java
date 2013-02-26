@@ -69,7 +69,7 @@ public abstract class Player {
 		return agents ;
 	}
 
-	int getTeamId(){
+	public int getTeamId(){
 		return id ;
 	}
 	

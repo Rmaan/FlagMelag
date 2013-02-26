@@ -433,13 +433,17 @@
       "GROUND"
     ]
   ],
-  "teamCount": 1,
+  "teamCount": 2,
   "hei": 16,
   "wid": 24,
   "spawnLocations": [
     {
       "x": 2,
       "y": 2
+    },
+    { 
+       "x" : 3,
+        "y" : 1
     }
   ],
   "flagLocations": [
