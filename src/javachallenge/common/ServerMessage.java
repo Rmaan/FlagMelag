@@ -10,6 +10,7 @@ public class ServerMessage implements Serializable {
 	ArrayList<Integer> scores;
 	ArrayList<AgentMessage> agentMsg;
 	ArrayList<Integer> deadAgents;
+	CycleAction cycleAction;
 	ArrayList<Integer> flagOwners; 
 	
 	boolean isGameEnded ;
@@ -49,6 +50,10 @@ public class ServerMessage implements Serializable {
 		this.agentMsg = agentMsg;
 	}
 	
+	public void setCycleAction(CycleAction cycleAction){
+		this.cycleAction = cycleAction;
+	}
+	
 	public void addScore(int score){
 		scores.add(score);
 	}
@@ -67,6 +72,18 @@ public class ServerMessage implements Serializable {
 	
 	public boolean isGameEnded(){
 		return isGameEnded ;
+	}
+	
+
+	public CycleAction getCycleAction() {
+		return cycleAction;
+	}
+
+	@Override
+	public String toString() {
+		return "ServerMessage [spawnedId=" + spawnedId + ", scores=" + scores
+				+ ", agentMsg=" + agentMsg + ", deadAgents=" + deadAgents
+				+ ", isGameEnded=" + isGameEnded + "]";
 	}
 	
 	public void setFlagOwners(ArrayList<Integer> flagOwners){

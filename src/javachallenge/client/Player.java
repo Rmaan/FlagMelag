@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javachallenge.common.Action;
 import javachallenge.common.AgentMessage;
 import javachallenge.common.ClientMessage;
+import javachallenge.common.CycleAction;
 import javachallenge.common.InitMessage;
 import javachallenge.common.ServerMessage;
 
@@ -13,6 +14,8 @@ public abstract class Player {
 	private ArrayList<Agent> agents ;
 	private ArrayList<Integer> agentAliveId ;
 	private World world ;
+	private boolean timedOut = false;
+	private CycleAction cycleAction;
 	
 	public Player() {
 		agents = new ArrayList<Agent>() ;
@@ -36,6 +39,7 @@ public abstract class Player {
 		world.update(msg);
 		spawn(msg.getSpawnedId()) ;
 		agentAliveId = new ArrayList<Integer>() ;
+		cycleAction = msg.getCycleAction();
 		for (AgentMessage agentMsg : msg.getAgentMsg()) {
 			setAgentMsg(agentMsg);
 			agentAliveId.add(agentMsg.getId()) ;
@@ -54,7 +58,7 @@ public abstract class Player {
 		agent.updateAgent(agentMsg); 
 	}
 
-	private void spawn(int spawnedId) {
+	void spawn(int spawnedId) {
 		if (spawnedId == Agent.noAgent) 
 			return ;
 		Agent agent = new Agent(spawnedId, world.getMySpawnLocation()) ;
@@ -97,5 +101,17 @@ public abstract class Player {
 	}
 	
 	public abstract void step();
+	
+	void setTimedOut(boolean timedOut){
+		this.timedOut = timedOut;
+	}
+	
+	public boolean isTimedOut(){
+		return timedOut;
+	}
+
+	public CycleAction getCycleAction() {
+		return cycleAction;
+	}
 	
 }

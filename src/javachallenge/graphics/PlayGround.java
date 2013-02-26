@@ -21,7 +21,8 @@ public class PlayGround extends Screen {
 	protected MapPanel mapPanel;
 	protected Panel sidebar;
 	protected StatusPanel status;
-	
+	protected ScrollableList logMonitor;
+	public static int statusWidth=180;
 	public PlayGround() {
 		this ("Java Challenge - Play Ground");
 	}
@@ -51,18 +52,22 @@ public class PlayGround extends Screen {
 	public void updateDimensions() {
 		Dimension size = getSize();
 		mapPanel.setLocation(10, 10);
-		mapPanel.setSize(size.width * 3 / 4, size.height - 110);
+		mapPanel.setSize(size.width -statusWidth-50, size.height - 110);
 		mapPanel.getPosition().setBounds(10, size.height-90,size.width*3/4,30);
 		if (sidebar!=null)
 		{
 			sidebar.setLocation(20 + mapPanel.getWidth(), 10);
-			sidebar.setSize(size.width - sidebar.getX() - 30, size.height - 60);
+			sidebar.setSize(statusWidth, size.height - 60);
 		}
 		if (status!=null)
 		{
 			status.setLocation(20 + mapPanel.getWidth(), 10);
-			status.setSize(size.width - sidebar.getX() - 30, size.height - 60);
-			status.updatePosition();
+			status.setSize(statusWidth, size.height - 60);
+		}
+		if (logMonitor != null) {
+			logMonitor.setLocation(10, sidebar.getHeight() / 2);
+			logMonitor.setSize(sidebar.getWidth() - 20, sidebar.getHeight() / 2 - 10);
+			//status.updatePosition();
 		}
 	}
 	
@@ -85,7 +90,7 @@ public class PlayGround extends Screen {
 		
 		// update dimensions based on size
 		Dimension dimension = MapPanel.getAbsoluteSize(mapPanel.getMapWidth(), mapPanel.getMapHeight());
-		setPreferredSize(new Dimension(dimension.width*4/3+40, dimension.height+110));
+		setPreferredSize(new Dimension(dimension.width+statusWidth+80, dimension.height+110));
 		updateDimensions();
 		pack();
 	}
@@ -98,12 +103,17 @@ public class PlayGround extends Screen {
 			{ setBounds(0, 0, 100, 100);
 			}
 		};
+		status.add(logMonitor = new ScrollableList(0, 100, 400, getHeight() / 2, ColorMaker.black, true));
 		add (status);
 	}
 	public void addSideBar() {
 		sidebar = new Panel (ColorMaker.shadedPanelBack);
 		//add (sidebar);
 		addStatusBar();
+	}
+	
+	public void addLog (String message) {
+		logMonitor.addComponent(new Label(new HTMLMaker(message, ColorMaker.green, 10).toString()), 20);
 	}
 
 	public void addScoreBar(int players)

@@ -19,6 +19,8 @@ public class GraphicTest {
 		frame.pack();
 		frame.setVisible(true);
 		frame.add(bar);*/
+		for (int i = 0; i < 40; i++)
+			client.log("salam" + i);
 		Scanner scanner=new Scanner(System.in);
 		while (true)
 		{
@@ -37,6 +39,11 @@ public class GraphicTest {
 			{
 				int id=scanner.nextInt(),pos=scanner.nextInt();
 				client.move(id,Direction.values()[pos]);
+			}
+			else if (com.startsWith("a")) // attack
+			{
+				int id=scanner.nextInt(),pos=scanner.nextInt();
+				client.attack(id,Direction.values()[pos]);
 			}
 			else if (com.startsWith("f")) { // obtain flag
 				int id = scanner.nextInt();

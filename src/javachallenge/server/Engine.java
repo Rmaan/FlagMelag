@@ -6,11 +6,11 @@ import java.util.HashMap;
 import java.util.Random;
 
 import javachallenge.IllegalAgentException;
-import javachallenge.NotImplementedException;
 import javachallenge.common.Action;
 import javachallenge.common.ActionType;
 import javachallenge.common.AgentMessage;
 import javachallenge.common.BlockType;
+import javachallenge.common.CycleAction;
 import javachallenge.common.Direction;
 import javachallenge.common.InitMessage;
 import javachallenge.common.Point;
@@ -68,13 +68,13 @@ public class Engine {
 		if(gameEnded){
 			return;
 		}
-		if(cycle % 2 == 0){
+		if(cycle % 2 == 1){
 			handleMoves(actions);
 		}
 		else{
 			//handle attacks
 			HashMap<Integer, ArrayList<Integer>> attackNum = new HashMap<Integer, ArrayList<Integer>>();
-			int[][] spawnAttacks = new int[teamCount][teamCount];
+			ArrayList<Action> validActions = new ArrayList<Action>();
 			for(Action action : actions){
 				if(action.getType() == ActionType.NONE || action.getType() != ActionType.ATTACK){
 					continue;
@@ -85,18 +85,23 @@ public class Engine {
 					Agent opAgent = game.getAgent(dest);
 					if(opAgent != null){
 						int opId = opAgent.getId();
+						if(agent.getTeamId() == opAgent.getTeamId()){
+							System.out.println("Attack to itself");
+							continue;
+						}
 						if(attackNum.get(opId) == null){
 							attackNum.put(opId, new ArrayList<Integer>());
 						}
 						ArrayList<Integer> tmp = attackNum.get(opId);
 						tmp.add(agent.getTeamId());
 						attackNum.put(opId, tmp);
+						validActions.add(action);
 					}
 					
 					//Handle spawn point attacks
-					if(getSpawnLocationTeam(dest) != -1){
-						spawnAttacks[getSpawnLocationTeam(dest)][agent.getTeamId()]++;
-					}
+//					if(getSpawnLocationTeam(dest) != -1){
+//						spawnAttacks[getSpawnLocationTeam(dest)][agent.getTeamId()]++;
+//					}
 				}
 				catch(Exception e){
 					System.out.println("Bad Agent : Team " + action.getTeamId());
@@ -104,7 +109,7 @@ public class Engine {
 				}
 				
 			}
-			for(Action action : actions){
+			for(Action action : validActions){
 				if(action.getType() == ActionType.NONE || action.getType() != ActionType.ATTACK){
 					continue;
 				}
@@ -160,6 +165,9 @@ public class Engine {
 		}
 		
 		Direction dir = action.getDir() ;
+		if(dir == Direction.NONE){
+			return false;
+		}
 		Agent agent = null ;
 		
 		try {
@@ -322,7 +330,8 @@ public class Engine {
 			msg.setScores(scores);
 			msg.setDeadAgents(getDeadAgents(t.getId()));
 			msg.setAgentMsg(getAgentMessages(t.getId()));
-			msg.setGameEnded(this.gameIsOver()) ;
+			msg.setGameEnded(this.gameIsOver());
+			msg.setCycleAction((cycle % 2 == 1) ? CycleAction.MOVE_CYCLE : CycleAction.ATTACK_CYCLE);
 			msg.setFlagOwners(game.getFlagOwners()) ;
 			msgs.add(msg);
 		}
@@ -351,12 +360,16 @@ public class Engine {
 			outAct.add(null);
 			in.add(-1);
 		}
+		
 		for(Action act : actions){
+			if(act.getType() == ActionType.NONE || act.getType() != ActionType.MOVE){
+				continue;
+			}
 			Agent agent = null;
 			try {
 				agent = getAgent(act.getTeamId(), act.getId());
 			} catch (IllegalAgentException e) {
-				e.printStackTrace();
+				System.out.println("Illegal Agent Id from team " + act.getTeamId());
 				continue ;
 			}
 			//--------------------------------------------------
@@ -365,11 +378,6 @@ public class Engine {
 			if(map.isInsideMap(dest)){
 				int locNum = getNodeNum(loc);
 				int destNum = getNodeNum(dest);
-//				System.out.println("Action");
-//				System.out.println(loc);
-//				System.out.println(locNum);
-//				System.out.println(dest);
-//				System.out.println(destNum);
 				out.set(locNum, destNum);
 				outAct.set(locNum, act);
 				firstIn.get(destNum).add(locNum);
@@ -393,21 +401,6 @@ public class Engine {
 				in.set(i, list.get(0));
 			}
 		}
-		/*System.out.println("---------------Graph-------------");
-		for(int i = 0 ; i < firstIn.size() ; i++){
-			System.out.print(firstIn.get(i) + " ");
-		}
-		System.out.println();
-		System.out.println("-----------------out--------------");
-		for(int i = 0 ; i < out.size() ; i++){
-			System.out.print(out.get(i) + " ");
-		}
-		System.out.println("\n----------------in-----------");
-		for(int i = 0 ; i < in.size() ; i++){
-			System.out.print(in.get(i) + " ");
-		}
-		System.out.println("\n--------------------------------");
-		*/
 		ArrayList<Integer> routeStart = new ArrayList<Integer>();
 		for(int i = 0 ; i < in.size() ; i++){
 			if(in.get(i) == -1){
@@ -420,16 +413,11 @@ public class Engine {
 			//find route
 			ArrayList<Action> routeActs = new ArrayList<Action>();
 			int node = routeStart.get(i);
-		//	System.out.println("Start node ");
-		//	System.out.println(node);
 			while(out.get(node) >= 0){
 				routeActs.add(outAct.get(node));
 				seen[node] = true;
 				node = out.get(node);
-			//	System.out.print(node + " ");
 			}
-	//		System.out.println();
-	//		System.out.println(routeActs);
 			for(int j = routeActs.size() - 1 ; j >= 0 ; j--){
 				moveAgent(routeActs.get(j));
 			}
@@ -447,7 +435,6 @@ public class Engine {
 			}
 			if(cycleActs.size() > 2){
 				Action firstAct = cycleActs.get(0);
-			//	System.out.println("REMOVE " + getAgent(firstAct.getTeamId(), firstAct.getId()).getLocation());
 				Agent agent = null ;
 				try {
 					agent = getAgent(firstAct.getTeamId(), firstAct.getId()) ;
@@ -460,7 +447,6 @@ public class Engine {
 					System.out.println(cycleActs.get(j));
 					moveAgent(cycleActs.get(j));
 				}
-			//	System.out.println("MOVES DONE");
 				
 				Agent a = null ;
 				try {
@@ -470,14 +456,10 @@ public class Engine {
 					throw new RuntimeException() ;
 				}
 				Point dest = a.getLocation().applyDirection(firstAct.getDir());
-			//	System.out.println("Destionation " + dest);
-			//	System.out.println(a.getLocation());
-			//	System.out.println("DONE");
 				a.setLocation(dest);
 				game.setAgent(dest, a);
 				Integer id = new Integer(a.getId()) ;
 				graphicClient.move(id, firstAct.getDir()) ;
-			//	System.out.println("DONE");
 			}
 		}
 	}
