@@ -24,9 +24,9 @@ import javachallenge.graphics.util.Position;
 public class Engine {
 	private static final int FLAG_POINT = 100;
 	private static final int GAME_CYCLES = 725;
-	private static final int SPAWN_MARGIN = 6;
+	private static final int SPAWN_MARGIN = 6 ;
 	private static final int SPAWN_LOW_PERIOD = 0;
-	private static final int SPAWN_NORM_PERIOD = 3;
+	private static final int SPAWN_NORM_PERIOD = 5;
 
 	
 	private Map map;
@@ -160,7 +160,16 @@ public class Engine {
 		}
 		
 		Direction dir = action.getDir() ;
-		Agent agent = getAgent(action.getTeamId(), action.getId());
+		Agent agent = null ;
+		
+		try {
+			agent = getAgent(action.getTeamId(), action.getId());
+		} catch (IllegalAgentException e) {
+			e.printStackTrace();
+			//TODO ask mina :D
+			return false;
+		}
+		
 		Point dest = agent.getLocation().applyDirection(dir);
 		if(actionType == ActionType.MOVE){
 			//System.err.println("Dest is : " + dest.x + " " + dest.y + " - " + map.isInsideMap(dest));
@@ -191,7 +200,7 @@ public class Engine {
 	
 	//returns the specified agent, checking for it to exist and to be alive
 	
-	private Agent getAgent(int teamId, int id){
+	private Agent getAgent(int teamId, int id) throws IllegalAgentException{
 		Agent agent = teams.get(teamId).getAgent(id);
 		if(agent == null || !agent.isAlive()){
 			throw new IllegalAgentException();
@@ -202,11 +211,6 @@ public class Engine {
 	//checks if the given location is occupied by an agent, a flag or a spawned point
 	private boolean occupied(Point p){
 		return (game.getAgent(p) !=  null /*|| getSpawnLocationTeam(p) != -1*/);
-	}
-	
-	//checks if the given location is a flag
-	private boolean isFlag(Point p){
-		throw new NotImplementedException();
 	}
 	
 	//returns the id of the team for which the given location is the spawn point, -1 if it is not.
@@ -348,13 +352,21 @@ public class Engine {
 			in.add(-1);
 		}
 		for(Action act : actions){
-			Agent agent = getAgent(act.getTeamId(), act.getId());
+			Agent agent = null;
+			try {
+				agent = getAgent(act.getTeamId(), act.getId());
+			} catch (IllegalAgentException e) {
+				// TODO ask mina
+				e.printStackTrace();
+				continue ;
+			}
+			//--------------------------------------------------
 			Point loc = agent.getLocation();
 			Point dest = loc.applyDirection(act.getDir());
 			if(map.isInsideMap(dest)){
 				int locNum = getNodeNum(loc);
 				int destNum = getNodeNum(dest);
-//				System.out.println("ACtion");
+//				System.out.println("Action");
 //				System.out.println(loc);
 //				System.out.println(locNum);
 //				System.out.println(dest);
@@ -437,13 +449,27 @@ public class Engine {
 			if(cycleActs.size() > 2){
 				Action firstAct = cycleActs.get(0);
 			//	System.out.println("REMOVE " + getAgent(firstAct.getTeamId(), firstAct.getId()).getLocation());
-				game.setAgent(getAgent(firstAct.getTeamId(), firstAct.getId()).getLocation(), null);
+				Agent agent = null ;
+				try {
+					agent = getAgent(firstAct.getTeamId(), firstAct.getId()) ;
+				} catch (IllegalAgentException e) {
+					// TODO Auto-generated catch block what should I do?! 
+					e.printStackTrace();
+				}
+				game.setAgent(agent.getLocation(), null);
 				for(int j = cycleActs.size() - 1; j > 0; j--){
 					System.out.println(cycleActs.get(j));
 					moveAgent(cycleActs.get(j));
 				}
 			//	System.out.println("MOVES DONE");
-				Agent a = getAgent(firstAct.getTeamId(), firstAct.getId());
+				
+				Agent a = null ;
+				try {
+					a = getAgent(firstAct.getTeamId(), firstAct.getId());
+				} catch (IllegalAgentException e) {
+					// TODO Auto-generated catch block what should I do?! 
+					e.printStackTrace();
+				}
 				Point dest = a.getLocation().applyDirection(firstAct.getDir());
 			//	System.out.println("Destionation " + dest);
 			//	System.out.println(a.getLocation());
