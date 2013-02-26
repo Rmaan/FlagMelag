@@ -37,6 +37,6 @@ public class StatusPanel extends Panel
 	}
 	
 	public void setScore(int a) {
-		score.setText("score: " + a);
+		//score.setText("score: " + a);
 	}
 }
