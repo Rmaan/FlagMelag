@@ -84,7 +84,11 @@ public class Main {
 				if (msg == null) {
 					System.out.println("Team " + i + " message loss");
 				} else {
-					allActions.addAll(msg.getActions(i));
+					ArrayList<Action> actions = msg.getActions();
+					for(Action action : actions){
+						action.setTeamId(i);
+					}
+					allActions.addAll(actions);
 				}
 			}
 			
@@ -98,6 +102,6 @@ public class Main {
 	}
 	
 	public static void main(String[] args) throws IOException, InterruptedException, OutOfMapException {
-		new Main().run(PORT, args.length < 1 ? "map/final4.txt" : args[0]);
+		new Main().run(PORT, args.length < 1 ? "map/final1.txt" : args[0]);
 	}
 }
