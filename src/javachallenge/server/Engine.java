@@ -28,7 +28,6 @@ public class Engine {
 	private static final int SPAWN_LOW_PERIOD = 0;
 	private static final int SPAWN_NORM_PERIOD = 5;
 	private static final int MAX_SCORE = 1000000;
-
 	
 	private Map map;
 	private int cycle, teamCount;
@@ -179,7 +178,6 @@ public class Engine {
 				Integer id = new Integer(agent.getId()) ;
 				graphicClient.move(id, dir) ;
 				
-				// TODO phase2 implement
 				//--------------------------- Move On The Flag  
 //				if (game.hasFlag(dest)){
 //					Flag flag = game.getFlagByLocation(dest); 
