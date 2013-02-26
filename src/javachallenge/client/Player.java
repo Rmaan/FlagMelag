@@ -31,7 +31,7 @@ public abstract class Player {
 	}
 	
 	void initMsg(InitMessage msg){
-		this.id = 0;
+		this.id = msg.getTeamId();
 		world.update(msg);
 	}
 	
@@ -69,7 +69,7 @@ public abstract class Player {
 		return agents ;
 	}
 
-	int getTeamId(){
+	public int getTeamId(){
 		return id ;
 	}
 	

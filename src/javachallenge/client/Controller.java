@@ -90,6 +90,7 @@ public class Controller {
 							player.step() ;
 							ClientMessage cMsg = player.endStep() ;
 							System.out.println("Sending actions");
+							System.out.println(cMsg);
 							out.writeObject(cMsg);
 						}
 						else{

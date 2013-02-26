@@ -77,6 +77,8 @@ public class Engine {
 		}
 		else{
 			//handle attacks
+			System.out.println("ATTTAAACKKKS");
+			System.out.println(actions);
 			HashMap<Integer, ArrayList<Integer>> attackNum = new HashMap<Integer, ArrayList<Integer>>();
 			ArrayList<Action> validActions = new ArrayList<Action>();
 			for(Action action : actions){
@@ -85,6 +87,9 @@ public class Engine {
 				}
 				try{
 					Agent agent = getAgent(action.getTeamId(), action.getId());
+					
+					graphicClient.attack(agent.getId(), action.getDir());
+					
 					Point dest = agent.getLocation().applyDirection(action.getDir());
 					Agent opAgent = game.getAgent(dest);
 					if(opAgent != null){
@@ -95,6 +100,9 @@ public class Engine {
 						}
 						if(attackNum.get(opId) == null){
 							attackNum.put(opId, new ArrayList<Integer>());
+						}
+						if(attackNum.get(agent.getId()) == null){
+							attackNum.put(agent.getId(), new ArrayList<Integer>());
 						}
 						ArrayList<Integer> tmp = attackNum.get(opId);
 						tmp.add(agent.getTeamId());
@@ -109,6 +117,7 @@ public class Engine {
 				}
 				catch(Exception e){
 					System.out.println("Bad Agent : Team " + action.getTeamId());
+					e.printStackTrace();
 					continue;
 				}
 				
@@ -123,9 +132,11 @@ public class Engine {
 					Agent opAgent = game.getAgent(dest);
 					int firstTeamAttacks = Collections.frequency(attackNum.get(opAgent.getId()), agent.getTeamId());
 					int secondTeamAttacks = Collections.frequency(attackNum.get(agent.getId()), opAgent.getTeamId());
+					System.out.println(firstTeamAttacks + ", " + secondTeamAttacks);
 					if(firstTeamAttacks >= secondTeamAttacks){
 						if(opAgent.isAlive()){
 							deadAgents.add(opAgent);
+							System.out.println("KILLED " + opAgent.getTeamId());
 						}
 						opAgent.setAlive(false);
 				
@@ -133,8 +144,14 @@ public class Engine {
 				}
 				catch (Exception e) {
 					System.out.println("Bad Agent : Team " + action.getTeamId());
+					e.printStackTrace();
 					continue;
 				}
+			}
+			
+			for(Agent agent : deadAgents){
+				game.setAgent(agent.getLocation(), null);
+				graphicClient.die(agent.getId());
 			}
 		}
 		
