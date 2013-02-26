@@ -72,34 +72,24 @@ public class GraphicClient {
 		});
 		for (int i = 0; i < map.getFlagLocations().size(); i++) {
 			Position position = new Position(map.getFlagLocations().get(i));
-			if (isOut(position)) throw new OutOfMapException();
-			//Sprite flag = new AnimatedImage(ImageHolder.Objects.fire, 125, position);
-			Sprite flag = new AnimatedImage(ImageHolder.Objects.flags[i % ImageHolder.Objects.flags.length], 200, position);
-			panel.addToContainer(flag ,2);
-			flags.put(i+1, flag);
+			flags.put(i+1, panel.setFlag(position, i));
 		}
 		for (int i = 0; i < map.getSpawnLocations().size(); i++) {
 			Position position = new Position(map.getSpawnLocations().get(i));
-			if (isOut(position)) throw new OutOfMapException();
+			if (panel.isOut(position)) throw new OutOfMapException();
 			Sprite spawn = new AnimatedImage(ImageHolder.Objects.mage, 250, position);
 			panel.addToContainer(spawn ,2);
 			spawnPoints.put(i+1, spawn);
 		}
 	}
-	private boolean isOut(Position position)
-	{
-		if (position.getX()<0 || position.getY()<0 || position.getX()>=panel.getMapWidth() || position.getY()>=panel.getMapHeight()) return true;
-		return false;
-	}
 
 	public void spawn(Integer id,Position position) throws OutOfMapException, DuplicateMemberException
 	{
-		if (isOut(position)) throw new OutOfMapException();
+		if (panel.isOut(position)) throw new OutOfMapException();
 		if (units.get(id)!=null) throw new DuplicateMemberException();
 		Sprite sprite=new Sprite(ImageHolder.Units.wesfolkOutcast, position);
 		units.put(id,sprite);
 		panel.addToContainer(sprite,3);
-
 	}
 	
 	public void die(Integer id) throws NullPointerException{
