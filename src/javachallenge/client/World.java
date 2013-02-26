@@ -10,13 +10,15 @@ import javachallenge.common.ServerMessage;
  *  General information about the game (map width, height, spawn location, score)
  */
 public class World {
-	private int score;
 	private int mapWidth, mapHeight;
-	private ArrayList<Point> spawnLocation;
+	private ArrayList<Integer> scores;
+	private ArrayList<Point> spawnLocations;
+	private ArrayList<Point> flagLocations;
+	private ArrayList<Integer> flagOwners;
 	private int teamId;
 
-	public int getScore() {
-		return score;
+	public ArrayList<Integer> getScore() {
+		return scores;
 	}
 
 	public int getMapWidth() {
@@ -28,18 +30,32 @@ public class World {
 	}
 
 	public Point getSpawnLocation(int teamId) {
-		return (teamId >= 0 && teamId < spawnLocation.size() ? spawnLocation.get(teamId) : null); 
+		return (teamId >= 0 && teamId < spawnLocations.size() ? spawnLocations.get(teamId) : null); 
+	}
+	
+	public ArrayList<Point> getFlagLocations() {
+		return flagLocations ; 
 	}
 
 	void update(InitMessage msg) {
 		this.mapHeight = msg.getMapHeight();
 		this.mapWidth = msg.getMapWidth();
 		this.teamId = msg.getTeamId() ;
-		this.spawnLocation = msg.getSpawnLocations();
+		this.spawnLocations = msg.getSpawnLocations();
+		this.flagLocations = msg.getFlagLocations();
+		//----------------------------------------------
+		this.flagOwners = new ArrayList<Integer>();
+		for(int i = 0 ; i < flagLocations.size() ; i++)
+			flagOwners.add(-1) ;
+	}
+	
+	public ArrayList<Integer> getFlagOwners(){
+		return flagOwners;
 	}
 
 	void update(ServerMessage msg) {
-		this.score = msg.getScores().get(0);
+		this.scores = msg.getScores() ;
+		this.flagOwners = msg.getFlagOwners() ;
 	}
 
 	public Point getMySpawnLocation() {

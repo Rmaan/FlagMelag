@@ -262,7 +262,8 @@ public class Engine {
 		}
 		//-----------------------
 		for (Team t : teams) {
-			graphicClient.setScore(t.getId(), t.getScore()) ;
+			//TODO fill the ratio :D
+			graphicClient.setScore(t.getId(), t.getScore(), 0.25) ;
 		}
 		graphicClient.setTime(cycle) ;
 	}
@@ -326,6 +327,7 @@ public class Engine {
 			msg.setAgentMsg(getAgentMessages(t.getId()));
 			msg.setGameEnded(this.gameIsOver());
 			msg.setCycleAction((cycle % 2 == 1) ? CycleAction.MOVE_CYCLE : CycleAction.ATTACK_CYCLE);
+			msg.setFlagOwners(game.getFlagOwners()) ;
 			msgs.add(msg);
 		}
 		

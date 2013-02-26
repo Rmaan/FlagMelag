@@ -22,16 +22,22 @@ public class InitMessage implements Serializable {
 	
 	private int mapWidth, mapHeight;
 	private ArrayList<Point> spawnLocation;
+	private ArrayList<Point> flagLocation;
 	private int teamId ;
 	
 	public InitMessage(int teamId, Map map) {
 		mapWidth = map.getWid();
 		mapHeight = map.getHei();
 		spawnLocation = map.getSpawnLocations();
+		flagLocation = map.getFlagLocations(); 
 		this.teamId = teamId ;
 	}
 
 	public int getTeamId() {
 		return teamId;
+	}
+
+	public ArrayList<Point> getFlagLocations() {
+		return flagLocation;
 	}
 }
