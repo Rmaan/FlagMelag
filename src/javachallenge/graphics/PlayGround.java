@@ -103,7 +103,7 @@ public class PlayGround extends Screen {
 			{ setBounds(0, 0, 100, 100);
 			}
 		};
-		status.add(logMonitor = new ScrollableList(0, 100, 300, 300, ColorMaker.black, true));
+		status.add(logMonitor = new ScrollableList(0, 100, 400, getHeight() / 2, ColorMaker.black, true));
 		add (status);
 	}
 	public void addSideBar() {

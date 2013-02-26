@@ -50,6 +50,11 @@ public class GraphicTest {
 				int id=scanner.nextInt(),pos=scanner.nextInt();
 				client.move(id,Direction.values()[pos]);
 			}
+			else if (com.startsWith("a")) // attack
+			{
+				int id=scanner.nextInt(),pos=scanner.nextInt();
+				client.attack(id,Direction.values()[pos]);
+			}
 			else if (com.startsWith("f")) { // obtain flag
 				int id = scanner.nextInt();
 				client.obtainFlag (id);

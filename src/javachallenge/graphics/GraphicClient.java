@@ -27,6 +27,7 @@ public class GraphicClient {
 	public static int x[]={0,1,1,0,-1,-1};
 	public static int y[]={-1,-1,0,1,0,-1};
 	public static int moveSpeed = 300, moveSteps = 25;
+	public static int attackSpeed = 90, attackSteps = 10;
 
 	protected MapPanel panel;
 	protected java.util.Map<Integer,Sprite> flags=new TreeMap<Integer,Sprite>();
@@ -112,7 +113,24 @@ public class GraphicClient {
 		panel.remove(sprite);
 	}
 
-	public void attack(Integer attacker,Integer defender) {
+	public void attack(Integer id, Direction dir) {
+		int direction = dir.ordinal();
+		final Sprite sprite = units.get(id);
+		final Position position = MapPanel.getAbsolutePosition(x[direction], y[direction]);
+		position.x /= 2;
+		position.y /= 2;
+		if (direction == 1 || direction == 2)
+			units.get(id).setIcon(ImageHolder.Units.wesfolkOutcast);
+		if (direction == 4 || direction == 5)
+			units.get(id).setIcon(ImageHolder.Units.wesfolkOutcastMirror);
+		new Mover(sprite,position,attackSpeed/attackSteps,attackSteps) {
+			@Override
+			public void atTheEnd() {
+				position.x *= -1;
+				position.y *= -1;
+				new Mover(sprite,position,attackSpeed/attackSteps,attackSteps).start();
+			}
+		}.start();
 	}
 
 	public void move(Integer id,Direction dir) throws NullPointerException {
