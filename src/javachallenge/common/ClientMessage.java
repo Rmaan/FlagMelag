@@ -12,13 +12,6 @@ public class ClientMessage implements Serializable{
 		this.actions = new ArrayList<Action>() ;
 	}
 	
-	public ArrayList<Action> getActions(int teamId) {
-		return actions ;
-		
-		//TODO correct this madafaka!
-		//throw new NotImplementedException();
-	}
-	
 	public ArrayList<Action> getActions() {
 		return actions ;
 	}
@@ -26,4 +19,11 @@ public class ClientMessage implements Serializable{
 	public void addAction(Action act) {
 		actions.add(act) ;
 	}
+
+	@Override
+	public String toString() {
+		return "ClientMessage [actions=" + actions + "]";
+	}
+
+	
 }
