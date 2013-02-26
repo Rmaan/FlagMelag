@@ -15,6 +15,7 @@ import javachallenge.ImproperlyConfiguredException;
 import javachallenge.common.BlockType;
 import javachallenge.common.Direction;
 import javachallenge.common.Point;
+import javachallenge.common.VisionPoint;
 
 public class Map implements Serializable {
 	private static final long serialVersionUID = 96375824927929628L;

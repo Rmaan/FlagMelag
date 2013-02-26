@@ -6,6 +6,7 @@ import javachallenge.common.AgentMessage;
 import javachallenge.common.BlockType;
 import javachallenge.common.Direction;
 import javachallenge.common.Point;
+import javachallenge.common.VisionPoint;
 
 public class Agent {
 	public final static int noAgent = -1 ;
@@ -17,6 +18,8 @@ public class Agent {
 
 	private Direction direction;
 
+	private VisionPoint[] visions;
+
 	public Agent(int spawnedId, Point spawnLocation) {
 		this.id = spawnedId ;
 		this.location = spawnLocation ;
@@ -24,8 +27,7 @@ public class Agent {
 
 	void updateAgent(AgentMessage msg){
 		location = msg.getLocation();
-		blockTypes = msg.getBlockTypes();
-		fire = msg.getFire();
+		visions = msg.getVisions() ;
 	}
 	
 	void beginStep() {
@@ -46,17 +48,10 @@ public class Agent {
 	}
 	
 	/**
-	 *  @return the block type of agent's passed direction
+	 *  @return the vision for adjecnet cell (NONE return the vision for same location)
 	 */
-	public BlockType getAdjBlockType(Direction dir){
-		return blockTypes[dir.ordinal()];
-	}
-	
-	/**
-	 * @return true if there is a fire at agent's passed direction 
-	 */
-	public boolean hasFire(Direction dir) {
-		return fire[dir.ordinal()];
+	public VisionPoint getAdjVisionPoint(Direction dir){
+		return visions[dir.ordinal()];
 	}
 	
 	/**

@@ -24,15 +24,6 @@ public class MyPlayer extends Player {
 			Agent agent = this.getAgentById(id);
 			
 			agent.doMove(Direction.values()[rnd.nextInt(6)]);
-			
-			for (Direction d: Direction.values()) {
-				Point point = agent.getLocation().applyDirection(d);
-				
-				if (!putoutFires.contains(point) && agent.hasFire(d)) {
-					agent.doMove(d);
-					putoutFires.add(point);
-				}
-			}
 		}
 	}
 }

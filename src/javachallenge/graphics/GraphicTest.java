@@ -9,6 +9,7 @@ import java.util.Scanner;
 import javachallenge.common.Direction;
 import javachallenge.graphics.GraphicClient;
 import javachallenge.graphics.components.ProgressBar;
+import javachallenge.graphics.components.ScoreBar;
 import javachallenge.graphics.util.Position;
 import javachallenge.server.Map;
 import javachallenge.server.Game;
@@ -20,30 +21,14 @@ public class GraphicTest {
 		Map map=Map.load("map/m1.txt");
 		GraphicClient client=new GraphicClient(map);
 		//GraphicClient client = new GraphicClient(30, 14, new Position[] {}); 
-		/*JFrame frame=new JFrame();
+		JFrame frame=new JFrame();
 		frame.setLayout(null);
 		frame.getContentPane().setPreferredSize(new Dimension(400, 400));
-		final ProgressBar bar=new ProgressBar(10,10,100,20, Color.green,Color.red,0);
+		//final ProgressBar bar=new ProgressBar(10,10,100,20, Color.green,Color.red,0);
+		ScoreBar bar=new ScoreBar(10,10,100,50,Color.green,Color.red,"kire khar") ;
 		frame.pack();
 		frame.setVisible(true);
 		frame.add(bar);
-		new Thread()
-		{
-			public void run()
-			{
-				for (int i=0;i<=100;i++)
-				{
-					try
-					{
-						sleep(20);
-					} catch (InterruptedException e)
-					{
-						e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-					}
-					bar.updateProgressBar((double)i/100);
-				}
-			}
-		}.start();*/
 		Scanner scanner=new Scanner(System.in);
 		while (true)
 		{

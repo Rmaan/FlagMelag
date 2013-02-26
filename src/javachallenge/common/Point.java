@@ -30,6 +30,11 @@ public class Point implements Serializable {
 	public Point applyDirection(Direction dir) {
 		int x, y;
 		switch (dir) {
+		case NONE:
+			x = this.x ; 
+			y = this.y ;
+			break;
+			
 		case NORTH:
 			x = this.x;
 			y = this.y - 1;

@@ -1,18 +1,11 @@
 package javachallenge.server;
 
-import java.io.BufferedReader;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 import javachallenge.common.BlockType;
 import javachallenge.common.Direction;
 import javachallenge.common.Point;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import javachallenge.common.VisionPoint;
 
 public class Game {
 	private Agent[][] agents;
@@ -71,5 +64,16 @@ public class Game {
 	
 	public ArrayList<Flag> getFlags(){
 		return flags;
+	}
+
+	public VisionPoint getVision(Point p) {
+		BlockType[] blockTypes = map.getBlockTypes(p) ;;
+		int[] agentTeamId = new int[Direction.values().length];
+		for (Direction dir : Direction.values()) {
+			Agent opAgent = this.getAgent(p.applyDirection(dir));
+			agentTeamId[dir.ordinal()] = (opAgent != null ? opAgent.getTeamId() : -1);
+		}
+		VisionPoint ret = new VisionPoint(p, blockTypes, agentTeamId);  
+		return ret;
 	}
 }
