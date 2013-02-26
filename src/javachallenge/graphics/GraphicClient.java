@@ -5,21 +5,19 @@ import java.util.TreeMap;
 
 import javachallenge.common.Direction;
 import javachallenge.common.Point;
-import javachallenge.graphics.components.Label;
 import javachallenge.graphics.components.MapPanel;
 import javachallenge.graphics.components.Sprite;
 import javachallenge.graphics.util.AnimatedImage;
 import javachallenge.graphics.util.ImageHolder;
 import javachallenge.graphics.util.Mover;
 import javachallenge.graphics.util.Position;
-import javachallenge.server.Game;
 import javachallenge.server.Map;
 
 public class GraphicClient {
 	public static int x[]={0,1,1,0,-1,-1};
 	public static int y[]={-1,-1,0,1,0,-1};
 	public static int moveSpeed = 300, moveSteps = 25;
-	
+
 	protected MapPanel panel;
 	protected java.util.Map<Integer,Sprite> flags=new TreeMap<Integer,Sprite>();
 	protected java.util.Map<Integer,Sprite> spawnPoints=new TreeMap<Integer,Sprite>();
@@ -31,9 +29,9 @@ public class GraphicClient {
 		ground.getStatus().setTime(a);
 		//ground.getStatus().getTime().setText(new Integer(a).toString());
 	}
-	public void setScore(int id,int score,double ratio)
+	public void setScore(int id, int a,double ratio)
 	{
-		ground.getStatus().updateScore(id,score,ratio);
+		ground.getStatus().updateScore(id,a,ratio);
 		//	ground.getStatus().getScore().setText(new Integer(a).toString());
 	}
 
@@ -44,17 +42,17 @@ public class GraphicClient {
 	public void setPanel(MapPanel panel) {
 		this.panel = panel;
 	}
-	public GraphicClient(int width,int height, final Position[] positions,int players) throws NullPointerException,OutOfMapException{
+	public GraphicClient(int width,int height, final Position[] positions,int Players) throws NullPointerException,OutOfMapException{
 		this (new Map(width, height, 0, null, null) {
-			{  
+			{
 				flagLocations = new ArrayList<Point>();
-				for (Position position : positions) 
+				for (Position position : positions)
 					flagLocations.add(new Point(position.getX(), position.getY()));
 			}
-		},players);
+		},Players);
 	}
-	
-	public GraphicClient(Map map,int players) throws OutOfMapException
+
+	public GraphicClient(Map map,int Players) throws OutOfMapException
 	{
 		ground=new PlayGround();
 		ground.createScreenElements(panel=new MapPanel(map) {
@@ -72,50 +70,40 @@ public class GraphicClient {
 				}*/
 			}
 		});
-		ground.getStatus().addBars(players);
+		ground.getStatus().addBars(Players);
 		for (int i = 0; i < map.getFlagLocations().size(); i++) {
 			Position position = new Position(map.getFlagLocations().get(i));
-			if (isOut(position)) throw new OutOfMapException();
-			//Sprite flag = new AnimatedImage(ImageHolder.Objects.fire, 125, position);
-			Sprite flag = new AnimatedImage(ImageHolder.Objects.flags[i % ImageHolder.Objects.flags.length], 200, position);
-			panel.addToContainer(flag ,2);
-			flags.put(i+1, flag);
+			flags.put(i+1, panel.setFlag(position, i));
 		}
 		for (int i = 0; i < map.getSpawnLocations().size(); i++) {
 			Position position = new Position(map.getSpawnLocations().get(i));
-			if (isOut(position)) throw new OutOfMapException();
+			if (panel.isOut(position)) throw new OutOfMapException();
 			Sprite spawn = new AnimatedImage(ImageHolder.Objects.mage, 250, position);
 			panel.addToContainer(spawn ,2);
 			spawnPoints.put(i+1, spawn);
 		}
 	}
-	private boolean isOut(Position position)
-	{
-		if (position.getX()<0 || position.getY()<0 || position.getX()>=panel.getMapWidth() || position.getY()>=panel.getMapHeight()) return true;
-		return false;
-	}
 
 	public void spawn(Integer id,Position position) throws OutOfMapException, DuplicateMemberException
 	{
-		if (isOut(position)) throw new OutOfMapException();
+		if (panel.isOut(position)) throw new OutOfMapException();
 		if (units.get(id)!=null) throw new DuplicateMemberException();
 		Sprite sprite=new Sprite(ImageHolder.Units.wesfolkOutcast, position);
 		units.put(id,sprite);
 		panel.addToContainer(sprite,3);
-
 	}
-	
+
 	public void die(Integer id) throws NullPointerException{
 		Sprite sprite=units.get(id);
 		units.remove(id);
 		sprite.setVisible(false);
 		panel.remove(sprite);
 	}
-	
+
 	public void attack(Integer attacker,Integer defender) {
 
 	}
-	
+
 	public void move(Integer id,Direction dir) throws NullPointerException {
 		int direction=dir.ordinal();
 		Sprite sprite=units.get(id);
@@ -126,7 +114,7 @@ public class GraphicClient {
 			units.get(id).setIcon(ImageHolder.Units.wesfolkOutcastMirror);
 		new Mover(sprite,position,moveSpeed/moveSteps,moveSteps).start();
 	}
-	
+
 	public void obtainFlag (Integer id)  throws NullPointerException{
 		Sprite flag = flags.get(id);
 		flag.setVisible(false);
@@ -135,9 +123,9 @@ public class GraphicClient {
 		flags.put(id, new Sprite(ImageHolder.Objects.underFire, flag.getPosition()));
 		panel.addToContainer(flags.get(id), 2);
 	}
-	
+
 	public void setFlagStatus(Integer id, int progressTeam, int progressPercent, int curTeam){
-		
+
 	}
 	public static class DuplicateMemberException extends Exception
 	{
