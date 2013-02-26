@@ -27,7 +27,7 @@ public class Engine {
 	private static final int SPAWN_MARGIN = 6 ;
 	private static final int SPAWN_LOW_PERIOD = 0;
 	private static final int SPAWN_NORM_PERIOD = 5;
-	private static final int MAX_SCORE = 1000000;
+	private static final int MAX_SCORE = 1000;
 	
 	private Map map;
 	private int cycle, teamCount;
@@ -68,6 +68,10 @@ public class Engine {
 		if(gameEnded){
 			return;
 		}
+		
+		if(!validActionList(actions))
+			return ;
+		
 		if(cycle % 2 == 1){
 			handleMoves(actions);
 		}
@@ -163,6 +167,10 @@ public class Engine {
 		}
 	}
 	
+	private boolean validActionList(ArrayList<Action> actions) {
+		return true;
+	}
+
 	public int getCycle() {
 		return cycle;
 	}
@@ -289,7 +297,7 @@ public class Engine {
 		//-----------------------
 		for (Team t : teams) {
 			//TODO fill the ratio correct!
-			graphicClient.setScore(t.getId(), t.getScore(), (double)t.getScore()/MAX_SCORE) ;
+			graphicClient.setScore(t.getId(), t.getScore(), ((double)t.getScore())/MAX_SCORE) ;
 		}
 		graphicClient.setTime(cycle) ;
 	}
