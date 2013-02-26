@@ -10,7 +10,6 @@ import javachallenge.graphics.components.Panel;
 import javachallenge.graphics.util.ColorMaker;
 import javachallenge.graphics.util.HTMLMaker;
 import javachallenge.graphics.util.ImageHolder;
-import javachallenge.graphics.util.Position;
 
 public class PlayGround extends Screen {
 	protected Label[] loadings = {
@@ -22,9 +21,11 @@ public class PlayGround extends Screen {
 	protected Panel sidebar;
 	protected StatusPanel status;
 	protected ScrollableList logMonitor;
+	protected Panel bottomBar;
+	protected Label play, pause, forward;
 	public static int statusWidth=(1<<8);
 	public PlayGround() {
-		this ("Java Challenge - Play Ground");
+		this("Java Challenge - Play Ground");
 	}
 	
 	public PlayGround (String title) {
@@ -52,8 +53,10 @@ public class PlayGround extends Screen {
 	public void updateDimensions() {
 		Dimension size = getSize();
 		mapPanel.setLocation(10, 10);
-		mapPanel.setSize(size.width -statusWidth-50, size.height - 110);
-		mapPanel.getPosition().setBounds(10, size.height-90,size.width*3/4,30);
+		mapPanel.setSize(size.width - statusWidth - 50, size.height - 110);
+		if (bottomBar!=null)
+			bottomBar.setBounds(10, size.height - 90, size.width - statusWidth - 50, 30);
+
 		if (sidebar!=null)
 		{
 			sidebar.setLocation(20 + mapPanel.getWidth(), 10);
@@ -74,7 +77,8 @@ public class PlayGround extends Screen {
 	
 	public void createScreenElements (MapPanel mapPanel) {
 		addMapPanel(mapPanel);
-		add(mapPanel.getPosition());
+	//	add(mapPanel.getPosition());
+		//addBottomBar();
 		addSideBar();
 		// remove loadings
 		for (Label loading : loadings) remove(loading);
@@ -95,7 +99,22 @@ public class PlayGround extends Screen {
 		updateDimensions();
 		pack();
 	}
-	
+
+	public void addBottomBar()
+	{
+		bottomBar=new Panel(ColorMaker.black);
+		play.setBounds(10,0,100,30);
+		pause.setBounds(60, 0, 100, 30);
+		forward.setBounds(110, 0, 100, 30);
+		bottomBar.add(play);
+		bottomBar.add(pause);
+		bottomBar.add(forward);
+		mapPanel.getPosition().setBounds(200,0,300,30);
+		bottomBar.add(mapPanel.getPosition());
+		add(bottomBar);
+		updateDimensions();
+	}
+
 	public void addMapPanel (MapPanel mapPanel) {
 		add (this.mapPanel = mapPanel);
 	}
@@ -114,11 +133,6 @@ public class PlayGround extends Screen {
 	}
 	
 	public void addLog (String message) {
-		logMonitor.addComponent(new Label(new HTMLMaker("&nbsp;&nbsp;"+ message, ColorMaker.green, 9).toString()), 20);
-	}
-
-	public void addScoreBar(int players)
-	{
-		//To change body of created methods use File | Settings | File Templates.
+		logMonitor.addComponent(new Label(new HTMLMaker("&nbsp;&nbsp;" + message, ColorMaker.green, 9).toString()), 20);
 	}
 }

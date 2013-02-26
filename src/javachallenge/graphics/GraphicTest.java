@@ -21,7 +21,12 @@ public class GraphicTest {
 		frame.add(bar);*/
 		for (int i = 0; i < 40; i++)
 			client.log("salam" + i);
+		client.log("*iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiirr");
 		Scanner scanner=new Scanner(System.in);
+		client.log("hiiii");
+		client.setScore(0,1000,0.75);
+		client.setScore(1,1000,0.5);
+		client.setScore(2,1000,0.6);
 		while (true)
 		{
 			String com=scanner.next();
@@ -65,6 +70,7 @@ public class GraphicTest {
 			}
 			else if (com.startsWith("e")) // exit
 				break;
+		//	client.setName(1,"kir");
 		}
 		scanner.close();
 	}

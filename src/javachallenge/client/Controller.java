@@ -64,13 +64,13 @@ public class Controller {
 						gameEnded = serverMsg.isGameEnded() ; 
 					}
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				System.exit(1);
 			};
+			
 		}.start();
 		
 		new Thread(){
@@ -98,11 +98,13 @@ public class Controller {
 						}
 					}
 					s.close();
-				}
-				catch (Exception e) {
-					// TODO: handle exception
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+				
+				System.exit(1);
 			};
 		}.start();
 	}

@@ -16,7 +16,6 @@ import java.util.ArrayList;
 public class StatusPanel extends Panel
 {
 	public static int GAP_SIZE=10;
-	protected ArrayList<Label> labels=new ArrayList<Label>();
 	protected Label time;
 	protected ScoreBar[] scores;
 	public static Color[] filled={ 
@@ -46,7 +45,7 @@ public class StatusPanel extends Panel
 		setLayout(null);
 		time=new Label();
 		setTime(0);
-		time.setBounds(10, 0, 200, 50);
+		time.setBounds(10, 0, PlayGround.statusWidth-20, 30);
 		add(time);
 	//	addLabel(score = new Label("score: 0"));
 	}
@@ -60,4 +59,8 @@ public class StatusPanel extends Panel
 		time.setText(new HTMLMaker("Time: "+a, ColorMaker.white, 10).toString());
 	}
 
+	public void setName(int id, String name)
+	{
+		scores[id].setName(name);
+	}
 }

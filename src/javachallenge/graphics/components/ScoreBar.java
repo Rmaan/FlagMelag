@@ -13,6 +13,7 @@ public class ScoreBar extends Panel
 	protected ProgressBar bar;
 	protected Label status;
 	protected String name;
+	protected int score;
 	public ScoreBar(int x, int y, int w, int h, Color fill,Color empty,String name)
 	{
 		super(x, y, w, h);
@@ -28,6 +29,16 @@ public class ScoreBar extends Panel
 		bar.updateProgressBar(ratio);
 	}
 	public void setScore(int score)
+	{
+		this.score=score;
+		update();
+	}
+	public void setName(String name)
+	{
+		this.name=name;
+		update();
+	}
+	protected void update()
 	{
 		status.setText(name+": "+score);
 	}
