@@ -14,28 +14,28 @@ public class ImageHolder {
 	public static String menuPrefix = prefix + "menu/";
 	public static String corePrefix = prefix + "game/core/";
 	public static String riseOfWesnothPrefix = prefix + "game/The_Rise_Of_Wesnoth/";
-	
+
 	public static ImageIcon[] getAll (String path, String type, int count, boolean removeFirstIndex) {
 		ImageIcon[] all = new ImageIcon[count];
 		for (int i = 1; i <= count; i++)
-			all[i - 1] = new ImageIcon(path + "/" + type + 
-				(i == 1 && removeFirstIndex ? "" : new Integer(i).toString()) + ".png");
+			all[i - 1] = new ImageIcon(path + "/" + type +
+					(i == 1 && removeFirstIndex ? "" : new Integer(i).toString()) + ".png");
 		return all;
 	}
-	
+
 	// common images
 	public static ImageIcon mapBrush = new ImageIcon(menuPrefix + "editor/brush.png");
 	public static ImageIcon waiting = new ImageIcon(menuPrefix + "cursors/wait.png");
-	
+
 	public static class Units {
 		public static String prefix = riseOfWesnothPrefix + "units/";
 		public static ImageIcon wesfolkOutcast = new ImageIcon(prefix + "wesfolk-outcast.png");
 		public static ImageIcon wesfolkOutcastMirror = new ImageIcon(prefix + "wesfolk-outcast-mirror.png");
 	}
-	
+
 	public static class Terrain {
 		public static String prefix = corePrefix + "terrain/";
-		
+
 		public static ImageIcon[] getAllDirs(String path, String type) {
 			ImageIcon[] ret = new ImageIcon[6];
 			int index = 0;
@@ -45,22 +45,22 @@ public class ImageHolder {
 			}
 			return ret;
 		}
-		
+
 		public static ImageIcon[] grass = getAll(prefix + "grass", "green", 8, true);
 		public static ImageIcon[] ice = getAll(prefix + "frozen", "ice", 6, true);
 		public static ImageIcon[] beach = getAll(prefix + "sand", "beach", 8, true);
 		public static ImageIcon fog = new ImageIcon(prefix + "darken.png");
-		
+
 		public static ImageIcon[] castle = getAllDirs (prefix + "castle", "castle-convex");
-		
+
 		public static ArrayList<ImageIcon[]> mapBlocks = new ArrayList<ImageIcon[]>(
 				Arrays.asList(new ImageIcon[][] {
-					grass,
-					ice,
-					beach,
+						grass,
+						ice,
+						beach,
 				}));
 	}
-	
+
 	public static class Objects {
 		// Flags!
 		/* Hue Saturation Lightness:
@@ -75,10 +75,10 @@ public class ImageHolder {
 		public static ImageIcon[] blueFlag = getAll(menuPrefix + "flags", "long-flag-blue-", 4, false);
 		public static ImageIcon[] blackFlag = getAll(menuPrefix + "flags", "long-flag-black-", 4, false);
 		//public static ImageIcon[] longFlag = getAll(menuPrefix + "flags", "long-flag-", 1, false);
-		public static ImageIcon[][] flags = { blackFlag, redFlag, yellowFlag, blueFlag }; 
-		
+		public static ImageIcon[][] flags = { blackFlag, redFlag, yellowFlag, blueFlag };
+
 		//public static ImageIcon scepture = new ImageIcon(corePrefix + "items/sceptre-of-fire.png");
-		public static ImageIcon[] brazier = getAll(corePrefix + "items", "brazier-lit", 8, false); 
+		public static ImageIcon[] brazier = getAll(corePrefix + "items", "brazier-lit", 8, false);
 		public static ImageIcon[] fire = getAll(corePrefix + "scenery", "fire", 8, false);
 		public static ImageIcon[] mage = getAll(corePrefix + "halo", "mage-halo", 5, false);
 		public static ImageIcon flagRock = new ImageIcon(corePrefix + "scenery/rock-cairn.png");
