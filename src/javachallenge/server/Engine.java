@@ -27,6 +27,7 @@ public class Engine {
 	private static final int SPAWN_MARGIN = 6 ;
 	private static final int SPAWN_LOW_PERIOD = 0;
 	private static final int SPAWN_NORM_PERIOD = 5;
+	private static final int MAX_SCORE = 1000000;
 
 	
 	private Map map;
@@ -166,7 +167,6 @@ public class Engine {
 			agent = getAgent(action.getTeamId(), action.getId());
 		} catch (IllegalAgentException e) {
 			e.printStackTrace();
-			//TODO ask mina :D
 			return false;
 		}
 		
@@ -261,8 +261,8 @@ public class Engine {
 		}
 		//-----------------------
 		for (Team t : teams) {
-			//TODO fill the ratio :D
-			graphicClient.setScore(t.getId(), t.getScore(), 0.25) ;
+			//TODO fill the ratio correct!
+			graphicClient.setScore(t.getId(), t.getScore(), t.getScore()/MAX_SCORE) ;
 		}
 		graphicClient.setTime(cycle) ;
 	}
@@ -358,7 +358,6 @@ public class Engine {
 			try {
 				agent = getAgent(act.getTeamId(), act.getId());
 			} catch (IllegalAgentException e) {
-				// TODO ask mina
 				e.printStackTrace();
 				continue ;
 			}
@@ -455,8 +454,8 @@ public class Engine {
 				try {
 					agent = getAgent(firstAct.getTeamId(), firstAct.getId()) ;
 				} catch (IllegalAgentException e) {
-					// TODO Auto-generated catch block what should I do?! 
 					e.printStackTrace();
+					throw new RuntimeException() ;
 				}
 				game.setAgent(agent.getLocation(), null);
 				for(int j = cycleActs.size() - 1; j > 0; j--){
@@ -469,8 +468,8 @@ public class Engine {
 				try {
 					a = getAgent(firstAct.getTeamId(), firstAct.getId());
 				} catch (IllegalAgentException e) {
-					// TODO Auto-generated catch block what should I do?! 
 					e.printStackTrace();
+					throw new RuntimeException() ;
 				}
 				Point dest = a.getLocation().applyDirection(firstAct.getDir());
 			//	System.out.println("Destionation " + dest);

@@ -1,20 +1,10 @@
 package javachallenge.graphics;
 
-import java.awt.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
 import java.util.Scanner;
 
 import javachallenge.common.Direction;
-import javachallenge.graphics.GraphicClient;
-import javachallenge.graphics.components.ProgressBar;
-import javachallenge.graphics.components.ScoreBar;
 import javachallenge.graphics.util.Position;
 import javachallenge.server.Map;
-import javachallenge.server.Game;
-
-import javax.swing.*;
 
 public class GraphicTest {
 	public static void main(String[] args) throws Exception{
