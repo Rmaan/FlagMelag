@@ -27,7 +27,7 @@ public class Engine {
 	private static final int SPAWN_MARGIN = 6 ;
 	private static final int SPAWN_LOW_PERIOD = 0;
 	private static final int SPAWN_NORM_PERIOD = 5;
-	private static final int MAX_SCORE = 1000000;
+	private static final int MAX_SCORE = 1000;
 	
 	private Map map;
 	private int cycle, teamCount;
