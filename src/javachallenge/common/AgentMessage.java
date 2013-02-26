@@ -1,7 +1,6 @@
 package javachallenge.common;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
 public class AgentMessage implements Serializable {
 	private static final long serialVersionUID = -5218587968391584486L;
@@ -28,14 +27,4 @@ public class AgentMessage implements Serializable {
 	public VisionPoint[] getVisions() {
 		return visions;
 	}
-
-	@Override
-	public String toString() {
-		return "AgentMessage [id=" + id + ", location=" + location
-				+ ", blockTypes=" + Arrays.toString(blockTypes)
-				+ ", agentTeamId=" + Arrays.toString(agentTeamId) + ", fire="
-				+ Arrays.toString(fire) + "]";
-	}
-	
-	
 }

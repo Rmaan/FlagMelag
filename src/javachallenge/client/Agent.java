@@ -17,6 +17,7 @@ public class Agent {
 	int id;
 
 	private Direction direction;
+	private ActionType actionType;
 
 	private VisionPoint[] visions;
 
@@ -32,6 +33,7 @@ public class Agent {
 	
 	void beginStep() {
 		this.direction = null;
+		this.actionType = null;
 	}
 	
 	/**
@@ -39,11 +41,17 @@ public class Agent {
 	 */
 	public void doMove(Direction d) {
 		this.direction = d;
+		this.actionType = ActionType.MOVE;
+	}
+	
+	public void doAttack(Direction d){
+		this.direction = d;
+		this.actionType = ActionType.ATTACK;
 	}
 	
 	Action endStep() {
 		if (direction != null)
-			return new Action(ActionType.MOVE, direction, id);
+			return new Action(actionType, direction, id);
 		return null;
 	}
 	
