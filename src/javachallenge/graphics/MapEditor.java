@@ -41,8 +41,8 @@ public class MapEditor extends PlayGround {
 	
 		super.addMapPanel(mapPanel);
 	}
-	
-	@Override
+
+/*	@Override
 	public void updateDimensions() {
 		Dimension size = getSize();
 		mapPanel.setLocation(10, 10);
@@ -50,7 +50,7 @@ public class MapEditor extends PlayGround {
 		sidebar.setLocation(20 + mapPanel.getWidth(), 10);
 		sidebar.setSize(size.width - sidebar.getX() - 30, size.height - 60);
 	}
-	
+*/
 	@Override
 	public void addSideBar() {
 		// TODO Auto-generated method stub
@@ -85,7 +85,7 @@ public class MapEditor extends PlayGround {
 				mapEditor.getMapPanel().getMap().setBlockType(new Point (x, y), BlockType.values()[type]);
 			}
 			@Override
-			public void onControllClick(int x, int y) {
+			public void onControlClick(int x, int y) {
 				Sprite flag = new AnimatedImage(ImageHolder.Objects.fire, 125, new Position(x, y));
 				map.getFlagLocations().add(new Point(x, y));
 				mapEditor.getMapPanel().addToContainer(flag, 2);

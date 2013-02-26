@@ -12,7 +12,6 @@ import javachallenge.graphics.util.ColorMaker;
 import javachallenge.graphics.util.ImageHolder;
 import javachallenge.graphics.util.Position;
 import javachallenge.server.Map;
-import javachallenge.server.Game;
 
 import javax.swing.ImageIcon;
 
@@ -82,7 +81,7 @@ public class MapPanel extends ScrollablePanel {
 				Position position = getPosition(e);
 				if (insideMap(position))
 					if (e.isControlDown())
-						onControllClick(position.getX(), position.getY());
+						onControlClick(position.getX(), position.getY());
 					else
 						onClick(position.getX(), position.getY());
 			}
@@ -114,10 +113,11 @@ public class MapPanel extends ScrollablePanel {
 	public void onExit(int x, int y) {}
 	public void onEnter(int x, int y) {
 		Position pos = getAbsolutePosition(x, y);
-		position.setText("Coordinate: ( "+x+" , "+y+" )");
+	//	position.setText("Coordinate: ( "+x+" , "+y+" )");
+		System.err.println(position.getText());
 		brush.setLocation(pos.getX(), pos.getY());
 	}
-	public void onControllClick(int x, int y) {
+	public void onControlClick(int x, int y) {
 		onClick(x, y);
 	}
 
