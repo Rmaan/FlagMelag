@@ -21,14 +21,14 @@ public class GraphicTest {
 		Map map=Map.load("map/m1.txt");
 		GraphicClient client=new GraphicClient(map);
 		//GraphicClient client = new GraphicClient(30, 14, new Position[] {}); 
-		JFrame frame=new JFrame();
+		/*JFrame frame=new JFrame();
 		frame.setLayout(null);
 		frame.getContentPane().setPreferredSize(new Dimension(400, 400));
 		//final ProgressBar bar=new ProgressBar(10,10,100,20, Color.green,Color.red,0);
 		ScoreBar bar=new ScoreBar(10,10,100,50,Color.green,Color.red,"kire khar") ;
 		frame.pack();
 		frame.setVisible(true);
-		frame.add(bar);
+		frame.add(bar);*/
 		Scanner scanner=new Scanner(System.in);
 		while (true)
 		{
@@ -61,6 +61,10 @@ public class GraphicTest {
 				System.out.println("f[lag] id");
 				System.out.println(client.units);
 				System.out.println(client.flags);
+			}
+			else if (com.startsWith("l")) {
+				String s = scanner.next();
+				client.log(s);
 			}
 			else if (com.startsWith("e")) // exit
 				break;

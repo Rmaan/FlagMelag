@@ -163,6 +163,7 @@ public class MapPanel extends ScrollablePanel {
 		//Sprite flag = new AnimatedImage(ImageHolder.Objects.fire, 125, position);
 		Sprite flag = new AnimatedImage(ImageHolder.Objects.flags[index % ImageHolder.Objects.flags.length], 200, position);
 		addToContainer(flag, 4);
+		if (index < 2) return flag;
 		ImageIcon[] castle = ImageHolder.Terrain.castle;
 		int[] offsetX = { -25, 2, -25, 0, 25, 25 };
 		int[] offsetY = { -78, -64, -80, -88, -80, -80 };
