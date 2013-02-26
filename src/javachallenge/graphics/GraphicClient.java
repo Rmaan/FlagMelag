@@ -164,6 +164,7 @@ public class GraphicClient {
 		Sprite flag = flags.get(id);
 		flag.setVisible(false);
 		panel.remove(flag);
+		((AnimatedImage) flag).destroy();
 		flags.remove(id);
 		flags.put(id, new AnimatedImage(ImageHolder.Objects.flags[curTeam + 1], 200, flag.getPosition()));
 		panel.addToContainer(flags.get(id), 2);
