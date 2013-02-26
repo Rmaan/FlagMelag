@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Random;
 
 import javachallenge.IllegalAgentException;
-import javachallenge.NotImplementedException;
 import javachallenge.common.Action;
 import javachallenge.common.ActionType;
 import javachallenge.common.AgentMessage;
@@ -75,7 +74,7 @@ public class Engine {
 		else{
 			//handle attacks
 			HashMap<Integer, ArrayList<Integer>> attackNum = new HashMap<Integer, ArrayList<Integer>>();
-			int[][] spawnAttacks = new int[teamCount][teamCount];
+			ArrayList<Action> validActions = new ArrayList<Action>();
 			for(Action action : actions){
 				if(action.getType() == ActionType.NONE || action.getType() != ActionType.ATTACK){
 					continue;
@@ -86,18 +85,23 @@ public class Engine {
 					Agent opAgent = game.getAgent(dest);
 					if(opAgent != null){
 						int opId = opAgent.getId();
+						if(agent.getTeamId() == opAgent.getTeamId()){
+							System.out.println("Attack to itself");
+							continue;
+						}
 						if(attackNum.get(opId) == null){
 							attackNum.put(opId, new ArrayList<Integer>());
 						}
 						ArrayList<Integer> tmp = attackNum.get(opId);
 						tmp.add(agent.getTeamId());
 						attackNum.put(opId, tmp);
+						validActions.add(action);
 					}
 					
 					//Handle spawn point attacks
-					if(getSpawnLocationTeam(dest) != -1){
-						spawnAttacks[getSpawnLocationTeam(dest)][agent.getTeamId()]++;
-					}
+//					if(getSpawnLocationTeam(dest) != -1){
+//						spawnAttacks[getSpawnLocationTeam(dest)][agent.getTeamId()]++;
+//					}
 				}
 				catch(Exception e){
 					System.out.println("Bad Agent : Team " + action.getTeamId());
@@ -105,7 +109,7 @@ public class Engine {
 				}
 				
 			}
-			for(Action action : actions){
+			for(Action action : validActions){
 				if(action.getType() == ActionType.NONE || action.getType() != ActionType.ATTACK){
 					continue;
 				}
@@ -161,13 +165,15 @@ public class Engine {
 		}
 		
 		Direction dir = action.getDir() ;
+		if(dir == Direction.NONE){
+			return false;
+		}
 		Agent agent = null ;
 		
 		try {
 			agent = getAgent(action.getTeamId(), action.getId());
 		} catch (IllegalAgentException e) {
 			e.printStackTrace();
-			//TODO ask mina :D
 			return false;
 		}
 		
@@ -355,7 +361,11 @@ public class Engine {
 			outAct.add(null);
 			in.add(-1);
 		}
+		
 		for(Action act : actions){
+			if(act.getType() == ActionType.NONE || act.getType() != ActionType.MOVE){
+				continue;
+			}
 			Agent agent = null;
 			try {
 				agent = getAgent(act.getTeamId(), act.getId());
