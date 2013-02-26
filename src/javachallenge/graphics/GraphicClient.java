@@ -164,6 +164,7 @@ public class GraphicClient {
 	}
 	
 	public void log (String message) {
+		System.err.println("log: "+message);
 		ground.addLog(message);
 	}
 	
