@@ -1,5 +1,7 @@
 package javachallenge.client;
 
+import java.util.ArrayList;
+
 import javachallenge.common.InitMessage;
 import javachallenge.common.Point;
 import javachallenge.common.ServerMessage;
@@ -10,7 +12,8 @@ import javachallenge.common.ServerMessage;
 public class World {
 	private int score;
 	private int mapWidth, mapHeight;
-	private Point spawnLocation;
+	private ArrayList<Point> spawnLocation;
+	private int teamId;
 
 	public int getScore() {
 		return score;
@@ -24,17 +27,22 @@ public class World {
 		return mapHeight;
 	}
 
-	public Point getSpawnLocation() {
-		return spawnLocation;
+	public Point getSpawnLocation(int teamId) {
+		return (teamId >= 0 && teamId < spawnLocation.size() ? spawnLocation.get(teamId) : null); 
 	}
 
 	void update(InitMessage msg) {
 		this.mapHeight = msg.getMapHeight();
 		this.mapWidth = msg.getMapWidth();
-		this.spawnLocation = msg.getSpawnLocation();
+		this.teamId = msg.getTeamId() ;
+		this.spawnLocation = msg.getSpawnLocations();
 	}
 
 	void update(ServerMessage msg) {
 		this.score = msg.getScores().get(0);
+	}
+
+	public Point getMySpawnLocation() {
+		return getSpawnLocation(this.teamId) ;
 	}
 }

@@ -1,5 +1,8 @@
 package javachallenge.graphics.components;
 
+import javachallenge.graphics.util.ColorMaker;
+import javachallenge.graphics.util.HTMLMaker;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -14,22 +17,14 @@ public class StatusPanel extends Panel
 	public static int GAP_SIZE=10;
 	protected ArrayList<Label> labels=new ArrayList<Label>();
 	protected Label time, score;
-	protected int yNow =GAP_SIZE;
-	public void addLabel(Label label)
-	{
-		//System.err.println("add label " + label);
-		label.setBounds(GAP_SIZE, yNow,getWidth()-2*GAP_SIZE,30);
-		labels.add(label);
-		add(label);
-		yNow+=30+GAP_SIZE;
-	}
 	public StatusPanel(Color color)
 	{
 		super(color);
-		setLayout(new FlowLayout());
-		//addLabel(new Label("salam"));
-		addLabel(time = new Label("time: 0"));
-		addLabel(score = new Label("score: 0"));
+		setLayout(null);
+		time=new Label(new HTMLMaker("time: 0", ColorMaker.white, 10).toString());
+		time.setBounds(10, 0, 200, 50);
+		add(time);
+	//	addLabel(score = new Label("score: 0"));
 	}
 	public void updatePosition()
 	{
@@ -42,6 +37,6 @@ public class StatusPanel extends Panel
 	}
 	
 	public void setScore(int a) {
-		score.setText("score: " + a);
+		//score.setText("score: " + a);
 	}
 }

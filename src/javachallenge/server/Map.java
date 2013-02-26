@@ -15,6 +15,7 @@ import javachallenge.ImproperlyConfiguredException;
 import javachallenge.common.BlockType;
 import javachallenge.common.Direction;
 import javachallenge.common.Point;
+import javachallenge.common.VisionPoint;
 
 public class Map implements Serializable {
 	private static final long serialVersionUID = 96375824927929628L;
@@ -75,11 +76,10 @@ public class Map implements Serializable {
 	}
 	
 	public BlockType[] getBlockTypes(Point p){
-		Direction[] dirs = Direction.values();
-		BlockType[] blockTypes = new BlockType[6];
-		for(int i = 0 ; i < dirs.length ; i++){
-			Point newp = p.applyDirection(dirs[i]) ;
-			blockTypes[i] = getBlockType(newp);
+		BlockType[] blockTypes = new BlockType[Direction.values().length];
+		for (Direction dir : Direction.values()) {
+			Point newp = p.applyDirection(dir) ;
+			blockTypes[dir.ordinal()] = getBlockType(newp);
 		}
 		return blockTypes;
 	}

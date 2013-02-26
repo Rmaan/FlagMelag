@@ -58,9 +58,12 @@ public class PlayGround extends Screen {
 			sidebar.setLocation(20 + mapPanel.getWidth(), 10);
 			sidebar.setSize(size.width - sidebar.getX() - 30, size.height - 60);
 		}
-		status.setLocation(20 + mapPanel.getWidth(), 10);
-		status.setSize(size.width - sidebar.getX() - 30, size.height - 60);
-		status.updatePosition();
+		if (status!=null)
+		{
+			status.setLocation(20 + mapPanel.getWidth(), 10);
+			status.setSize(size.width - sidebar.getX() - 30, size.height - 60);
+			status.updatePosition();
+		}
 	}
 	
 	public void createScreenElements (MapPanel mapPanel) {
@@ -92,7 +95,8 @@ public class PlayGround extends Screen {
 	}
 	public void addStatusBar() {
 		status = new StatusPanel(ColorMaker.panelBack) {
-			{ setBounds(0, 0, 100, 100); }
+			{ setBounds(0, 0, 100, 100);
+			}
 		};
 		add (status);
 	}

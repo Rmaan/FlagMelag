@@ -1,6 +1,6 @@
 package javachallenge;
 
-public class IllegalAgentException extends RuntimeException {
+public class IllegalAgentException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
