@@ -15,6 +15,7 @@ import javachallenge.common.Direction;
 import javachallenge.common.InitMessage;
 import javachallenge.common.Point;
 import javachallenge.common.ServerMessage;
+import javachallenge.common.VisionPoint;
 import javachallenge.graphics.GraphicClient;
 import javachallenge.graphics.GraphicClient.DuplicateMemberException;
 import javachallenge.graphics.GraphicClient.OutOfMapException;
@@ -280,19 +281,13 @@ public class Engine {
 			if(!agent.isAlive()){
 				continue;
 			}
+			//------------------------------------------------------------------
 			Point loc = agent.getLocation();
-			int[] agentTeamId = new int[6];
-			for(int i = 0 ; i < agentTeamId.length ; i++){
-				agentTeamId[i] = -1;
+			VisionPoint[] visions = new VisionPoint[Direction.values().length] ;
+			for (Direction dir : Direction.values()) {
+				visions[dir.ordinal()] = game.getVision(loc.applyDirection(dir)) ; 
 			}
-			Direction[] dirs = Direction.values();
-			for (int i = 0; i < dirs.length; i++) {
-				Agent opAgent = game.getAgent(loc.applyDirection(dirs[i]));
-				if(opAgent != null){
-					agentTeamId[i] = opAgent.getTeamId();
-				}
-			}
-			result.add(new AgentMessage(agent.getId(), loc, map.getBlockTypes(loc), agentTeamId));
+			result.add(new AgentMessage(agent.getId(), loc, visions));
 		}
 		return result;
 	}

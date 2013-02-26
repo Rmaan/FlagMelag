@@ -7,21 +7,13 @@ public class AgentMessage implements Serializable {
 	
 	private int id;
 	private Point location;
-	private BlockType[] blockTypes;
-	private int[] agentTeamId;
-	private boolean[] fire;
+	private VisionPoint[] visions;
 	
-	public AgentMessage(int id, Point location, BlockType[] blockTypes, int[] agentTeamId) {
+	public AgentMessage(int id, Point location, VisionPoint[] visions) {
 		super();
 		this.id = id;
 		this.location = location;
-		this.blockTypes = blockTypes;
-		this.fire = fire;
-		this.agentTeamId = agentTeamId;
-	}
-
-	public boolean[] getFire() {
-		return fire;
+		this.visions = visions ;
 	}
 
 	public int getId() {
@@ -31,12 +23,8 @@ public class AgentMessage implements Serializable {
 	public Point getLocation() {
 		return location;
 	}
-
-	public BlockType[] getBlockTypes() {
-		return blockTypes;
-	}
-
-	public int[] getAgentTeamId() {
-		return agentTeamId;
+	
+	public VisionPoint[] getVisions() {
+		return visions;
 	}
 }
