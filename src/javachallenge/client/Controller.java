@@ -12,7 +12,7 @@ import javachallenge.common.InitMessage;
 import javachallenge.common.ServerMessage;
 
 public class Controller {
-	protected static final long WAIT_TIME = 50;
+	protected static final long WAIT_TIME = 10;
 	Player player ;
 	private ServerMessage serverMsg;
 	private ServerMessage msg;
@@ -89,8 +89,8 @@ public class Controller {
 							player.beginStep();
 							player.step() ;
 							ClientMessage cMsg = player.endStep() ;
-							System.out.println("Sending actions");
-							System.out.println(cMsg);
+//							System.out.println("Sending actions");
+//							System.out.println(cMsg);
 							out.writeObject(cMsg);
 						}
 						else{

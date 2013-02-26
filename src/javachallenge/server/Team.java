@@ -67,4 +67,10 @@ public class Team {
 	public void updaetScore(int i) {
 		this.setScore(this.getScore() + i) ;
 	}
+
+	@Override
+	public String toString() {
+		return "Team [id=" + id + "]";
+	}
+	
 }

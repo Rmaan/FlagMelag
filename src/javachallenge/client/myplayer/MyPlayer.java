@@ -1,18 +1,16 @@
 package javachallenge.client.myplayer;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import javachallenge.client.Agent;
 import javachallenge.client.Player;
-import javachallenge.common.CycleAction;
 import javachallenge.common.Direction;
 import javachallenge.common.Point;
 import javachallenge.common.VisionPoint;
 
 public class MyPlayer extends Player {
 	int cycle = 0;
-	ArrayList<Point> putoutFires = new ArrayList<Point>();
+	Random rnd = new Random();
 	
 	void moveTo(Agent agent, Point p) {
 		int ay = agent.getLocation().y;
@@ -33,7 +31,6 @@ public class MyPlayer extends Player {
 	}
 	
 	public void step() {
-		Random rnd = new Random();
 		Point goal = new Point(12, 12);
 		
 		for (int id: getAgentIds()) {

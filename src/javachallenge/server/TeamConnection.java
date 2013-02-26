@@ -28,7 +28,7 @@ public class TeamConnection {
 		in = new ObjectInputStream(socket.getInputStream());
 		
 		// Recieve team messages
-		new Thread() {
+		new Thread("Recieve Message Team "+ team.getId()) {
 			@Override
 			public void run() {
 				try {
