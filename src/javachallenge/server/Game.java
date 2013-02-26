@@ -80,7 +80,7 @@ public class Game {
 	public ArrayList<Integer> getFlagOwners() {
 		ArrayList<Integer> ret = new ArrayList<Integer>() ;
 		for (Flag flag : getFlags()) 
-			ret.add(flag.getOwner().getId()) ;
+			ret.add((flag.getOwner() == null ? -1 : flag.getOwner().getId())) ;
 		return ret;
 	}
 }
