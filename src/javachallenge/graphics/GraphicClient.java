@@ -1,24 +1,14 @@
 package javachallenge.graphics;
 
-import java.awt.Dimension;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
 import javachallenge.common.Direction;
 import javachallenge.common.Point;
 import javachallenge.graphics.components.ClickableLabel;
-import javachallenge.graphics.components.Label;
 import javachallenge.graphics.components.MapPanel;
-import javachallenge.graphics.components.Panel;
-import javachallenge.graphics.components.Screen;
-import javachallenge.graphics.components.ScrollableList;
-import javachallenge.graphics.components.ScrollablePanel;
 import javachallenge.graphics.components.Sprite;
 import javachallenge.graphics.util.AnimatedImage;
-import javachallenge.graphics.util.ColorMaker;
-import javachallenge.graphics.util.HTMLMaker;
 import javachallenge.graphics.util.ImageHolder;
 import javachallenge.graphics.util.Mover;
 import javachallenge.graphics.util.Position;
@@ -76,7 +66,7 @@ public class GraphicClient {
 				pause = new ClickableLabel("pause") {
 					public void onClick() { onPause(); }
 				};
-				fastforward = new ClickableLabel("fastforward") {
+				forward = new ClickableLabel("forward") {
 					public void onClick() { onFastForward(); }
 				};
 			}
@@ -101,6 +91,8 @@ public class GraphicClient {
 			Position position = new Position(map.getFlagLocations().get(i));
 			flags.put(i+1, panel.setFlag(position, i));
 		}
+		ground.addBottomBar();
+
 		for (int i = 0; i < map.getSpawnLocations().size(); i++) {
 			Position position = new Position(map.getSpawnLocations().get(i));
 			if (panel.isOut(position)) throw new OutOfMapException();
@@ -115,8 +107,8 @@ public class GraphicClient {
 		if (panel.isOut(position)) throw new OutOfMapException();
 		if (units.get(id)!=null) throw new DuplicateMemberException();
 		Sprite sprite=new Sprite(ImageHolder.Units.wesfolkOutcast, position);
-		units.put(id,sprite);
-		panel.addToContainer(sprite,3);
+		units.put(id, sprite);
+		panel.addToContainer(sprite, 3);
 	}
 
 	public void die(Integer id) throws NullPointerException{
@@ -176,7 +168,7 @@ public class GraphicClient {
 	}
 	
 	public void log (String message) {
-		System.err.println("log: "+message);
+		System.err.println("log: " + message);
 		ground.addLog(message);
 	}
 
@@ -194,7 +186,7 @@ public class GraphicClient {
 	}
 	
 	public void onFastForward() {
-		System.err.println("fastforward");
+		System.err.println("forward");
 	}
 	
 	public static class DuplicateMemberException extends Exception

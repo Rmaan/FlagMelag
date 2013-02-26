@@ -115,7 +115,7 @@ public class MapPanel extends ScrollablePanel {
 	public void onExit(int x, int y) {}
 	public void onEnter(int x, int y) {
 		Position pos = getAbsolutePosition(x, y);
-		position.setText("Coordinate: ( "+x+" , "+y+" )");
+		position.setText("( "+x+" , "+y+" )");
 		brush.setLocation(pos.getX(), pos.getY());
 	}
 	public void onControlClick(int x, int y) {

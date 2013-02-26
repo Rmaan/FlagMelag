@@ -10,7 +10,6 @@ import javachallenge.graphics.components.Panel;
 import javachallenge.graphics.util.ColorMaker;
 import javachallenge.graphics.util.HTMLMaker;
 import javachallenge.graphics.util.ImageHolder;
-import javachallenge.graphics.util.Position;
 
 public class PlayGround extends Screen {
 	protected Label[] loadings = {
@@ -22,7 +21,8 @@ public class PlayGround extends Screen {
 	protected Panel sidebar;
 	protected StatusPanel status;
 	protected ScrollableList logMonitor;
-	protected Label play, pause, fastforward;
+	protected Panel bottomBar;
+	protected Label play, pause, forward;
 	public static int statusWidth=(1<<8);
 	public PlayGround() {
 		this("Java Challenge - Play Ground");
@@ -54,10 +54,11 @@ public class PlayGround extends Screen {
 		Dimension size = getSize();
 		mapPanel.setLocation(10, 10);
 		mapPanel.setSize(size.width - statusWidth - 50, size.height - 110);
-		mapPanel.getPosition().setBounds(10, size.height - 90, 300, 30);
+		if (bottomBar!=null)
+			bottomBar.setBounds(10, size.height - 90, size.width - statusWidth - 50, 30);
 		play.setBounds(320, size.height - 90, 100, 30);
 		pause.setBounds(430, size.height - 90, 100, 30);
-		fastforward.setBounds(540, size.height - 90, 100, 30);
+		forward.setBounds(540, size.height - 90, 100, 30);
 
 		if (sidebar!=null)
 		{
@@ -79,10 +80,8 @@ public class PlayGround extends Screen {
 	
 	public void createScreenElements (MapPanel mapPanel) {
 		addMapPanel(mapPanel);
-		add(mapPanel.getPosition());
-		add(play);
-		add(pause);
-		add(fastforward);
+	//	add(mapPanel.getPosition());
+		//addBottomBar();
 		addSideBar();
 		// remove loadings
 		for (Label loading : loadings) remove(loading);
@@ -103,7 +102,25 @@ public class PlayGround extends Screen {
 		updateDimensions();
 		pack();
 	}
-	
+
+	public void addBottomBar()
+	{
+		bottomBar=new Panel(ColorMaker.black);
+		Label play2=new Label("Play");
+		play2.setBounds(10,0,100,30);
+		pause.setBounds(120, 0, 100, 30);
+		forward.setBounds(230, 0, 100, 30);
+	//	System.err.println(play.getText());
+	//	play.setForeground(Color.white);
+		bottomBar.add(play2);
+		bottomBar.add(pause);
+		bottomBar.add(forward);
+		mapPanel.getPosition().setBounds(240,0,300,30);
+		bottomBar.add(mapPanel.getPosition());
+		add(bottomBar);
+		updateDimensions();
+	}
+
 	public void addMapPanel (MapPanel mapPanel) {
 		add (this.mapPanel = mapPanel);
 	}
