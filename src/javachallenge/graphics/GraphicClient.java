@@ -34,7 +34,6 @@ public class GraphicClient {
 	protected java.util.Map<Integer,Sprite> spawnPoints=new TreeMap<Integer,Sprite>();
 	protected java.util.Map<Integer,Sprite> units=new TreeMap<Integer,Sprite>();
 	protected PlayGround ground;
-	protected LogMonitor logMonitor;
 
 	public void setTime(int a)
 	{
@@ -167,7 +166,11 @@ public class GraphicClient {
 		System.err.println("log: "+message);
 		ground.addLog(message);
 	}
-	
+
+	public void setName(int id,String name)
+	{
+		ground.getStatus().setName(id,name);
+	}
 	public static class DuplicateMemberException extends Exception
 	{
 
@@ -175,44 +178,5 @@ public class GraphicClient {
 	public static class OutOfMapException extends Exception
 	{
 	}
-	
-	public static class LogMonitor extends Screen {
-		protected ScrollableList scrollableList;
-		
-		public LogMonitor() {
-			super("Log Monitor");
-			getContentPane().setBackground(ColorMaker.black);
-			setPreferredSize(new Dimension(500, 400));
-			scrollableList = new ScrollableList(20, 0, getWidth() - 30, getHeight() - 30, ColorMaker.black, true);
-			add (scrollableList);
-			
-			// resize sensitive dimension updater
-			addComponentListener(new ComponentListener() {
-				public void componentShown(ComponentEvent arg0) {}
-				public void componentMoved(ComponentEvent arg0) {}
-				public void componentHidden(ComponentEvent arg0) {}
-				public void componentResized(ComponentEvent arg0) {
-					updateDimensions();
-				}
-			});
-		}
-		
-		private void updateDimensions() {
-			Dimension size = getSize();
-			scrollableList.setSize(size.width - 10, size.height - 30);
-			scrollableList.getScroll().setSize(size.width - 20, size.height - 30);
-		}
-		
-		void addLog (String message) {
-			scrollableList.addComponent(new Label(new HTMLMaker(message, ColorMaker.green, 10).toString()), 20);
-		}
-	}
-	
-	public static void main(String[] args) {
-		LogMonitor logMonitor = new LogMonitor();
-		logMonitor.setVisible(true);
-		for (int i = 0; i < 20; i++)
-		logMonitor.addLog("salam!!!!");
-		logMonitor.addLog("aleyk!!!!");
-	}
+
 }

@@ -19,8 +19,9 @@ public class GraphicTest {
 		frame.pack();
 		frame.setVisible(true);
 		frame.add(bar);*/
-		for (int i = 0; i < 40; i++)
-			client.log("salam" + i);
+	//	for (int i = 0; i < 40; i++)
+	//		client.log("salam" + i);
+		//client.log("kiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiirr");
 		Scanner scanner=new Scanner(System.in);
 		while (true)
 		{
@@ -65,6 +66,7 @@ public class GraphicTest {
 			}
 			else if (com.startsWith("e")) // exit
 				break;
+		//	client.setName(1,"kir");
 		}
 		scanner.close();
 	}
