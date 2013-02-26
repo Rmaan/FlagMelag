@@ -29,6 +29,8 @@ public class GraphicTest {
 		frame.pack();
 		frame.setVisible(true);
 		frame.add(bar);*/
+		for (int i = 0; i < 40; i++)
+			client.log("salam" + i);
 		Scanner scanner=new Scanner(System.in);
 		while (true)
 		{
