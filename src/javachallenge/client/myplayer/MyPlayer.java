@@ -5,6 +5,7 @@ import java.util.Random;
 
 import javachallenge.client.Agent;
 import javachallenge.client.Player;
+import javachallenge.common.CycleAction;
 import javachallenge.common.Direction;
 import javachallenge.common.Point;
 import javachallenge.common.VisionPoint;
@@ -15,12 +16,10 @@ public class MyPlayer extends Player {
 	
 	public void step() {
 		Random rnd = new Random();
-		
 		for (int id: getAgentIds()) {
 			Agent agent = this.getAgentById(id);
 			
 			agent.doMove(Direction.values()[rnd.nextInt(Direction.values().length)]);
-			
 			
 			System.out.println("-------------------------------------");
 			VisionPoint v = agent.getAdjVisionPoint(Direction.NONE) ;
