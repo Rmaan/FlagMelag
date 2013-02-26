@@ -10,8 +10,10 @@ public class ServerMessage implements Serializable {
 	ArrayList<Integer> scores;
 	ArrayList<AgentMessage> agentMsg;
 	ArrayList<Integer> deadAgents;
+	ArrayList<Integer> flagOwners; 
 	
-	boolean isGameEnded ; 
+	boolean isGameEnded ;
+
 	
 	public ServerMessage() {
 		spawnedId = -1;
@@ -65,5 +67,13 @@ public class ServerMessage implements Serializable {
 	
 	public boolean isGameEnded(){
 		return isGameEnded ;
+	}
+	
+	public void setFlagOwners(ArrayList<Integer> flagOwners){
+		this.flagOwners = flagOwners ;
+	}
+
+	public ArrayList<Integer> getFlagOwners() {
+		return flagOwners;
 	}
 }

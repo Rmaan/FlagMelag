@@ -324,6 +324,7 @@ public class Engine {
 			msg.setDeadAgents(getDeadAgents(t.getId()));
 			msg.setAgentMsg(getAgentMessages(t.getId()));
 			msg.setGameEnded(this.gameIsOver()) ;
+			msg.setFlagOwners(game.getFlagOwners()) ;
 			msgs.add(msg);
 		}
 		

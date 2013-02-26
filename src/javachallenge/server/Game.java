@@ -76,4 +76,11 @@ public class Game {
 		VisionPoint ret = new VisionPoint(p, blockTypes, agentTeamId);  
 		return ret;
 	}
+
+	public ArrayList<Integer> getFlagOwners() {
+		ArrayList<Integer> ret = new ArrayList<Integer>() ;
+		for (Flag flag : getFlags()) 
+			ret.add(flag.getOwner().getId()) ;
+		return ret;
+	}
 }
