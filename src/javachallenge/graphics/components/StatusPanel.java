@@ -25,7 +25,7 @@ public class StatusPanel extends Panel
 		scores=new ScoreBar[no];
 		for (int i=0;i<no;i++)
 		{
-			scores[i]=new ScoreBar(10,(i+1)*50,200,50,filled[i],empty[i],"Player "+i);
+			scores[i]=new ScoreBar(10,(i+1)*50,200,50,filled[i],empty[i],"Player "+(i+1));
 			add(scores[i]);
 		}
 	}
@@ -33,7 +33,8 @@ public class StatusPanel extends Panel
 	{
 		super(color);
 		setLayout(null);
-		time=new Label(new HTMLMaker("time: 0", ColorMaker.white, 10).toString());
+		time=new Label();
+		setTime(0);
 		time.setBounds(10, 0, 200, 50);
 		add(time);
 	//	addLabel(score = new Label("score: 0"));
@@ -50,7 +51,7 @@ public class StatusPanel extends Panel
 	}
 	
 	public void setTime(int a) {
-		time.setText("time: " + a);
+		time.setText(new HTMLMaker("Time: "+a, ColorMaker.white, 10).toString());
 	}
 
 }
