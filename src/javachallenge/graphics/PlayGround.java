@@ -22,7 +22,7 @@ public class PlayGround extends Screen {
 	protected Panel sidebar;
 	protected StatusPanel status;
 	protected ScrollableList logMonitor;
-	public static int statusWidth=180;
+	public static int statusWidth=(1<<8);
 	public PlayGround() {
 		this ("Java Challenge - Play Ground");
 	}
@@ -114,7 +114,7 @@ public class PlayGround extends Screen {
 	}
 	
 	public void addLog (String message) {
-		logMonitor.addComponent(new Label(new HTMLMaker(message, ColorMaker.green, 10).toString()), 20);
+		logMonitor.addComponent(new Label(new HTMLMaker("&nbsp;&nbsp;"+ message, ColorMaker.green, 9).toString()), 20);
 	}
 
 	public void addScoreBar(int players)
