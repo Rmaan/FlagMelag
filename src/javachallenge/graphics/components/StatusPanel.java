@@ -1,5 +1,6 @@
 package javachallenge.graphics.components;
 
+import javachallenge.graphics.PlayGround;
 import javachallenge.graphics.util.ColorMaker;
 import javachallenge.graphics.util.HTMLMaker;
 
@@ -25,7 +26,7 @@ public class StatusPanel extends Panel
 		scores=new ScoreBar[no];
 		for (int i=0;i<no;i++)
 		{
-			scores[i]=new ScoreBar(10,(i+1)*50,200,50,filled[i],empty[i],"Player "+(i+1));
+			scores[i]=new ScoreBar(10,(i+1)*50, PlayGround.statusWidth-20,50,filled[i],empty[i],"Player "+(i+1));
 			add(scores[i]);
 		}
 	}
@@ -43,11 +44,6 @@ public class StatusPanel extends Panel
 	{
 		scores[id].updateBar(ratio);
 		scores[id].setScore(score);
-	}
-	public void updatePosition()
-	{
-		//for (Label label:labels)
-		//	label.setBounds(GAP_SIZE,label.getY(),getWidth()-2*GAP_SIZE,30);
 	}
 	
 	public void setTime(int a) {
