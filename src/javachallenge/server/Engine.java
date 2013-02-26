@@ -68,6 +68,10 @@ public class Engine {
 		if(gameEnded){
 			return;
 		}
+		
+		if(!validActionList(actions))
+			return ;
+		
 		if(cycle % 2 == 1){
 			handleMoves(actions);
 		}
@@ -142,6 +146,10 @@ public class Engine {
 		
 	}
 	
+	private boolean validActionList(ArrayList<Action> actions) {
+		return true;
+	}
+
 	public int getCycle() {
 		return cycle;
 	}
@@ -268,7 +276,7 @@ public class Engine {
 		//-----------------------
 		for (Team t : teams) {
 			//TODO fill the ratio correct!
-			graphicClient.setScore(t.getId(), t.getScore(), t.getScore()/MAX_SCORE) ;
+			graphicClient.setScore(t.getId(), t.getScore(), ((double)t.getScore())/MAX_SCORE) ;
 		}
 		graphicClient.setTime(cycle) ;
 	}
