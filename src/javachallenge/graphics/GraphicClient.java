@@ -154,7 +154,12 @@ public class GraphicClient {
 	}
 
 	public void setFlagStatus(Integer id, int progressTeam, int progressPercent, int curTeam){
-
+		Sprite flag = flags.get(id);
+		flag.setVisible(false);
+		panel.remove(flag);
+		flags.remove(id);
+		flags.put(id, new AnimatedImage(ImageHolder.Objects.flags[curTeam + 1], 200, flag.getPosition()));
+		panel.addToContainer(flags.get(id), 2);
 	}
 	
 	public void log (String message) {
