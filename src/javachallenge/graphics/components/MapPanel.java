@@ -34,17 +34,17 @@ public class MapPanel extends ScrollablePanel {
 	public static Position getAbsolutePosition (int x, int y) {
 		return new Position(26 * x, 36 * y + 18 * (Math.abs(x) % 2));
 	}
-	
+
 	public static Dimension getAbsoluteSize (int w, int h) {
 		return new Dimension(26 * w + 10, 36 * h + 18);
 	}
-	
+
 	public MapPanel(Map map) {
 		super(ColorMaker.black);
 		this.map = map;
 		this.width = map.getWid();
 		this.height = map.getHei();
-		
+
 		// create blocks
 		blocks = new Sprite[width][height];
 		fogs = new Sprite[width][height];
@@ -52,24 +52,24 @@ public class MapPanel extends ScrollablePanel {
 			for (int j = 0; j < height; j++) {
 				ImageIcon[] environment = ImageHolder.Terrain.mapBlocks.get (map.getBlockType(new Point(i, j)).ordinal());
 				int index = new Random().nextInt(environment.length);
-				addToContainer(blocks[i][j] = new Sprite(environment[index], 
+				addToContainer(blocks[i][j] = new Sprite(environment[index],
 						new Position(i, j)), 0);
 				//addToContainer(fogs[i][j] = new Sprite(ImageHolder.Terrain.fog, 
 				//		new Position(i, j)), 1);
 			}
-		
+
 		addToContainer(brush = new Sprite(ImageHolder.mapBrush, new Position(-2, -2)), 10);
-		
+
 		scroll.getViewport().getView().addMouseMotionListener(new MouseMotionListener() {
 			private Position lastPosition = new Position(-2, -2);
-			
+
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				Position position = getPosition(e);
 				if (position.equals(lastPosition)) return;
 				lastPosition = position;
 				if (insideMap(position))
-					onEnter(position.getX(), position.getY());	
+					onEnter(position.getX(), position.getY());
 			}
 			public void mouseDragged(MouseEvent e) {}
 		});
@@ -90,27 +90,27 @@ public class MapPanel extends ScrollablePanel {
 		});
 		setContainerSize(getAbsoluteSize(width, height));
 	}
-	
+
 	public int getMapWidth() {
 		return width;
 	}
-	
+
 	public int getMapHeight() {
 		return height;
 	}
-	
+
 	public Sprite getBrush() {
 		return brush;
 	}
-	
+
 	public Map getMap() {
 		return map;
 	}
-	
+
 	public void setMap(Map map) {
 		this.map = map;
 	}
-	
+
 	public void onClick(int x, int y) {}
 	public void onExit(int x, int y) {}
 	public void onEnter(int x, int y) {
@@ -121,14 +121,14 @@ public class MapPanel extends ScrollablePanel {
 	public void onControlClick(int x, int y) {
 		onClick(x, y);
 	}
-	
+
 	public boolean insideMap (Position position) {
 		return position.getX() >= 0 && position.getY() >= 0 &&
 				position.getX() < width && position.getY() < height;
 	}
-	
+
 	public static int sqr(int a) { return a*a; }
-	
+
 	public Position getPosition (MouseEvent e) {
 		Position position=new Position(-1,-1);
 		int bst=(1<<30);
@@ -144,20 +144,20 @@ public class MapPanel extends ScrollablePanel {
 					bst=dis;
 					position=new Position(i,j);
 				}
-			}	
+			}
 		return position;
 	}
 
 	public void setBlock(int x, int y, int ordinal)
 	{
 		blocks[x][y].setVisible(false);
-		container.remove (blocks[x][y]);		
+		container.remove (blocks[x][y]);
 		ImageIcon[] environment = ImageHolder.Terrain.mapBlocks.get(ordinal);
-		int index = new Random().nextInt(environment.length);		
-		addToContainer(blocks[x][y] = new Sprite(environment[index], 
+		int index = new Random().nextInt(environment.length);
+		addToContainer(blocks[x][y] = new Sprite(environment[index],
 				new Position(x, y)), 1);
 	}
-	
+
 	public Sprite setFlag(Position position, int index) throws OutOfMapException {
 		if (isOut(position)) throw new OutOfMapException();
 		//Sprite flag = new AnimatedImage(ImageHolder.Objects.fire, 125, position);

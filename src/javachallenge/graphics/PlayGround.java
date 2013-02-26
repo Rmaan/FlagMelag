@@ -105,4 +105,9 @@ public class PlayGround extends Screen {
 		//add (sidebar);
 		addStatusBar();
 	}
+
+	public void addScoreBar(int players)
+	{
+		//To change body of created methods use File | Settings | File Templates.
+	}
 }
