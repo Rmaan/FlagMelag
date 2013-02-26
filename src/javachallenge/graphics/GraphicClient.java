@@ -54,17 +54,18 @@ public class GraphicClient {
 		this.panel = panel;
 	}
 	public GraphicClient(int width,int height, final Position[] positions,int Players) throws NullPointerException,OutOfMapException{
-		this (new Map(width, height, 0, null, null) {
+		this (new Map(width, height, 3, null, null) {
 			{
 				flagLocations = new ArrayList<Point>();
 				for (Position position : positions)
 					flagLocations.add(new Point(position.getX(), position.getY()));
 			}
-		},Players);
+		});
 	}
 
-	public GraphicClient(Map map,int Players) throws OutOfMapException
+	public GraphicClient(Map map) throws OutOfMapException
 	{
+		int Players = map.getTeamCount() ; 
 		ground=new PlayGround();
 		ground.createScreenElements(panel=new MapPanel(map) {
 			@Override

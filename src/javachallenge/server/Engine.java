@@ -261,7 +261,8 @@ public class Engine {
 		}
 		//-----------------------
 		for (Team t : teams) {
-			graphicClient.setScore(t.getId(), t.getScore()) ;
+			//TODO fill the ratio :D
+			graphicClient.setScore(t.getId(), t.getScore(), 0.25) ;
 		}
 		graphicClient.setTime(cycle) ;
 	}
