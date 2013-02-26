@@ -54,6 +54,7 @@ public class GraphicClient {
 	public void setPanel(MapPanel panel) {
 		this.panel = panel;
 	}
+	
 	public GraphicClient(int width,int height, final Position[] positions,int Players) throws NullPointerException,OutOfMapException{
 		this (new Map(width, height, 3, null, null) {
 			{
@@ -154,7 +155,12 @@ public class GraphicClient {
 	}
 
 	public void setFlagStatus(Integer id, int progressTeam, int progressPercent, int curTeam){
-
+		Sprite flag = flags.get(id);
+		flag.setVisible(false);
+		panel.remove(flag);
+		flags.remove(id);
+		flags.put(id, new AnimatedImage(ImageHolder.Objects.flags[curTeam + 1], 200, flag.getPosition()));
+		panel.addToContainer(flags.get(id), 2);
 	}
 	
 	public void log (String message) {

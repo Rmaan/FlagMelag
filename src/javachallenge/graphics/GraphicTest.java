@@ -1,24 +1,14 @@
 package javachallenge.graphics;
 
-import java.awt.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
 import java.util.Scanner;
 
 import javachallenge.common.Direction;
-import javachallenge.graphics.GraphicClient;
-import javachallenge.graphics.components.ProgressBar;
-import javachallenge.graphics.components.ScoreBar;
 import javachallenge.graphics.util.Position;
 import javachallenge.server.Map;
-import javachallenge.server.Game;
-
-import javax.swing.*;
 
 public class GraphicTest {
 	public static void main(String[] args) throws Exception{
-		Map map=Map.load("map/m1.txt");
+		Map map=Map.load("map/final1.txt");
 		GraphicClient client=new GraphicClient(map);
 		//GraphicClient client = new GraphicClient(30, 14, new Position[] {}); 
 		/*JFrame frame=new JFrame();

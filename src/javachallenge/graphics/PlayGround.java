@@ -67,6 +67,7 @@ public class PlayGround extends Screen {
 		if (logMonitor != null) {
 			logMonitor.setLocation(10, sidebar.getHeight() / 2);
 			logMonitor.setSize(sidebar.getWidth() - 20, sidebar.getHeight() / 2 - 10);
+			logMonitor.getScroll().setSize(sidebar.getWidth() - 20, sidebar.getHeight() / 2 - 10);
 			//status.updatePosition();
 		}
 	}

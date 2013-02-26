@@ -27,7 +27,7 @@ public class Engine {
 	private static final int SPAWN_MARGIN = 6 ;
 	private static final int SPAWN_LOW_PERIOD = 0;
 	private static final int SPAWN_NORM_PERIOD = 5;
-
+	private static final int MAX_SCORE = 1000000;
 	
 	private Map map;
 	private int cycle, teamCount;
@@ -155,6 +155,7 @@ public class Engine {
 			Agent agent = game.getAgent(flag.getLocation());
 			Team team = (agent == null ? null : teams.get(agent.getTeamId()));
 			flag.step(team);
+			graphicClient.setFlagStatus(flag.getId() + 1, (team == null || team == flag.getOwner()) ? -1 : team.getId(), flag.getPercent(), flag.getOwner() == null ? -1 : flag.getOwner().getId());
 		}
 		
 	}
@@ -203,7 +204,6 @@ public class Engine {
 				Integer id = new Integer(agent.getId()) ;
 				graphicClient.move(id, dir) ;
 				
-				// TODO phase2 implement
 				//--------------------------- Move On The Flag  
 //				if (game.hasFlag(dest)){
 //					Flag flag = game.getFlagByLocation(dest); 
@@ -285,8 +285,8 @@ public class Engine {
 		}
 		//-----------------------
 		for (Team t : teams) {
-			//TODO fill the ratio :D
-			graphicClient.setScore(t.getId(), t.getScore(), 0.25) ;
+			//TODO fill the ratio correct!
+			graphicClient.setScore(t.getId(), t.getScore(), t.getScore()/MAX_SCORE) ;
 		}
 		graphicClient.setTime(cycle) ;
 	}
@@ -387,7 +387,6 @@ public class Engine {
 			try {
 				agent = getAgent(act.getTeamId(), act.getId());
 			} catch (IllegalAgentException e) {
-				// TODO ask mina
 				System.out.println("Illegal Agent Id from team " + act.getTeamId());
 				continue ;
 			}
@@ -458,8 +457,8 @@ public class Engine {
 				try {
 					agent = getAgent(firstAct.getTeamId(), firstAct.getId()) ;
 				} catch (IllegalAgentException e) {
-					// TODO Auto-generated catch block what should I do?! 
 					e.printStackTrace();
+					throw new RuntimeException() ;
 				}
 				game.setAgent(agent.getLocation(), null);
 				for(int j = cycleActs.size() - 1; j > 0; j--){
@@ -471,8 +470,8 @@ public class Engine {
 				try {
 					a = getAgent(firstAct.getTeamId(), firstAct.getId());
 				} catch (IllegalAgentException e) {
-					// TODO Auto-generated catch block what should I do?! 
 					e.printStackTrace();
+					throw new RuntimeException() ;
 				}
 				Point dest = a.getLocation().applyDirection(firstAct.getDir());
 				a.setLocation(dest);

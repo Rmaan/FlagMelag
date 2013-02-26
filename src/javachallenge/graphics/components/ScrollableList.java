@@ -95,42 +95,4 @@ public class ScrollableList extends Panel {
 			popComponent();
 		redraw();
 	}
-	
-	public static void main(String[] args) {
-		Screen screen = new Screen("");
-		screen.setPreferredSize(new Dimension(300, 300));
-		screen.setVisible(true);
-		ScrollableList list = new ScrollableList(100, 100, 100, 100, ColorMaker.gold, true);
-		screen.add (list);
-		
-		for (int i = 0; i < 20; i++) {
-			list.addComponent (new Label("salam " + i), 20);
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		for (int i = 0; i < 10; i++) {
-			list.popComponent();
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		list.getComponentsList().remove(4);
-		list.getComponentsList().remove(1);
-		list.getComponentsList().remove(2);
-		list.getComponentsList().remove(3);
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		list.redraw();
-	}
 }

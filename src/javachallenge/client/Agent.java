@@ -3,7 +3,6 @@ package javachallenge.client;
 import javachallenge.common.Action;
 import javachallenge.common.ActionType;
 import javachallenge.common.AgentMessage;
-import javachallenge.common.BlockType;
 import javachallenge.common.Direction;
 import javachallenge.common.Point;
 import javachallenge.common.VisionPoint;
@@ -12,8 +11,6 @@ public class Agent {
 	public final static int noAgent = -1 ;
 	
 	private Point location;
-	private BlockType[] blockTypes;
-	private boolean[] fire;
 	int id;
 
 	private Direction direction;
