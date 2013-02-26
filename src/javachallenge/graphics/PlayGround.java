@@ -22,7 +22,7 @@ public class PlayGround extends Screen {
 	protected Panel sidebar;
 	protected StatusPanel status;
 	protected ScrollableList logMonitor;
-	protected Label play=new Label("Play"),pause=new Label("Pause"),fastforward=new Label("forward");
+	protected Label play, pause, fastforward;
 	public static int statusWidth=(1<<8);
 	public PlayGround() {
 		this("Java Challenge - Play Ground");

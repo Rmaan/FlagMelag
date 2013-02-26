@@ -8,6 +8,7 @@ import java.util.TreeMap;
 
 import javachallenge.common.Direction;
 import javachallenge.common.Point;
+import javachallenge.graphics.components.ClickableLabel;
 import javachallenge.graphics.components.Label;
 import javachallenge.graphics.components.MapPanel;
 import javachallenge.graphics.components.Panel;
@@ -67,7 +68,19 @@ public class GraphicClient {
 	public GraphicClient(Map map) throws OutOfMapException
 	{
 		int Players = map.getTeamCount() ; 
-		ground=new PlayGround();
+		ground=new PlayGround() {
+			{
+				play = new ClickableLabel("Play") {
+					public void onClick() { onPlay(); }
+				};
+				pause = new ClickableLabel("pause") {
+					public void onClick() { onPause(); }
+				};
+				fastforward = new ClickableLabel("fastforward") {
+					public void onClick() { onFastForward(); }
+				};
+			}
+		};
 		ground.createScreenElements(panel=new MapPanel(map) {
 			@Override
 			public void onClick(int x, int y) {
@@ -171,6 +184,19 @@ public class GraphicClient {
 	{
 		ground.getStatus().setName(id,name);
 	}
+	
+	public void onPlay() {
+		System.err.println("play");
+	}
+	
+	public void onPause() {
+		System.err.println("pause");
+	}
+	
+	public void onFastForward() {
+		System.err.println("fastforward");
+	}
+	
 	public static class DuplicateMemberException extends Exception
 	{
 
