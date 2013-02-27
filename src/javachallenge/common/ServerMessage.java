@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class ServerMessage implements Serializable {
 	private static final long serialVersionUID = 4282530502489573811L;
 	
-	int spawnedId;
+	ArrayList<Integer> spawnedId;
 	ArrayList<Integer> scores;
 	ArrayList<AgentMessage> agentMsg;
 	ArrayList<Integer> deadAgents;
@@ -17,12 +17,12 @@ public class ServerMessage implements Serializable {
 
 	
 	public ServerMessage() {
-		spawnedId = -1;
+		spawnedId = new ArrayList<Integer>();
 		scores = new ArrayList<Integer>();
 		agentMsg = new ArrayList<AgentMessage>();
 	}
 	
-	public int getSpawnedId() {
+	public ArrayList<Integer> getSpawnedId() {
 		return spawnedId;
 	}
 
@@ -34,7 +34,7 @@ public class ServerMessage implements Serializable {
 		return agentMsg;
 	}
 
-	public void setSpawnedId(int spawnedId) {
+	public void setSpawnedId(ArrayList<Integer> spawnedId) {
 		this.spawnedId = spawnedId;
 	}
 

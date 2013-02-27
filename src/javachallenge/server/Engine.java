@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
 
+import sun.management.resources.agent;
+
 import javachallenge.IllegalAgentException;
 import javachallenge.common.Action;
 import javachallenge.common.ActionType;
@@ -29,18 +31,19 @@ public class Engine {
 	private static final int SPAWN_LOW_PERIOD = 0;
 	private static final int SPAWN_NORM_PERIOD = 5;
 	private static final int MAX_SCORE = 1000;
-	private static final int POWERUP_GEN_PERIOD = 20;
+	private static final int POWERUP_GEN_PERIOD = 10;
 	
 	private Map map;
 	private int cycle, teamCount;
 	private ArrayList<Team> teams = new ArrayList<Team>();
 	private boolean gameEnded = false;
 	private ArrayList<Agent> deadAgents;
-	private ArrayList<Agent> spawnedAgents;
-	private Agent vestAgent = null;
+	private ArrayList<ArrayList<Agent>> spawnedAgents;
 	private GraphicClient graphicClient;
 	private Game game;
 	
+	private Agent vestAgent = null;
+	private int lastPowerUpGen = -1;
 	
 	public boolean gameIsOver() {
 		return gameEnded;
@@ -62,20 +65,35 @@ public class Engine {
 	private void generatePowerups() {
 		if(vestAgent != null){
 			vestAgent.setHasVest(false);
+			vestAgent = null;
 		}
 		ArrayList<PowerUpPoint> free = new ArrayList<PowerUpPoint>();
+		boolean hasVest = false;
+		boolean agentBlock = false;
 		for(PowerUpPoint point : game.getPowerups()){
 			if(point.getType() == null){
-				free.add(point);
+				if(game.getAgent(point.getLocation()) == null){
+					free.add(point);
+				}
+				else{
+					agentBlock = true;
+				}
+			}
+			if(point.getType() == PowerUp.SUICIDE_VEST){
+				hasVest = true;
 			}
 		}
 		if(free.isEmpty()){
+			if(!agentBlock){
+				lastPowerUpGen = cycle;
+			}
 			return;
 		}
 		
+		lastPowerUpGen = cycle;
 		Random r = new Random();
 		int genLoc = r.nextInt(free.size());
-		int type = r.nextInt(PowerUp.values().length);
+		int type = hasVest ? 1 : r.nextInt(PowerUp.values().length);
 		PowerUpPoint toGen = free.get(genLoc);
 		toGen.setType(PowerUp.values()[type]);
 		graphicClient.addPowerUp(toGen.getId(), toGen.getLocation(), PowerUp.values()[type]);
@@ -86,9 +104,12 @@ public class Engine {
 	
 	public void beginStep(){
 		deadAgents = new ArrayList<Agent>();
-		spawnedAgents = new ArrayList<Agent>();
+		spawnedAgents = new ArrayList<ArrayList<Agent>>();
+		for(int i = 0 ; i < teamCount ; i++){
+			spawnedAgents.add(new ArrayList<Agent>());
+		}
 		System.out.println("Agent with vest : " + vestAgent);
-		if(cycle % POWERUP_GEN_PERIOD == 0){
+		if(lastPowerUpGen == -1 || cycle - lastPowerUpGen > POWERUP_GEN_PERIOD || (cycle - lastPowerUpGen) % POWERUP_GEN_PERIOD == 0){
 			generatePowerups();
 		}
 	}
@@ -169,9 +190,11 @@ public class Engine {
 						if(!deadAgents.contains(opAgent)){
 							deadAgents.add(opAgent);
 							if(opAgent.hasVest()){
+								vestAgent = null;
 								for(Direction dir : Direction.values()){
+									System.out.println("Su agent killed");
 									Agent suAgent = game.getAgent(dest.applyDirection(dir));
-									if(!deadAgents.contains(suAgent)){
+									if(suAgent != null && !deadAgents.contains(suAgent)){
 										deadAgents.add(suAgent);
 									}
 								}
@@ -188,7 +211,6 @@ public class Engine {
 					continue;
 				}
 			}
-			
 			for(Agent agent : deadAgents){
 				agent.setAlive(false);
 				Team t = getTeam(agent.getTeamId());
@@ -257,7 +279,7 @@ public class Engine {
 			//System.err.println("Dest is : " + dest.x + " " + dest.y + " - " + map.isInsideMap(dest));
 			if(map.isInsideMap(dest) && map.getBlockType(dest) == BlockType.GROUND && !occupied(dest)){
 				PowerUpPoint puPoint = game.getPowerUpPoint(dest);
-				if(puPoint != null){
+				if(puPoint != null && puPoint.getType() != null){
 					PowerUp pType = puPoint.getType();
 					System.out.println("Got POwerUP " + puPoint + " by agent " + agent);
 					puPoint.setType(null);
@@ -270,6 +292,7 @@ public class Engine {
 						Agent newAgent = teams.get(agent.getTeamId()).addAgent();
 						newAgent.setLocation(dest);
 						game.spawnAgent(newAgent) ;
+						spawnedAgents.get(agent.getTeamId()).add(newAgent);
 						
 						
 						Position p = new Position(newAgent.getLocation().x, newAgent.getLocation().y);
@@ -330,7 +353,7 @@ public class Engine {
 //				System.out.println("Spawning for team : " + team.getId());
 				Agent newAgent = team.addAgent();
 				game.spawnAgent(newAgent) ;
-				spawnedAgents.add(newAgent);
+				spawnedAgents.get(team.getId()).add(newAgent);
 				team.setLastSpawned(cycle);
 				
 				
@@ -344,9 +367,9 @@ public class Engine {
 					e.printStackTrace();
 				}
 			}
-			else{
-				spawnedAgents.add(null);
-			}
+//			else{
+//				spawnedAgents.add(null);
+//			}
 		}
 	}
 	
@@ -419,7 +442,11 @@ public class Engine {
 		for (Team t: teams) {
 			ServerMessage msg = new ServerMessage();
 			
-			msg.setSpawnedId(spawnedAgents.get(t.getId()) == null ? Agent.noAgent : spawnedAgents.get(t.getId()).getId());
+			ArrayList<Integer> spawnedIds = new ArrayList<Integer>();
+			for(Agent agent : spawnedAgents.get(t.getId())){
+				spawnedIds.add(agent.getId());
+			}
+			msg.setSpawnedId(spawnedIds);
 			msg.setScores(scores);
 			msg.setDeadAgents(getDeadAgents(t.getId()));
 			msg.setAgentMsg(getAgentMessages(t.getId()));
