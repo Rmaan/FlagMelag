@@ -109,8 +109,12 @@ public class ImageHolder {
 		public static ImageIcon underFire = new ImageIcon(corePrefix + "scenery/rune2-glow.png");
 		
 		public static ImageIcon illusionRune = new ImageIcon(corePrefix + "scenery/rune4.png");
-		public static ImageIcon[] illusionRuneGlow = { illusionRune, new ImageIcon(corePrefix + "scenery/rune4-glow.png") };
+		public static ImageIcon illusionRuneGlow = new ImageIcon(corePrefix + "scenery/rune4-glow.png");
 		public static ImageIcon bombRune = new ImageIcon(corePrefix + "scenery/rune6.png");
-		public static ImageIcon[] bombRuneGlow = { bombRune, new ImageIcon(corePrefix + "scenery/rune6-glow.png") };
+		public static ImageIcon bombRuneGlow = new ImageIcon(corePrefix + "scenery/rune6-glow.png");
+		public static ImageIcon[][] runes = {
+			{bombRune, bombRune, bombRune, bombRune, bombRune, bombRuneGlow, bombRuneGlow},
+			{illusionRune, illusionRune, illusionRune, illusionRune, illusionRune, illusionRuneGlow, illusionRuneGlow}
+		};
 	}
 }

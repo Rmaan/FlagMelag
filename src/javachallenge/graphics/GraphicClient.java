@@ -206,12 +206,8 @@ public class GraphicClient {
 	}
 	public void addPowerUp(int id,Point point,PowerUp powerUp)
 	{
-		AnimatedImage image;
-		if (powerUp.ordinal()==0)
-			image=new AnimatedImage(ImageHolder.Objects.bombRuneGlow,new Position(point),true,animator);
-		else
-			image= new AnimatedImage(ImageHolder.Objects.illusionRuneGlow,new Position(point),true,animator);
-		panel.addToContainer(image);
+		AnimatedImage image=new AnimatedImage(ImageHolder.Objects.runes[powerUp.ordinal()],new Position(point),true,animator);
+		panel.addToContainer(image,2);
 		powerUps.put(id,image);
 	}
 	public void hidePowerUp(int id)
