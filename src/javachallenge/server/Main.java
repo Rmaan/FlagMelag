@@ -35,7 +35,8 @@ public class Main {
 		}
 		
 		Game g = new Game(map);
-		graphicClient = new GraphicClient(map);
+		RemoteControl ctrl = new RemoteControl();
+		graphicClient = new GraphicClient(map, ctrl);
 		Engine engine = new Engine(g, graphicClient);
 		
 		ArrayList<TeamConnection> connections = new ArrayList<TeamConnection>();
@@ -60,6 +61,8 @@ public class Main {
 		
 		int temp = 1 ;
 		while (!engine.gameIsOver() || temp != 0) {
+			ctrl.waitForPlay();
+			
 			temp += (engine.gameIsOver() ? -1 : 0) ;
 			
 			//System.out.println("Cycle " + engine.getCycle());
@@ -103,6 +106,6 @@ public class Main {
 	}
 	
 	public static void main(String[] args) throws IOException, InterruptedException, OutOfMapException {
-		new Main().run(PORT, args.length < 1 ? "map/final1.txt" : args[0]);
+		new Main().run(PORT, args.length < 1 ? "map/arman.txt" : args[0]);
 	}
 }

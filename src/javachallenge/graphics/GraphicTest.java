@@ -9,7 +9,7 @@ import javachallenge.server.Map;
 public class GraphicTest {
 	public static void main(String[] args) throws Exception{
 		Map map=Map.load("map/final1.txt");
-		GraphicClient client=new GraphicClient(map);
+		GraphicClient client=new GraphicClient(map, null);
 		//GraphicClient client = new GraphicClient(30, 14, new Position[] {}); 
 		/*JFrame frame=new JFrame();
 		frame.setLayout(null);

@@ -13,6 +13,7 @@ import javachallenge.graphics.util.ImageHolder;
 import javachallenge.graphics.util.Mover;
 import javachallenge.graphics.util.Position;
 import javachallenge.server.Map;
+import javachallenge.server.RemoteControl;
 
 public class GraphicClient {
 	public static int x[]={0,1,1,0,-1,-1};
@@ -52,22 +53,23 @@ public class GraphicClient {
 				for (Position position : positions)
 					flagLocations.add(new Point(position.getX(), position.getY()));
 			}
-		});
+		}, null);
 	}
 
-	public GraphicClient(Map map) throws OutOfMapException
+	@SuppressWarnings("serial")
+	public GraphicClient(Map map, final RemoteControl ctrl) throws OutOfMapException
 	{
 		int Players = map.getTeamCount() ; 
 		ground=new PlayGround() {
 			{
 				play = new ClickableLabel("Play") {
-					public void onClick() { onPlay(); }
+					public void onClick() { System.out.println("real play!!"); ctrl.playPauseToggle(); }
 				};
 				pause = new ClickableLabel("pause") {
-					public void onClick() { onPause(); }
+					public void onClick() { System.out.println("real play!!"); onPause(); }
 				};
-				forward = new ClickableLabel("forward") {
-					public void onClick() { onFastForward(); }
+				forward = new ClickableLabel("step") {
+					public void onClick() { System.out.println("real step!!"); ctrl.step(); }
 				};
 			}
 		};
