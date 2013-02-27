@@ -41,7 +41,8 @@ public class MyPlayer extends Player {
 		for (int i = 0 ; i < ids.size() ; i++) {
 			
 			Agent agent = this.getAgentById(ids.get(i));
-			if(getCycleAction() == CycleAction.MOVE_CYCLE)
+			
+			if (getCycleAction() == CycleAction.MOVE_CYCLE)
 				agent.doMove(Direction.values()[rnd.nextInt(Direction.values().length)]);
 			else
 				agent.doAttack(Direction.values()[rnd.nextInt(Direction.values().length)]);

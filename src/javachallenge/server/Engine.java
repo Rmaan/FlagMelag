@@ -109,6 +109,7 @@ public class Engine {
 			ArrayList<Action> validActions = new ArrayList<Action>();
 			for(Action action : actions){
 				if(action.getType() == ActionType.NONE || action.getType() != ActionType.ATTACK){
+					System.err.println("MOVE IN WRONG CYCLE");
 					continue;
 				}
 				try{
@@ -199,8 +200,9 @@ public class Engine {
 			Team team = (agent == null ? null : teams.get(agent.getTeamId()));
 			flag.step(team);
 //			System.out.println(flag);
-			graphicClient.setFlagStatus(flag.getId() + 1, (team == null || team == flag.getOwner()) ? -1 : team.getId(), flag.getPercent(), flag.getOwner() == null ? -1 : flag.getOwner().getId());
-			
+			if (flag.getTmp() == null || !flag.getTmp().equals(flag))
+				graphicClient.setFlagStatus(flag.getId() + 1, (team == null || team == flag.getOwner()) ? -1 : team.getId(), flag.getPercent(), flag.getOwner() == null ? -1 : flag.getOwner().getId());
+			flag.setTmp(flag.clone());
 //			if (flag == game.getFlags().get(game.getFlags().size() - 1)) {
 //				System.out.println("flagdbg " + flag + " " + team);
 //			}
