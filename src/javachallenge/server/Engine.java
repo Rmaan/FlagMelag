@@ -76,7 +76,9 @@ public class Engine {
 		Random r = new Random();
 		int genLoc = r.nextInt(free.size());
 		int type = r.nextInt(PowerUp.values().length);
-		free.get(genLoc).setType(PowerUp.values()[type]);
+		PowerUpPoint toGen = free.get(genLoc);
+		toGen.setType(PowerUp.values()[type]);
+		graphicClient.addPowerUp(toGen.getId(), toGen.getLocation(), PowerUp.values()[type]);
 		System.out.println(game.getPowerups());
 	}
 	
@@ -85,8 +87,9 @@ public class Engine {
 	public void beginStep(){
 		deadAgents = new ArrayList<Agent>();
 		spawnedAgents = new ArrayList<Agent>();
+		System.out.println("Agent with vest : " + vestAgent);
 		if(cycle % POWERUP_GEN_PERIOD == 0){
-			//generatePowerups();
+			generatePowerups();
 		}
 	}
 	
@@ -256,7 +259,9 @@ public class Engine {
 				PowerUpPoint puPoint = game.getPowerUpPoint(dest);
 				if(puPoint != null){
 					PowerUp pType = puPoint.getType();
+					System.out.println("Got POwerUP " + puPoint + " by agent " + agent);
 					puPoint.setType(null);
+					graphicClient.hidePowerUp(puPoint.getId());
 					if(pType == PowerUp.SUICIDE_VEST){
 						agent.setVest();
 						vestAgent = agent;
