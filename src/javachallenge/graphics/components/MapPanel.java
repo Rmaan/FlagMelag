@@ -165,10 +165,11 @@ public class MapPanel extends ScrollablePanel {
 		addToContainer(flag, 4);
 		if (index < 2) return flag;
 		ImageIcon[] castle = ImageHolder.Terrain.castle;
-		int[] offsetX = { -25, 2, -25, 2, 25, 25 };
-		int[] offsetY = { -78, -64, -80, -90, -80, -80 };
+		int[] offsetX = { -25, 2, -25, 2, -25, 2 };
+		int[] offsetY = { -78, -64, -80, -90, -105, -96 };
 		int[] offsetL = { 6, 6, 3, 3, 3, 3 };
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 6; i++) {
+		//	if (i==4) continue;
 			Point point = getAbsolutePosition(position.x, position.y);
 			Label label = new Label(point.x + offsetX[i], point.y + offsetY[i], 200, 200, castle[i]);
 			addToContainer(label, offsetL[i]);
