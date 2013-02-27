@@ -95,7 +95,7 @@ public class Engine {
 					if(opAgent != null){
 						int opId = opAgent.getId();
 						if(agent.getTeamId() == opAgent.getTeamId()){
-							System.out.println("Attack to itself");
+//							System.out.println("Attack to itself");
 							continue;
 						}
 						if(attackNum.get(opId) == null){
@@ -136,7 +136,7 @@ public class Engine {
 					if(firstTeamAttacks >= secondTeamAttacks){
 						if(!deadAgents.contains(opAgent)){
 							deadAgents.add(opAgent);
-							System.out.println("KILLED " + opAgent.getTeamId());
+//							System.out.println("KILLED " + opAgent.getTeamId());
 						}
 //						opAgent.setAlive(false);
 				

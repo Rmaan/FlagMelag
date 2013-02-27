@@ -97,8 +97,8 @@ public class Main {
 						action.setTeamId(i);
 					}
 					actions = validate(actions);
-					System.out.println("Actions team " + i);
-					System.out.println(actions);
+//					System.out.println("Actions team " + i);
+//					System.out.println(actions);
 					allActions.addAll(actions);
 				}
 			}
