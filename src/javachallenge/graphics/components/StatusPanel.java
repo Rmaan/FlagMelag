@@ -56,7 +56,7 @@ public class StatusPanel extends Panel
 	}
 	
 	public void setTime(int a) {
-		time.setText(new HTMLMaker("Time: "+a, ColorMaker.white, 10).toString());
+		time.setText("Time: "+a);
 	}
 
 	public void setName(int id, String name)
