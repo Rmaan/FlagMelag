@@ -40,15 +40,15 @@ public class ImageHolder {
 		public static ImageIcon princessMirror = new ImageIcon(heirPrefix + "human-princess-mirror.png");
 
 		public static ImageIcon[][] units = {
-				{
-						wesfolkOutcast, wesfolkOutcastMirror
-				},
-				{
-						adept, adeptMirror
-				},
-				{
-						princess, princessMirror
-				}
+			{
+				adept, adeptMirror
+			},
+			{
+				wesfolkOutcast, wesfolkOutcastMirror
+			},
+			{
+				princess, princessMirror
+			}
 		};
 	}
 
