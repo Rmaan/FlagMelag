@@ -36,7 +36,7 @@ public class GraphicTest {
 		client.setScore(0,1000,0.75);
 		client.setScore(1,1000,0.5);
 		client.setScore(2,1000,0.6);
-		client.setFlagStatus(1,0,50,0);
+		client.setFlagStatus(1,0,100,0);
 	//	client.spawn(1,new Position(2,2));
 	//	client.spawn(2,new Position(2,3));
 		while (true)
@@ -45,7 +45,7 @@ public class GraphicTest {
 			if (com.startsWith("s")) // spawn
 			{
 				int id=scanner.nextInt(),x=scanner.nextInt(),y=scanner.nextInt();
-	//			client.spawn(id,new Position(x,y));
+				client.spawn(1,id,new Position(x,y));
 			}
 			else if (com.startsWith("k")) // kill
 			{
@@ -55,12 +55,12 @@ public class GraphicTest {
 			else if (com.startsWith("m")) // move
 			{
 				int id=scanner.nextInt(),pos=scanner.nextInt();
-		//		client.move(id,Direction.values()[pos]);
+				client.move(1,id,Direction.values()[pos]);
 			}
 			else if (com.startsWith("a")) // attack
 			{
 				int id=scanner.nextInt(),pos=scanner.nextInt();
-		//		client.attack(id,Direction.values()[pos]);
+				client.attack(1,id,Direction.values()[pos]);
 			}
 			else if (com.startsWith("f")) { // obtain flag
 				int id = scanner.nextInt();
