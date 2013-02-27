@@ -61,13 +61,27 @@ public class GraphicClient {
 		int Players = map.getTeamCount() ;
 		ground=new PlayGround() {
 			{
-				play = new ClickableLabel("Play") {
-					public void onClick() { ctrl.playPauseToggle(); }
+				play = new ClickableLabel("") {
+					boolean isPlay=true;
+					{
+						setIcon(ImageHolder.play);
+					}
+					public void onClick() {
+						if (isPlay)
+							setIcon(ImageHolder.pause);
+						else
+							setIcon(ImageHolder.play);
+						isPlay^=true;
+						ctrl.playPauseToggle();
+					}
 				};	
 				pause = new ClickableLabel("useless") {
 					public void onClick() { System.out.println(""); }
 				};
-				forward = new ClickableLabel("step") {
+				forward = new ClickableLabel("") {
+					{
+						setIcon(ImageHolder.nextCycle);
+					}
 					public void onClick() { ctrl.step(); }
 				};
 			}
@@ -197,7 +211,7 @@ public class GraphicClient {
 
 	public void setName(int id, String name)
 	{
-		ground.getStatus().setName(id,name);
+		ground.getStatus().setName(id, name);
 	}
 
 	public static class DuplicateMemberException extends Exception
