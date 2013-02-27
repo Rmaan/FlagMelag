@@ -103,13 +103,13 @@ public class PlayGround extends Screen {
 	public void addBottomBar()
 	{
 		bottomBar=new Panel();
-		play.setBounds(10,0,50,30);
-		pause.setBounds(60, 0, 50, 30);
-		forward.setBounds(110, 0, 50, 30);
+		play.setBounds(10,0,20,20);
+		forward.setBounds(40, 0, 20, 20);
+		pause.setBounds(70, 0, 20, 20);
 		bottomBar.add(play);
-		bottomBar.add(pause);
+	//	bottomBar.add(pause);
 		bottomBar.add(forward);
-		mapPanel.getPosition().setBounds(200,0,300,30);
+		mapPanel.getPosition().setBounds(110,0,300,20);
 		bottomBar.add(mapPanel.getPosition());
 		add(bottomBar);
 		updateDimensions();

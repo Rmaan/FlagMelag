@@ -94,8 +94,10 @@ public abstract class Player {
 		ClientMessage clientMsg = new ClientMessage();
 		for (Agent agent: agents) {
 			Action act = agent.endStep();
-			if (act != null)
-				clientMsg.addAction(act);
+			if (act != null){
+				act.setTeamId(id);
+				clientMsg.addAction(act, id);
+			}
 		}
 		return clientMsg;
 	}
