@@ -187,7 +187,7 @@ public class GraphicClient {
 		((AnimatedImage) flag).destroy();
 		flags.remove(id);
 		flags.put(id, new AnimatedImage(ImageHolder.Objects.flags[curTeam + 1], 130, flag.getPosition(), true));
-		panel.addToContainer(flags.get(id), 2);
+		panel.addToContainer(flags.get(id), 4);
 	}
 
 	public void log (String message) {
