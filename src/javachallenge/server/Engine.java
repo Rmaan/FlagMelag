@@ -88,7 +88,7 @@ public class Engine {
 				try{
 					Agent agent = getAgent(action.getTeamId(), action.getId());
 					
-					graphicClient.attack(agent.getId(), action.getDir());
+					graphicClient.attack(agent.getId(), agent.getTeamId(), action.getDir());
 					
 					Point dest = agent.getLocation().applyDirection(action.getDir());
 					Agent opAgent = game.getAgent(dest);
@@ -215,7 +215,7 @@ public class Engine {
 				game.moveAgent(agent, agent.getLocation(), dest) ;
 				agent.setLocation(dest);
 				Integer id = new Integer(agent.getId()) ;
-				graphicClient.move(id, dir) ;
+				graphicClient.move(id, agent.getTeamId(), dir) ;
 				
 				//--------------------------- Move On The Flag  
 //				if (game.hasFlag(dest)){
@@ -275,7 +275,7 @@ public class Engine {
 				Position p = new Position(newAgent.getLocation().x, newAgent.getLocation().y);
 				Integer id = new Integer(newAgent.getId()) ;
  				try {
-					graphicClient.spawn(id, p);
+					graphicClient.spawn(id, newAgent.getTeamId(), p);
 				} catch (OutOfMapException e) {
 					e.printStackTrace();
 				} catch (DuplicateMemberException e) {
@@ -489,7 +489,7 @@ public class Engine {
 				a.setLocation(dest);
 				game.setAgent(dest, a);
 				Integer id = new Integer(a.getId()) ;
-				graphicClient.move(id, firstAct.getDir()) ;
+				graphicClient.move(id, a.getTeamId(), firstAct.getDir()) ;
 			}
 		}
 	}
