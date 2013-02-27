@@ -62,13 +62,13 @@ public class GraphicClient {
 				play = new ClickableLabel("") {
 					boolean isPlay=true;
 					{
-						setIcon(ImageHolder.play);
+						setIcon(ImageHolder.pause);
 					}
 					public void onClick() {
 						if (isPlay)
-							setIcon(ImageHolder.pause);
-						else
 							setIcon(ImageHolder.play);
+						else
+							setIcon(ImageHolder.pause);
 						isPlay^=true;
 						ctrl.playPauseToggle();
 					}
