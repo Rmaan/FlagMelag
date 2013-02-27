@@ -21,8 +21,8 @@ public class Main {
 	private GraphicClient graphicClient;
 	
 	private final boolean DBG_PAUSE_ENABLED = false;
-	private final int DBG_PAUSE_CYCLE_NUM = 30;
-	private final int DBG_PAUSE_CYCLE_TIME = 100;
+	private final int DBG_PAUSE_CYCLE_NUM = 1;
+	private final int DBG_PAUSE_CYCLE_TIME = 350;
 	
 	public void run(int listenPort, String mapFilename) throws IOException, InterruptedException, OutOfMapException {
 		ServerSocket ss = new ServerSocket(listenPort);
@@ -74,6 +74,7 @@ public class Main {
 			ArrayList<ServerMessage> stepMessage = engine.getStepMessage();
 			for (int i = 0; i < map.getTeamCount(); i++) {
 				connections.get(i).sendStepMessage(stepMessage.get(i));
+//				System.out.println("Sending to team " + i + " : " + stepMessage.get(i));
 				connections.get(i).clearClientMessage();
 			}
 			
@@ -89,6 +90,7 @@ public class Main {
 			ArrayList<Action> allActions = new ArrayList<Action>();
 			for (int i = 0; i < map.getTeamCount(); i++) {
 				ClientMessage msg = connections.get(i).getClientMessage();
+//				System.out.println("Recieved from team " + i + " : " + msg);
 				if (msg == null) {
 					System.out.println("Team " + i + " message loss");
 				} else {

@@ -26,8 +26,10 @@ public class Map implements Serializable {
 	protected int wid;
 	protected ArrayList<Point> spawnLocations;
 	protected ArrayList<Point> flagLocations;
+	protected ArrayList<Point> powerupLocations;
 	
-	public Map(int wid, int hei, int teamCount, ArrayList<Point> spawnLocations, ArrayList<Point> flagLocations) {
+	public Map(int wid, int hei, int teamCount, ArrayList<Point> spawnLocations, 
+			ArrayList<Point> flagLocations, ArrayList<Point> powerupLocations) {
 		if (wid % 2 == 1 || hei % 2 == 1)
 			throw new ImproperlyConfiguredException("Width and height must be even.");
 		this.spawnLocations = spawnLocations; 
@@ -35,6 +37,7 @@ public class Map implements Serializable {
 		this.hei = hei;
 		this.teamCount = teamCount;
 		this.flagLocations = flagLocations;
+		this.powerupLocations = powerupLocations;
 		this.map = new BlockType[wid][hei];
 		for (int x = 0; x < wid; x++)
 			for (int y = 0; y < hei; y++)
@@ -88,6 +91,12 @@ public class Map implements Serializable {
 		this.flagLocations = flags ;
 	}
 	
+	
+	
+	public ArrayList<Point> getPowerupLocations() {
+		return powerupLocations;
+	}
+
 	public void save(String filename) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String json = gson.toJson(this);

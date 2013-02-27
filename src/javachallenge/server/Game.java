@@ -5,12 +5,15 @@ import java.util.ArrayList;
 import javachallenge.common.BlockType;
 import javachallenge.common.Direction;
 import javachallenge.common.Point;
+import javachallenge.common.PowerUp;
 import javachallenge.common.VisionPoint;
 
 public class Game {
 	private Agent[][] agents;
 	private ArrayList<Flag> flags;
+	private ArrayList<PowerUpPoint> powerups;
 	private Map map;
+	
 	
 	public Game(Map map) {
 		this.map = map;
@@ -19,6 +22,12 @@ public class Game {
 		flags = new ArrayList<Flag>() ;
 		for(int i = 0 ; i < map.getFlagLocations().size() ; i++){
 			flags.add(new Flag(map.getFlagLocations().get(i), i)) ;
+		}
+		
+		powerups = new ArrayList<PowerUpPoint>();
+		ArrayList<Point> pLocs = map.getPowerupLocations();
+		for(int i = 0 ; i < pLocs.size() ; i++){
+			powerups.add(new PowerUpPoint(pLocs.get(i), i));
 		}
 	}
 	
@@ -38,6 +47,10 @@ public class Game {
 	}
 	
 	public void moveAgent(Agent a, Point p, Point p2){
+		PowerUpPoint puPoint = getPowerUpPoint(p2);
+		if(puPoint != null){
+			puPoint.setType(null);
+		}
 		agents[p.x][p.y] = null ;
 		agents[p2.x][p2.y] = a ;
 	}
@@ -82,5 +95,18 @@ public class Game {
 		for (Flag flag : getFlags()) 
 			ret.add((flag.getOwner() == null ? -1 : flag.getOwner().getId())) ;
 		return ret;
+	}
+
+	public ArrayList<PowerUpPoint> getPowerups() {
+		return powerups;
+	}
+	
+	public PowerUpPoint getPowerUpPoint(Point p){
+		for(PowerUpPoint point : powerups){
+			if(point.getLocation().equals(p)){
+				return point;
+			}
+		}
+		return null;
 	}
 }
