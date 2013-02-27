@@ -18,6 +18,7 @@ public class Flag implements Serializable {
 	 * Which team stands on the flag on previous turn
 	 */
 	private Team prevStandingTeam = null;
+
 	
 	public Flag(Point location, int id) {
 		this.location = location ;
@@ -81,4 +82,28 @@ public class Flag implements Serializable {
 				+ ", prevStandingTeam=" + prevStandingTeam + "]";
 	}
 	
+	public Flag clone() {
+		Flag f = new Flag(this.location, this.id);
+		f.counter = this.counter;
+		f.owner = this.owner;
+		f.prevStandingTeam = this.prevStandingTeam;
+		f.state = this.state;
+		return f;
+	}
+	
+	public boolean equals(Flag f) {
+		return f != null 
+			&& f.counter == this.counter
+			&& f.owner == this.owner
+			&& f.prevStandingTeam == this.prevStandingTeam
+			&& f.state == this.state;
+	}
+	
+	private Flag tmp;
+	public Flag getTmp() {
+		return this.tmp;
+	}
+	public void setTmp(Flag tmp) {
+		this.tmp = tmp; 
+	}
 }
