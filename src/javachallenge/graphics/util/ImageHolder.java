@@ -107,5 +107,10 @@ public class ImageHolder {
 		public static ImageIcon[] mage = getAll(corePrefix + "halo", "mage-halo", 5, false);
 		public static ImageIcon flagRock = new ImageIcon(corePrefix + "scenery/rock-cairn.png");
 		public static ImageIcon underFire = new ImageIcon(corePrefix + "scenery/rune2-glow.png");
+		
+		public static ImageIcon illusionRune = new ImageIcon(corePrefix + "scenery/rune4.png");
+		public static ImageIcon[] illusionRuneGlow = { illusionRune, new ImageIcon(corePrefix + "scenery/rune4-glow.png") };
+		public static ImageIcon bombRune = new ImageIcon(corePrefix + "scenery/rune6.png");
+		public static ImageIcon[] bombRuneGlow = { bombRune, new ImageIcon(corePrefix + "scenery/rune6-glow.png") };
 	}
 }
