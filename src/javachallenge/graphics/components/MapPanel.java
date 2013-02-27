@@ -1,7 +1,7 @@
 package javachallenge.graphics.components;
 
 
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -161,7 +161,7 @@ public class MapPanel extends ScrollablePanel {
 	public Sprite setFlag(Position position, int index) throws OutOfMapException {
 		if (isOut(position)) throw new OutOfMapException();
 		//Sprite flag = new AnimatedImage(ImageHolder.Objects.fire, 125, position);
-		Sprite flag = new AnimatedImage(ImageHolder.Objects.flags[0], 130, position);
+		Sprite flag = new AnimatedImage(ImageHolder.Objects.flags[0], 130, position, true);
 		addToContainer(flag, 4);
 		if (index < 2) return flag;
 		ImageIcon[] castle = ImageHolder.Terrain.castle;
@@ -181,5 +181,14 @@ public class MapPanel extends ScrollablePanel {
 	{
 		if (position.getX()<0 || position.getY()<0 || position.getX()>=getMapWidth() || position.getY()>=getMapHeight()) return true;
 		return false;
+	}
+
+	public VerticalTransparentProgressBar setBar(Position position, int id) throws OutOfMapException
+	{
+		if (isOut(position)) throw new OutOfMapException();
+		Point point=getAbsolutePosition(position.x,position.y);
+		VerticalTransparentProgressBar bar=new VerticalTransparentProgressBar(point.x+32,point.y+6,3,23, new Color(0,0,0),0);
+		addToContainer(bar, 10);
+		return bar;
 	}
 }

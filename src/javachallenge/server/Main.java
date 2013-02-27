@@ -45,6 +45,10 @@ public class Main {
 			System.out.println("Waiting for team " + i + " to connect...");
 			Socket socket = ss.accept();
 			connections.add(new TeamConnection(engine.getTeam(i), socket));
+			
+			Team team = engine.getTeam(i) ;
+			graphicClient.setName(team.getId(), team.getName()) ;
+			
 			System.out.println("connected");
 		}
 

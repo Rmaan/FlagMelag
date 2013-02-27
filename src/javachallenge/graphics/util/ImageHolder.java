@@ -38,17 +38,17 @@ public class ImageHolder {
 		public static ImageIcon adeptMirror = new ImageIcon(prefix + "undead-necromancers/adept-mirror.png");
 		public static ImageIcon princess = new ImageIcon(heirPrefix + "human-princess.png");
 		public static ImageIcon princessMirror = new ImageIcon(heirPrefix + "human-princess-mirror.png");
-		
+
 		public static ImageIcon[][] units = {
-			{
-				wesfolkOutcast, wesfolkOutcastMirror
-			},
-			{
-				adept, adeptMirror
-			},
-			{
-				princess, princessMirror
-			}
+				{
+						wesfolkOutcast, wesfolkOutcastMirror
+				},
+				{
+						adept, adeptMirror
+				},
+				{
+						princess, princessMirror
+				}
 		};
 	}
 
