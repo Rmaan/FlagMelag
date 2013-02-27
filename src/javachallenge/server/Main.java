@@ -90,10 +90,11 @@ public class Main {
 						action.setTeamId(i);
 					}
 					actions = validate(actions);
+					System.out.println("Actions team " + i);
+					System.out.println(actions);
 					allActions.addAll(actions);
 				}
 			}
-			
 			engine.beginStep();
 			engine.teamStep(allActions);
 			engine.endStep();

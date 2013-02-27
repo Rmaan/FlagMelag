@@ -1,9 +1,12 @@
 package javachallenge.client.myplayer;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import javachallenge.client.Agent;
 import javachallenge.client.Player;
+import javachallenge.common.BlockType;
+import javachallenge.common.CycleAction;
 import javachallenge.common.Direction;
 import javachallenge.common.Point;
 import javachallenge.common.VisionPoint;
@@ -32,9 +35,12 @@ public class MyPlayer extends Player {
 	
 	public void step() {
 		Point goal = new Point(12, 12);
-		
-		for (int id: getAgentIds()) {
-			Agent agent = this.getAgentById(id);
+		Direction[] attackDir1 = {Direction.NORTHWEST, Direction.SOUTHEAST, Direction.NORTHWEST, Direction.SOUTHWEST, Direction.NONE, Direction.NONE};
+		Direction[] attackDir2 = {Direction.NONE, Direction.NORTHEAST, Direction.SOUTHEAST, Direction.NONE, Direction.NONE, Direction.NONE};
+		ArrayList<Integer> ids = getAgentIds();
+		for (int i = 0 ; i < ids.size() ; i++) {
+			
+			Agent agent = this.getAgentById(ids.get(i));
 			
 			agent.doMove(Direction.values()[rnd.nextInt(Direction.values().length)]);
 			
@@ -45,7 +51,25 @@ public class MyPlayer extends Player {
 			System.out.println(v.getLocation());
 			System.out.println("-------------------------------------");
 			
-			moveTo(agent, goal);
+//			moveTo(agent, goal);
+			
+			if(getCycleAction() == CycleAction.MOVE_CYCLE){
+				VisionPoint vision = agent.getAdjVisionPoint(Direction.NONE);
+				if(vision.getAdjBlockType(Direction.SOUTH) == BlockType.GROUND && vision.getAdjTeamId(Direction.SOUTH) < 0 && agent.getLocation().y < 9){
+					agent.doAttack(Direction.SOUTH);
+				}
+			}
+			else if(cycle > 30){
+				Direction[] attackDir;
+				if(getTeamId() == 0){
+					attackDir = attackDir1;
+				}
+				else{
+					attackDir = attackDir2;
+				}
+				agent.doAttack(attackDir[i]);
+			}
 		}
+		cycle++;
 	}
 }
