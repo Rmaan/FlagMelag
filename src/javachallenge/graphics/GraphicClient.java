@@ -163,8 +163,12 @@ public class GraphicClient {
 		flags.put(id, new Sprite(ImageHolder.Objects.underFire, flag.getPosition()));
 		panel.addToContainer(flags.get(id), 2);
 	}
+	
+	public void setFlagStatus(Integer id, int progressTeam, int progressPercentage, int curTeam) {
+		setFlagStatus(id, progressTeam, progressPercentage, curTeam, true);
+	}
 
-	public void setFlagStatus(Integer id, int progressTeam, int progressPercentage, int curTeam){
+	public void setFlagStatus(Integer id, int progressTeam, int progressPercentage, int curTeam, boolean animated) {
 		Sprite flag = flags.get(id);
 		flag.setVisible(false);
 		VerticalTransparentProgressBar bar=barMap.get(id);
@@ -172,8 +176,13 @@ public class GraphicClient {
 			bar.setColor(Color.BLACK);
 		else
 			bar.setColor(StatusPanel.filled[progressTeam]);
-		bar.animatedBar(progressPercentage);
-	 //   bar.updateVerticalTransparentProgressBar((double)progressPercentage/100);
+		if (animated)
+			bar.animatedBar(progressPercentage);
+		else
+		{
+			bar.updateVerticalTransparentProgressBar((double)progressPercentage/100);
+			bar.setLast(progressPercentage);
+		}
 		panel.remove(flag);
 		((AnimatedImage) flag).destroy();
 		flags.remove(id);

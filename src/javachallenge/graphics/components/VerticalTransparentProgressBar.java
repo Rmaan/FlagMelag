@@ -34,6 +34,10 @@ public class VerticalTransparentProgressBar extends Panel
 		loaded.setBounds(0,h-first,w,first);
 	}
 
+	public void setLast(int last) {
+		this.last = last;
+	}
+	
 	synchronized public void animatedBar(final int progressPercentage)
 	{
 		new Thread()
@@ -51,7 +55,7 @@ public class VerticalTransparentProgressBar extends Panel
 					
 					try
 					{
-						sleep(5);
+						sleep(4);
 					} catch (InterruptedException e)
 					{
 						e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
