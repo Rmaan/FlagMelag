@@ -10,7 +10,12 @@ public class Team {
 	private boolean activeSpawnPoint;
 	private Point spawnLocation;
 	private int id;
+	private String name ;
 	private int lastSpawned = -1;
+	
+	public String getName(){
+		return (name == null ? "Player " + id : name) ;
+	}
 	
 	public int getLastSpawned() {
 		return lastSpawned;
@@ -71,6 +76,10 @@ public class Team {
 	@Override
 	public String toString() {
 		return "Team [id=" + id + "]";
+	}
+
+	public void setName(String string) {
+		this.name = string ;
 	}
 	
 }

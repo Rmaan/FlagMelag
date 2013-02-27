@@ -177,7 +177,7 @@ public class GraphicClient {
 		ground.addLog(message);
 	}
 
-	public void setName(int id,String name)
+	public void setName(int id, String name)
 	{
 		ground.getStatus().setName(id,name);
 	}

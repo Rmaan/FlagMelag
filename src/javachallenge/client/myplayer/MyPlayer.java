@@ -48,4 +48,9 @@ public class MyPlayer extends Player {
 			moveTo(agent, goal);
 		}
 	}
+
+	@Override
+	public String getName() {
+		return "Sample Player";
+	}
 }
