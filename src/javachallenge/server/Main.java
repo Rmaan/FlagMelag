@@ -20,7 +20,7 @@ public class Main {
 	private static int CYCLE_TIME = 350;
 	private GraphicClient graphicClient;
 	
-	private final boolean DBG_PAUSE_ENABLED = false;
+	private final boolean DBG_PAUSE_ENABLED = true;
 	private final int DBG_PAUSE_CYCLE_NUM = 1;
 	private final int DBG_PAUSE_CYCLE_TIME = 350;
 	
