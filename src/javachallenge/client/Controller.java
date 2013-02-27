@@ -32,18 +32,19 @@ public class Controller {
 		
 //		System.out.println("Creating player & world...");
 		
-		
-		System.out.println("Waiting for initial Msg...");
-		InitMessage initMsg = (InitMessage)in.readObject();
-		
-		
 		//---------------------------
 		world = new World();
 		player = new MyPlayer() ;
 		player.setWorld(world) ;
+		
+		System.err.println("Connecting to server...");
+		out.writeObject(player.getName());
+		
+		System.out.println("Waiting for initial Msg...");
+		InitMessage initMsg = (InitMessage)in.readObject();
+		
 		player.initMsg(initMsg);
 		//---------------------------
-		
 		
 		System.out.println("Starting game");
 		new Thread(){

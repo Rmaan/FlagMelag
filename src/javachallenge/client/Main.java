@@ -11,5 +11,4 @@ public class Main {
 	public static void main(String[] args) throws UnknownHostException, ClassNotFoundException, IOException {
 		new Controller(IP, PORT);
 	}
-
 }

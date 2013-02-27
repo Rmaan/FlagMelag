@@ -115,5 +115,7 @@ public abstract class Player {
 	public CycleAction getCycleAction() {
 		return cycleAction;
 	}
+
+	public abstract String getName(); 
 	
 }

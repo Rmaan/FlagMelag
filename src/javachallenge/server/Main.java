@@ -35,7 +35,8 @@ public class Main {
 		}
 		
 		Game g = new Game(map);
-		graphicClient = new GraphicClient(map);
+		RemoteControl ctrl = new RemoteControl();
+		graphicClient = new GraphicClient(map, ctrl);
 		Engine engine = new Engine(g, graphicClient);
 		
 		ArrayList<TeamConnection> connections = new ArrayList<TeamConnection>();
@@ -44,6 +45,10 @@ public class Main {
 			System.out.println("Waiting for team " + i + " to connect...");
 			Socket socket = ss.accept();
 			connections.add(new TeamConnection(engine.getTeam(i), socket));
+			
+			Team team = engine.getTeam(i) ;
+			graphicClient.setName(team.getId(), team.getName()) ;
+			
 			System.out.println("connected");
 		}
 
@@ -60,6 +65,8 @@ public class Main {
 		
 		int temp = 1 ;
 		while (!engine.gameIsOver() || temp != 0) {
+			ctrl.waitForPlay();
+			
 			temp += (engine.gameIsOver() ? -1 : 0) ;
 			
 			//System.out.println("Cycle " + engine.getCycle());

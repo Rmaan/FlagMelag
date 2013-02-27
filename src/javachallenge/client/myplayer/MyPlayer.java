@@ -72,4 +72,9 @@ public class MyPlayer extends Player {
 		}
 		cycle++;
 	}
+
+	@Override
+	public String getName() {
+		return "Sample Player";
+	}
 }
