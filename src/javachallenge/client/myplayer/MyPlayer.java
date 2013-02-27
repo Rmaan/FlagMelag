@@ -36,6 +36,15 @@ public class MyPlayer extends Player {
 		for (int id: getAgentIds()) {
 			Agent agent = this.getAgentById(id);
 			
+			agent.doAttack(Direction.NONE) ;
+			agent.doMove(Direction.NONE) ;
+			VisionPoint v = agent.getAdjVisionPoint(Direction.NONE) ;
+			v.getAdjBlockType(Direction.NONE) ;
+			v.getAdjTeamId(Direction.NONE) ;
+			v.getLocation() ;
+			agent.getId();
+			agent.getLocation() ;
+			
 			agent.doMove(Direction.values()[rnd.nextInt(Direction.values().length)]);
 			
 //			System.out.println("-------------------------------------");

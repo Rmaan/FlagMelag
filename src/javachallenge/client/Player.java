@@ -65,10 +65,6 @@ public abstract class Player {
 		agents.add(agent) ;
 	}
 	
-	public ArrayList<Agent> getAgents(){
-		return agents ;
-	}
-
 	public int getTeamId(){
 		return id ;
 	}
