@@ -38,7 +38,7 @@ public class Flag implements Serializable {
 	
 	public int getPercent() {
 		if (state == FlagState.UP)
-			return 100 * (TURNS_UP - counter) / TURNS_UP;
+			return 100 * (counter) / TURNS_UP;
 		if (state == FlagState.DOWN)
 			return 100 * (TURNS_DOWN - counter) / TURNS_DOWN;
 		return 0;
