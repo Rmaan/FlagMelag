@@ -187,7 +187,7 @@ public class MapPanel extends ScrollablePanel {
 	{
 		if (isOut(position)) throw new OutOfMapException();
 		Point point=getAbsolutePosition(position.x,position.y);
-		VerticalTransparentProgressBar bar=new VerticalTransparentProgressBar(point.x+32,point.y+6,3,23, new Color(0,0,0),0.5);
+		VerticalTransparentProgressBar bar=new VerticalTransparentProgressBar(point.x+32,point.y+6,3,23, new Color(0,0,0),0);
 		addToContainer(bar, 10);
 		return bar;
 	}
