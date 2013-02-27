@@ -14,6 +14,7 @@ public class ImageHolder {
 	public static String menuPrefix = prefix + "menu/";
 	public static String corePrefix = prefix + "game/core/";
 	public static String riseOfWesnothPrefix = prefix + "game/The_Rise_Of_Wesnoth/";
+	public static String heirToTheThronePrefix = prefix + "game/Heir_To_The_Throne/";
 
 	public static ImageIcon[] getAll (String path, String type, int count, boolean removeFirstIndex) {
 		ImageIcon[] all = new ImageIcon[count];
@@ -29,11 +30,14 @@ public class ImageHolder {
 
 	public static class Units {
 		public static String risePrefix = riseOfWesnothPrefix + "units/";
+		public static String heirPrefix = heirToTheThronePrefix + "units/";
 		public static String prefix = corePrefix + "units/";
 		public static ImageIcon wesfolkOutcast = new ImageIcon(risePrefix + "wesfolk-outcast.png");
 		public static ImageIcon wesfolkOutcastMirror = new ImageIcon(risePrefix + "wesfolk-outcast-mirror.png");
 		public static ImageIcon adept = new ImageIcon(prefix + "undead-necromancers/adept.png");
 		public static ImageIcon adeptMirror = new ImageIcon(prefix + "undead-necromancers/adept-mirror.png");
+		public static ImageIcon princess = new ImageIcon(heirPrefix + "human-princess.png");
+		public static ImageIcon princessMirror = new ImageIcon(heirPrefix + "human-princess-mirror.png");
 		
 		public static ImageIcon[][] units = {
 			{
@@ -43,7 +47,7 @@ public class ImageHolder {
 				adept, adeptMirror
 			},
 			{
-				wesfolkOutcast, wesfolkOutcastMirror
+				princess, princessMirror
 			}
 		};
 	}
