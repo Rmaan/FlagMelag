@@ -27,6 +27,14 @@ public class TeamConnection {
 		out = new ObjectOutputStream(socket.getOutputStream());
 		in = new ObjectInputStream(socket.getInputStream());
 		
+		try {
+			System.err.println("Behrooz : Waiiting for name...");
+			team.setName((String) in.readObject()) ;
+			System.err.println("Behrooz : Read name...");
+		} catch (ClassNotFoundException e1) {
+			//pass do nothing 
+		}
+		
 		// Recieve team messages
 		new Thread("Recieve Message Team "+ team.getId()) {
 			@Override
