@@ -42,7 +42,10 @@ public class MyPlayer extends Player {
 			
 			Agent agent = this.getAgentById(ids.get(i));
 			
-			agent.doMove(Direction.values()[rnd.nextInt(Direction.values().length)]);
+			if (getCycleAction() == CycleAction.MOVE_CYCLE)
+				agent.doMove(Direction.values()[rnd.nextInt(Direction.values().length)]);
+			else
+				agent.doAttack(Direction.values()[rnd.nextInt(Direction.values().length)]);
 			
 			System.out.println("-------------------------------------");
 			VisionPoint v = agent.getAdjVisionPoint(Direction.NONE) ;
