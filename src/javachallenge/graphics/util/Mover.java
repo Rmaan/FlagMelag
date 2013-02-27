@@ -26,13 +26,17 @@ public class Mover extends Thread {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					ArrayList<Mover> newMovers = new ArrayList<Mover>();
-					for (Mover mover : movers) {
-						if (mover.step()) {
-							newMovers.add(mover);
+					synchronized (movers) {
+						ArrayList<Mover> newMovers = new ArrayList<Mover>();
+						for (Mover mover : movers) {
+							if (mover.step())
+								newMovers.add(mover);
+							else
+								mover.atTheEnd();
 						}
+						movers.clear();
+						movers = newMovers;
 					}
-					movers = newMovers;
 				}	
 			}
 		}.start();
@@ -63,10 +67,12 @@ public class Mover extends Thread {
 		component.setLocation(component.getX() + x, component.getY() + y);
 	}
 	
-	/*@Override
-	public synchronized void start() {
-		movers.add(this);
-	}*/
+	@Override
+	public void start() {
+		synchronized (movers) {
+			movers.add(this);	
+		}
+	}
 	
 	protected boolean step() {
 		synchronized (component) {
