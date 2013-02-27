@@ -6,6 +6,7 @@ import java.util.TreeMap;
 
 import javachallenge.common.Direction;
 import javachallenge.common.Point;
+import javachallenge.common.PowerUp;
 import javachallenge.graphics.components.*;
 import javachallenge.graphics.util.*;
 import javachallenge.server.Map;
@@ -21,6 +22,7 @@ public class GraphicClient {
 	protected java.util.Map<Integer,Sprite> flags=new TreeMap<Integer,Sprite>();
 	protected java.util.Map<Integer,Sprite> spawnPoints=new TreeMap<Integer,Sprite>();
 	protected java.util.Map<Integer,Sprite> units=new TreeMap<Integer,Sprite>();
+	protected java.util.Map<Integer,Sprite> powerUps=new TreeMap<Integer, Sprite>();
 	protected PlayGround ground;
 	protected java.util.Map<Integer,VerticalTransparentProgressBar> barMap=new TreeMap<Integer, VerticalTransparentProgressBar>();
 	public void setTime(int a)
@@ -62,13 +64,14 @@ public class GraphicClient {
 				play = new ClickableLabel("") {
 					boolean isPlay=true;
 					{
-						setIcon(ImageHolder.play);
+						setIcon(ImageHolder.pause);
 					}
 					public void onClick() {
 						if (isPlay)
-							setIcon(ImageHolder.pause);
-						else
 							setIcon(ImageHolder.play);
+						else
+							setIcon(ImageHolder.pause);
+						GraphicClient.animator.setPause(GraphicClient.animator.isPause()^true);
 						isPlay^=true;
 						ctrl.playPauseToggle();
 					}
@@ -201,9 +204,21 @@ public class GraphicClient {
 		flags.put(id, new AnimatedImage(ImageHolder.Objects.flags[curTeam + 1], flag.getPosition(), true,animator));
 		panel.addToContainer(flags.get(id), 4);
 	}
-
+	public void addPowerUp(int id,Point point,PowerUp powerUp)
+	{
+		AnimatedImage image=new AnimatedImage(ImageHolder.Objects.runes[powerUp.ordinal()],new Position(point),true,animator);
+		panel.addToContainer(image,2);
+		powerUps.put(id,image);
+	}
+	public void hidePowerUp(int id)
+	{
+		Sprite image=powerUps.get(id);
+		image.setVisible(false);
+	    panel.remove(image);
+		powerUps.remove(id);
+	}
 	public void log (String message) {
-		System.err.println("log: " + message);
+//		System.err.println("log: " + message);
 		ground.addLog(message);
 	}
 

@@ -41,8 +41,10 @@ public class MyPlayer extends Player {
 		for (int i = 0 ; i < ids.size() ; i++) {
 			
 			Agent agent = this.getAgentById(ids.get(i));
-			
-			agent.doMove(Direction.values()[rnd.nextInt(Direction.values().length)]);
+			if(getCycleAction() == CycleAction.MOVE_CYCLE)
+				agent.doMove(Direction.values()[rnd.nextInt(Direction.values().length)]);
+			else
+				agent.doAttack(Direction.values()[rnd.nextInt(Direction.values().length)]);
 			
 			System.out.println("-------------------------------------");
 			VisionPoint v = agent.getAdjVisionPoint(Direction.NONE) ;
@@ -51,7 +53,7 @@ public class MyPlayer extends Player {
 			System.out.println(v.getLocation());
 			System.out.println("-------------------------------------");
 			
-			moveTo(agent, goal);
+			//moveTo(agent, goal);
 			
 		}
 		cycle++;

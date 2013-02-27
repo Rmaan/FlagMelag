@@ -1,6 +1,7 @@
 package javachallenge.common;
 
-public enum PowerUp {
-	SUICIDE_VEST, 
+public enum PowerUp
+{
+	SUICIDE_VEST,
 	DUPLICATE
 }
