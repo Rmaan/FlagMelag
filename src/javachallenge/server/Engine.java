@@ -77,8 +77,6 @@ public class Engine {
 		}
 		else{
 			//handle attacks
-//			System.out.println("ATTTAAACKKKS");
-//			System.out.println(actions);
 			HashMap<Integer, ArrayList<Integer>> attackNum = new HashMap<Integer, ArrayList<Integer>>();
 			ArrayList<Action> validActions = new ArrayList<Action>();
 			for(Action action : actions){
@@ -88,7 +86,9 @@ public class Engine {
 				try{
 					Agent agent = getAgent(action.getTeamId(), action.getId());
 					
-					graphicClient.attack(agent.getId(), agent.getTeamId(), action.getDir());
+					if(action.getDir() != Direction.NONE){
+						graphicClient.attack(agent.getId(), agent.getTeamId(), action.getDir());
+					}
 					
 					Point dest = agent.getLocation().applyDirection(action.getDir());
 					Agent opAgent = game.getAgent(dest);
@@ -116,7 +116,7 @@ public class Engine {
 //					}
 				}
 				catch(Exception e){
-					System.out.println("Bad Agent : Team " + action.getTeamId());
+					System.out.println("Bad Agent : Team " + action.getTeamId() + " id : " + action.getId());
 					e.printStackTrace();
 					continue;
 				}
@@ -134,22 +134,23 @@ public class Engine {
 					int secondTeamAttacks = Collections.frequency(attackNum.get(agent.getId()), opAgent.getTeamId());
 //					System.out.println(firstTeamAttacks + ", " + secondTeamAttacks);
 					if(firstTeamAttacks >= secondTeamAttacks){
-						if(opAgent.isAlive()){
+						if(!deadAgents.contains(opAgent)){
 							deadAgents.add(opAgent);
 							System.out.println("KILLED " + opAgent.getTeamId());
 						}
-						opAgent.setAlive(false);
+//						opAgent.setAlive(false);
 				
 					}
 				}
 				catch (Exception e) {
-					System.out.println("Bad Agent : Team " + action.getTeamId());
+					System.out.println("Bad Agent : Team " + action.getTeamId() + " id : " + action.getId());
 					e.printStackTrace();
 					continue;
 				}
 			}
 			
 			for(Agent agent : deadAgents){
+				agent.setAlive(false);
 				game.setAgent(agent.getLocation(), null);
 				graphicClient.die(agent.getId());
 			}
