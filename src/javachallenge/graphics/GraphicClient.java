@@ -173,6 +173,7 @@ public class GraphicClient {
 		else
 			bar.setColor(StatusPanel.filled[progressTeam]);
 		bar.animatedBar(progressPercentage);
+	 //   bar.updateVerticalTransparentProgressBar((double)progressPercentage/100);
 		panel.remove(flag);
 		((AnimatedImage) flag).destroy();
 		flags.remove(id);

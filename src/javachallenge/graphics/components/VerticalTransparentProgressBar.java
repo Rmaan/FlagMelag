@@ -36,7 +36,7 @@ public class VerticalTransparentProgressBar extends Panel
 
 	synchronized public void animatedBar(final int progressPercentage)
 	{
-		final int step=(last>progressPercentage?1:-1);
+		final int step=(last>progressPercentage?-1:1);
 		new Thread()
 		{
 			public void run()

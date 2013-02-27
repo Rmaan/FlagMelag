@@ -36,6 +36,7 @@ public class GraphicTest {
 		client.setScore(0,1000,0.75);
 		client.setScore(1,1000,0.5);
 		client.setScore(2,1000,0.6);
+		client.setFlagStatus(1,0,50,0);
 	//	client.spawn(1,new Position(2,2));
 	//	client.spawn(2,new Position(2,3));
 		while (true)
