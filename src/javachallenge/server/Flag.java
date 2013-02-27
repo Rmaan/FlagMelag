@@ -70,4 +70,12 @@ public class Flag implements Serializable {
 		
 		prevStandingTeam = t;
 	}
+
+	@Override
+	public String toString() {
+		return "Flag [location=" + location + ", id=" + id + ", owner=" + owner
+				+ ", state=" + state + ", counter=" + counter
+				+ ", prevStandingTeam=" + prevStandingTeam + "]";
+	}
+	
 }
