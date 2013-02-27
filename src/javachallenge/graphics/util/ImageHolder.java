@@ -28,9 +28,24 @@ public class ImageHolder {
 	public static ImageIcon waiting = new ImageIcon(menuPrefix + "cursors/wait.png");
 
 	public static class Units {
-		public static String prefix = riseOfWesnothPrefix + "units/";
-		public static ImageIcon wesfolkOutcast = new ImageIcon(prefix + "wesfolk-outcast.png");
-		public static ImageIcon wesfolkOutcastMirror = new ImageIcon(prefix + "wesfolk-outcast-mirror.png");
+		public static String risePrefix = riseOfWesnothPrefix + "units/";
+		public static String prefix = corePrefix + "units/";
+		public static ImageIcon wesfolkOutcast = new ImageIcon(risePrefix + "wesfolk-outcast.png");
+		public static ImageIcon wesfolkOutcastMirror = new ImageIcon(risePrefix + "wesfolk-outcast-mirror.png");
+		public static ImageIcon adept = new ImageIcon(prefix + "undead-necromancers/adept.png");
+		public static ImageIcon adeptMirror = new ImageIcon(prefix + "undead-necromancers/adept-mirror.png");
+		
+		public static ImageIcon[][] units = {
+			{
+				wesfolkOutcast, wesfolkOutcastMirror
+			},
+			{
+				adept, adeptMirror
+			},
+			{
+				wesfolkOutcast, wesfolkOutcastMirror
+			}
+		};
 	}
 
 	public static class Terrain {
