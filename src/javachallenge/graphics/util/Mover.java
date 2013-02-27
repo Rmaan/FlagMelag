@@ -63,10 +63,10 @@ public class Mover extends Thread {
 		component.setLocation(component.getX() + x, component.getY() + y);
 	}
 	
-	@Override
+	/*@Override
 	public synchronized void start() {
 		movers.add(this);
-	}
+	}*/
 	
 	protected boolean step() {
 		synchronized (component) {
