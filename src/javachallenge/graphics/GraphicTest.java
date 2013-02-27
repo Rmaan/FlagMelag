@@ -4,7 +4,8 @@ import java.awt.*;
 import java.util.Random;
 import java.util.Scanner;
 
-import javachallenge.common.Direction;
+import javachallenge.common.*;
+import javachallenge.common.Point;
 import javachallenge.graphics.components.VerticalTransparentProgressBar;
 import javachallenge.graphics.util.Position;
 import javachallenge.server.Map;
@@ -37,6 +38,7 @@ public class GraphicTest {
 		client.setScore(1,1000,0.5);
 		client.setScore(2,1000,0.6);
 		client.setFlagStatus(1,0,100,0);
+		client.addPowerUp(1,new Point(3,3),PowerUp.DUPLICATE);
 	//	client.spawn(1,new Position(2,2));
 	//	client.spawn(2,new Position(2,3));
 		while (true)
