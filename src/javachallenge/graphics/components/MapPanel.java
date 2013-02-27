@@ -7,6 +7,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Random;
 
+import javachallenge.common.BlockType;
 import javachallenge.common.Point;
 import javachallenge.graphics.GraphicClient;
 import javachallenge.graphics.GraphicClient.OutOfMapException;
@@ -55,6 +56,12 @@ public class MapPanel extends ScrollablePanel {
 				int index = new Random().nextInt(environment.length);
 				addToContainer(blocks[i][j] = new Sprite(environment[index],
 						new Position(i, j)), 0);
+				if (map.getBlockType(new Point(i, j)) == BlockType.RIVER) {
+					ImageIcon[] env = ImageHolder.Terrain.generalMap;
+					int indeX = new Random().nextInt(env.length);
+					addToContainer(blocks[i][j] = new Sprite(env[indeX],
+							new Position(i, j)), 0);
+				}
 				//addToContainer(fogs[i][j] = new Sprite(ImageHolder.Terrain.fog, 
 				//		new Position(i, j)), 1);
 			}
