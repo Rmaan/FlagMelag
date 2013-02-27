@@ -257,6 +257,7 @@ public class Engine {
 					puPoint.setType(null);
 					if(pType == PowerUp.SUICIDE_VEST){
 						agent.setVest();
+						vestAgent = agent;
 					}
 					else{
 						Agent newAgent = teams.get(agent.getTeamId()).addAgent();
