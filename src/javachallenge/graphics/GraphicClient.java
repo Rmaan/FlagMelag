@@ -62,13 +62,13 @@ public class GraphicClient {
 		ground=new PlayGround() {
 			{
 				play = new ClickableLabel("Play") {
-					public void onClick() { System.out.println("real play!!"); ctrl.playPauseToggle(); }
-				};
-				pause = new ClickableLabel("pause") {
-					public void onClick() { System.out.println("real play!!"); onPause(); }
+					public void onClick() { ctrl.playPauseToggle(); }
+				};	
+				pause = new ClickableLabel("useless") {
+					public void onClick() { System.out.println(""); }
 				};
 				forward = new ClickableLabel("step") {
-					public void onClick() { System.out.println("real step!!"); ctrl.step(); }
+					public void onClick() { ctrl.step(); }
 				};
 			}
 		};
@@ -189,18 +189,6 @@ public class GraphicClient {
 	public void setName(int id, String name)
 	{
 		ground.getStatus().setName(id,name);
-	}
-
-	public void onPlay() {
-		System.err.println("play");
-	}
-
-	public void onPause() {
-		System.err.println("pause");
-	}
-
-	public void onFastForward() {
-		System.err.println("forward");
 	}
 
 	public static class DuplicateMemberException extends Exception

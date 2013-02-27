@@ -36,15 +36,19 @@ public class VerticalTransparentProgressBar extends Panel
 
 	synchronized public void animatedBar(final int progressPercentage)
 	{
-		final int step=(last>progressPercentage?-1:1);
 		new Thread()
 		{
 			public void run()
 			{
 				while (last!=progressPercentage)
 				{
-					updateVerticalTransparentProgressBar((double)last/100);
+					int diff = progressPercentage - last;
+					int sign = diff < 0 ? -1 : 1;
+					int step = Math.min(Math.abs(diff), 3) * sign; 
+					
 					last+=step;
+					updateVerticalTransparentProgressBar((double)last/100);
+					
 					try
 					{
 						sleep(5);

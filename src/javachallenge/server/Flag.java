@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javachallenge.common.Point;
 
 public class Flag implements Serializable {
-	private static final int TURNS_DOWN = 2, TURNS_UP = 3;
+	private static final int TURNS_DOWN = 4, TURNS_UP = 6;
 	
 	private static final long serialVersionUID = -3703632960727476328L;
 	private Point location;
