@@ -51,24 +51,8 @@ public class MyPlayer extends Player {
 			System.out.println(v.getLocation());
 			System.out.println("-------------------------------------");
 			
-//			moveTo(agent, goal);
+			moveTo(agent, goal);
 			
-			if(getCycleAction() == CycleAction.MOVE_CYCLE){
-				VisionPoint vision = agent.getAdjVisionPoint(Direction.NONE);
-				if(vision.getAdjBlockType(Direction.SOUTH) == BlockType.GROUND && vision.getAdjTeamId(Direction.SOUTH) < 0 && agent.getLocation().y < 9){
-					agent.doAttack(Direction.SOUTH);
-				}
-			}
-			else if(cycle > 30){
-				Direction[] attackDir;
-				if(getTeamId() == 0){
-					attackDir = attackDir1;
-				}
-				else{
-					attackDir = attackDir2;
-				}
-				agent.doAttack(attackDir[i]);
-			}
 		}
 		cycle++;
 	}
