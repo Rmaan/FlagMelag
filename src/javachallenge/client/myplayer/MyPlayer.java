@@ -51,7 +51,7 @@ public class MyPlayer extends Player {
 			System.out.println(v.getLocation());
 			System.out.println("-------------------------------------");
 			
-			moveTo(agent, goal);
+			//moveTo(agent, goal);
 			
 		}
 		cycle++;
