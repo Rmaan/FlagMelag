@@ -103,11 +103,11 @@ public class GraphicClient {
 		}
 	}
 
-	public void spawn(Integer id,Position position) throws OutOfMapException, DuplicateMemberException
+	public void spawn(Integer id, Integer teamId, Position position) throws OutOfMapException, DuplicateMemberException
 	{
 		if (panel.isOut(position)) throw new OutOfMapException();
 		if (units.get(id)!=null) throw new DuplicateMemberException();
-		Sprite sprite=new Sprite(ImageHolder.Units.wesfolkOutcast, position);
+		Sprite sprite=new Sprite(ImageHolder.Units.units[teamId][0], position);
 		units.put(id, sprite);
 		panel.addToContainer(sprite, 3);
 	}
@@ -119,7 +119,7 @@ public class GraphicClient {
 		panel.remove(sprite);
 	}
 
-	public void attack(Integer id, Direction dir) {
+	public void attack(Integer id, Integer teamId, Direction dir) {
 		int direction = dir.ordinal();
 		final Sprite sprite = units.get(id);
 		final Position position = MapPanel.getAbsolutePosition(x[direction], y[direction]);
@@ -128,9 +128,9 @@ public class GraphicClient {
 		position.x /= 3;
 		position.y /= 3;
 		if (direction == 1 || direction == 2)
-			units.get(id).setIcon(ImageHolder.Units.wesfolkOutcast);
+			units.get(id).setIcon(ImageHolder.Units.units[teamId][0]);
 		if (direction == 4 || direction == 5)
-			units.get(id).setIcon(ImageHolder.Units.wesfolkOutcastMirror);
+			units.get(id).setIcon(ImageHolder.Units.units[teamId][1]);
 		new Mover(sprite,position,attackSpeed/attackSteps,attackSteps) {
 			@Override
 			public void atTheEnd() {
@@ -141,14 +141,14 @@ public class GraphicClient {
 		}.start();
 	}
 
-	public void move(Integer id,Direction dir) throws NullPointerException {
+	public void move(Integer id, Integer teamId, Direction dir) throws NullPointerException {
 		int direction=dir.ordinal();
 		Sprite sprite=units.get(id);
 		Position position=MapPanel.getAbsolutePosition(x[direction],y[direction]);
 		if (direction == 1 || direction == 2)
-			units.get(id).setIcon(ImageHolder.Units.wesfolkOutcast);
+			units.get(id).setIcon(ImageHolder.Units.units[teamId][0]);
 		if (direction == 4 || direction == 5)
-			units.get(id).setIcon(ImageHolder.Units.wesfolkOutcastMirror);
+			units.get(id).setIcon(ImageHolder.Units.units[teamId][1]);
 		new Mover(sprite,position,moveSpeed/moveSteps,moveSteps).start();
 	}
 
