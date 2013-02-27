@@ -27,6 +27,8 @@ public class GraphicTest {
 		client.setScore(0,1000,0.75);
 		client.setScore(1,1000,0.5);
 		client.setScore(2,1000,0.6);
+		client.spawn(1,new Position(2,2));
+		client.spawn(2,new Position(2,3));
 		while (true)
 		{
 			String com=scanner.next();
@@ -71,6 +73,8 @@ public class GraphicTest {
 			else if (com.startsWith("e")) // exit
 				break;
 		//	client.setName(1,"kir");
+			client.attack(1,Direction.SOUTH);
+			client.attack(2,Direction.NORTH);
 		}
 		scanner.close();
 	}

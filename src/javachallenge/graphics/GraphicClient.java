@@ -124,8 +124,10 @@ public class GraphicClient {
 		int direction = dir.ordinal();
 		final Sprite sprite = units.get(id);
 		final Position position = MapPanel.getAbsolutePosition(x[direction], y[direction]);
-		position.x /= 2;
-		position.y /= 2;
+		position.x*=2;
+		position.y*=2;
+		position.x /= 5;
+		position.y /= 5;
 		if (direction == 1 || direction == 2)
 			units.get(id).setIcon(ImageHolder.Units.wesfolkOutcast);
 		if (direction == 4 || direction == 5)
