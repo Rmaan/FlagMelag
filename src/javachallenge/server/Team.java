@@ -82,4 +82,13 @@ public class Team {
 		this.name = string ;
 	}
 	
+	void killAgent(Agent agent){
+		agents.remove(agent);
+	}
+	
+	void killAgent(int id){
+		Agent agent = getAgent(id);
+		agents.remove(agent);
+	}
+	
 }
