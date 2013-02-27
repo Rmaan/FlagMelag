@@ -41,8 +41,10 @@ public class MyPlayer extends Player {
 		for (int i = 0 ; i < ids.size() ; i++) {
 			
 			Agent agent = this.getAgentById(ids.get(i));
-			
-			agent.doMove(Direction.values()[rnd.nextInt(Direction.values().length)]);
+			if(getCycleAction() == CycleAction.MOVE_CYCLE)
+				agent.doMove(Direction.values()[rnd.nextInt(Direction.values().length)]);
+			else
+				agent.doAttack(Direction.values()[rnd.nextInt(Direction.values().length)]);
 			
 			System.out.println("-------------------------------------");
 			VisionPoint v = agent.getAdjVisionPoint(Direction.NONE) ;
@@ -53,24 +55,7 @@ public class MyPlayer extends Player {
 			
 //			moveTo(agent, goal);
 			
-			if(getCycleAction() == CycleAction.MOVE_CYCLE){
-				VisionPoint vision = agent.getAdjVisionPoint(Direction.NONE);
-				if(vision.getAdjBlockType(Direction.SOUTH) == BlockType.GROUND && vision.getAdjTeamId(Direction.SOUTH) < 0 && agent.getLocation().y < 9){
-					agent.doAttack(Direction.SOUTH);
-				}
-			}
-			else if(cycle > 30){
-				Direction[] attackDir;
-				if(getTeamId() == 0){
-					attackDir = attackDir1;
-				}
-				else{
-					attackDir = attackDir2;
-				}
-				agent.doAttack(attackDir[i]);
-			}
 		}
-		cycle++;
 	}
 
 	@Override

@@ -46,7 +46,7 @@ public class GraphicClient {
 	}
 
 	public GraphicClient(int width,int height, final Position[] positions,int Players) throws NullPointerException,OutOfMapException{
-		this (new Map(width, height, 3, null, null) {
+		this (new Map(width, height, 3, null, null, null) {
 			{
 				flagLocations = new ArrayList<Point>();
 				for (Position position : positions)

@@ -11,6 +11,10 @@ public class Agent {
 	private int id;
 	private int teamId;
 	
+	private boolean hasVest = false;
+	static final int VEST_REM_TIME = 700;
+	private int vestRemTime;
+	
 	public Agent(int teamId, Point location) {
 		this.teamId = teamId;
 		isAlive = true;
@@ -70,5 +74,27 @@ public class Agent {
 		return true;
 	}
 	
+	public void setVest(){
+		hasVest = true;
+		vestRemTime = VEST_REM_TIME;
+	}
 	
+	public void setHasVest(boolean hasVest){
+		this.hasVest = hasVest;
+	}
+	
+	public void updateVestRemTime(){
+		vestRemTime--;
+		if(vestRemTime == 0){
+			hasVest = false;
+		}
+	}
+	
+	public boolean hasVest(){
+		return hasVest;
+	}
+	
+	public int getVestRemTime(){
+		return vestRemTime;
+	}
 }

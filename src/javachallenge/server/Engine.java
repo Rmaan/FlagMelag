@@ -14,6 +14,7 @@ import javachallenge.common.CycleAction;
 import javachallenge.common.Direction;
 import javachallenge.common.InitMessage;
 import javachallenge.common.Point;
+import javachallenge.common.PowerUp;
 import javachallenge.common.ServerMessage;
 import javachallenge.common.VisionPoint;
 import javachallenge.graphics.GraphicClient;
@@ -28,6 +29,7 @@ public class Engine {
 	private static final int SPAWN_LOW_PERIOD = 0;
 	private static final int SPAWN_NORM_PERIOD = 5;
 	private static final int MAX_SCORE = 1000;
+	private static final int POWERUP_GEN_PERIOD = 20;
 	
 	private Map map;
 	private int cycle, teamCount;
@@ -35,6 +37,7 @@ public class Engine {
 	private boolean gameEnded = false;
 	private ArrayList<Agent> deadAgents;
 	private ArrayList<Agent> spawnedAgents;
+	private Agent vestAgent = null;
 	private GraphicClient graphicClient;
 	private Game game;
 	
@@ -56,14 +59,39 @@ public class Engine {
 		this.graphicClient = graphicClient ;
 	}
 	
+	private void generatePowerups() {
+		if(vestAgent != null){
+			vestAgent.setHasVest(false);
+		}
+		ArrayList<PowerUpPoint> free = new ArrayList<PowerUpPoint>();
+		for(PowerUpPoint point : game.getPowerups()){
+			if(point.getType() == null){
+				free.add(point);
+			}
+		}
+		if(free.isEmpty()){
+			return;
+		}
+		
+		Random r = new Random();
+		int genLoc = r.nextInt(free.size());
+		int type = r.nextInt(PowerUp.values().length);
+		free.get(genLoc).setType(PowerUp.values()[type]);
+		System.out.println(game.getPowerups());
+	}
+	
 	//methods for running the game
 	
 	public void beginStep(){
 		deadAgents = new ArrayList<Agent>();
 		spawnedAgents = new ArrayList<Agent>();
+		if(cycle % POWERUP_GEN_PERIOD == 0){
+			generatePowerups();
+		}
 	}
 	
 	
+
 	public void teamStep(ArrayList<Action> actions){
 		if(gameEnded){
 			return;
@@ -136,6 +164,14 @@ public class Engine {
 					if(firstTeamAttacks >= secondTeamAttacks){
 						if(!deadAgents.contains(opAgent)){
 							deadAgents.add(opAgent);
+							if(opAgent.hasVest()){
+								for(Direction dir : Direction.values()){
+									Agent suAgent = game.getAgent(dest.applyDirection(dir));
+									if(!deadAgents.contains(suAgent)){
+										deadAgents.add(suAgent);
+									}
+								}
+							}
 							System.out.println("KILLED " + opAgent.getTeamId());
 						}
 //						opAgent.setAlive(false);
@@ -215,23 +251,36 @@ public class Engine {
 		if(actionType == ActionType.MOVE){
 			//System.err.println("Dest is : " + dest.x + " " + dest.y + " - " + map.isInsideMap(dest));
 			if(map.isInsideMap(dest) && map.getBlockType(dest) == BlockType.GROUND && !occupied(dest)){
-				game.moveAgent(agent, agent.getLocation(), dest) ;
+				PowerUpPoint puPoint = game.getPowerUpPoint(dest);
+				if(puPoint != null){
+					PowerUp pType = puPoint.getType();
+					puPoint.setType(null);
+					if(pType == PowerUp.SUICIDE_VEST){
+						agent.setVest();
+					}
+					else{
+						Agent newAgent = teams.get(agent.getTeamId()).addAgent();
+						newAgent.setLocation(dest);
+						game.spawnAgent(newAgent) ;
+						
+						
+						Position p = new Position(newAgent.getLocation().x, newAgent.getLocation().y);
+						Integer id = new Integer(newAgent.getId()) ;
+		 				try {
+							graphicClient.spawn(id, newAgent.getTeamId(), p);
+						} catch (OutOfMapException e) {
+							e.printStackTrace();
+						} catch (DuplicateMemberException e) {
+							e.printStackTrace();
+						}
+		 				return true;
+					}
+				}
 				agent.setLocation(dest);
+				game.moveAgent(agent, agent.getLocation(), dest) ;
 				Integer id = new Integer(agent.getId()) ;
 				graphicClient.move(id, agent.getTeamId(), dir) ;
 				
-				//--------------------------- Move On The Flag  
-//				if (game.hasFlag(dest)){
-//					Flag flag = game.getFlagByLocation(dest); 
-//					if (flag.isAlive()){
-//						flag.obtain() ;
-//						//--------------------------- Update graphic
-//						graphicClient.obtainFlag(flag.getId() + 1);
-//						//--------------------------- Update score
-//						int teamId = action.getTeamId(); 
-//						getTeam(teamId).updaetScore(FLAG_POINT) ;
-//					}
-//				}
 				return true;
 			}
 		}
