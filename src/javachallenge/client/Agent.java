@@ -44,7 +44,6 @@ public class Agent {
 	public void doAttack(Direction d){
 		this.direction = d;
 		this.actionType = ActionType.ATTACK;
-		System.out.println("ATTTAACK");
 	}
 	
 	Action endStep() {

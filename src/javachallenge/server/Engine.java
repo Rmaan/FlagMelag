@@ -27,7 +27,7 @@ public class Engine {
 	private static final int SPAWN_MARGIN = 6 ;
 	private static final int SPAWN_LOW_PERIOD = 0;
 	private static final int SPAWN_NORM_PERIOD = 5;
-	private static final int MAX_SCORE = 1000000;
+	private static final int MAX_SCORE = 1000;
 	
 	private Map map;
 	private int cycle, teamCount;
@@ -68,13 +68,17 @@ public class Engine {
 		if(gameEnded){
 			return;
 		}
+		
+		if(!validActionList(actions))
+			return ;
+		
 		if(cycle % 2 == 1){
 			handleMoves(actions);
 		}
 		else{
 			//handle attacks
-			System.out.println("ATTTAAACKKKS");
-			System.out.println(actions);
+//			System.out.println("ATTTAAACKKKS");
+//			System.out.println(actions);
 			HashMap<Integer, ArrayList<Integer>> attackNum = new HashMap<Integer, ArrayList<Integer>>();
 			ArrayList<Action> validActions = new ArrayList<Action>();
 			for(Action action : actions){
@@ -128,7 +132,7 @@ public class Engine {
 					Agent opAgent = game.getAgent(dest);
 					int firstTeamAttacks = Collections.frequency(attackNum.get(opAgent.getId()), agent.getTeamId());
 					int secondTeamAttacks = Collections.frequency(attackNum.get(agent.getId()), opAgent.getTeamId());
-					System.out.println(firstTeamAttacks + ", " + secondTeamAttacks);
+//					System.out.println(firstTeamAttacks + ", " + secondTeamAttacks);
 					if(firstTeamAttacks >= secondTeamAttacks){
 						if(opAgent.isAlive()){
 							deadAgents.add(opAgent);
@@ -156,10 +160,17 @@ public class Engine {
 			Team team = (agent == null ? null : teams.get(agent.getTeamId()));
 			flag.step(team);
 			graphicClient.setFlagStatus(flag.getId() + 1, (team == null || team == flag.getOwner()) ? -1 : team.getId(), flag.getPercent(), flag.getOwner() == null ? -1 : flag.getOwner().getId());
+			
+//			if (flag == game.getFlags().get(game.getFlags().size() - 1)) {
+//				System.out.println("flagdbg " + flag + " " + team);
+//			}
 		}
-		
 	}
 	
+	private boolean validActionList(ArrayList<Action> actions) {
+		return true;
+	}
+
 	public int getCycle() {
 		return cycle;
 	}
@@ -286,7 +297,7 @@ public class Engine {
 		//-----------------------
 		for (Team t : teams) {
 			//TODO fill the ratio correct!
-			graphicClient.setScore(t.getId(), t.getScore(), t.getScore()/MAX_SCORE) ;
+			graphicClient.setScore(t.getId(), t.getScore(), ((double)t.getScore())/MAX_SCORE) ;
 		}
 		graphicClient.setTime(cycle) ;
 	}
@@ -462,7 +473,6 @@ public class Engine {
 				}
 				game.setAgent(agent.getLocation(), null);
 				for(int j = cycleActs.size() - 1; j > 0; j--){
-					System.out.println(cycleActs.get(j));
 					moveAgent(cycleActs.get(j));
 				}
 				

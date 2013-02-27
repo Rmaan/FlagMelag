@@ -17,7 +17,7 @@ import javachallenge.graphics.util.Position;
 
 public class Main {
 	private static int PORT = 5555;
-	private static int CYCLE_TIME = 200;
+	private static int CYCLE_TIME = 350;
 	private GraphicClient graphicClient;
 	
 	private final boolean DBG_PAUSE_ENABLED = false;

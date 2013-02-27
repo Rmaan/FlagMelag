@@ -115,7 +115,7 @@ public class MapPanel extends ScrollablePanel {
 	public void onExit(int x, int y) {}
 	public void onEnter(int x, int y) {
 		Position pos = getAbsolutePosition(x, y);
-		position.setText("Coordinate: ( "+x+" , "+y+" )");
+		position.setText("( "+x+" , "+y+" )");
 		brush.setLocation(pos.getX(), pos.getY());
 	}
 	public void onControlClick(int x, int y) {
@@ -161,12 +161,12 @@ public class MapPanel extends ScrollablePanel {
 	public Sprite setFlag(Position position, int index) throws OutOfMapException {
 		if (isOut(position)) throw new OutOfMapException();
 		//Sprite flag = new AnimatedImage(ImageHolder.Objects.fire, 125, position);
-		Sprite flag = new AnimatedImage(ImageHolder.Objects.flags[index % 4], 200, position);
+		Sprite flag = new AnimatedImage(ImageHolder.Objects.flags[0], 130, position);
 		addToContainer(flag, 4);
 		if (index < 2) return flag;
 		ImageIcon[] castle = ImageHolder.Terrain.castle;
-		int[] offsetX = { -25, 2, -25, 0, 25, 25 };
-		int[] offsetY = { -78, -64, -80, -88, -80, -80 };
+		int[] offsetX = { -25, 2, -25, 2, 25, 25 };
+		int[] offsetY = { -78, -64, -80, -90, -80, -80 };
 		int[] offsetL = { 6, 6, 3, 3, 3, 3 };
 		for (int i = 0; i < 4; i++) {
 			Point point = getAbsolutePosition(position.x, position.y);

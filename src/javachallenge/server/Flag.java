@@ -50,21 +50,24 @@ public class Flag implements Serializable {
 	public void step(Team t) {
 		if (t == null || t == owner || prevStandingTeam != t) {
 			counter = 0;
+			state = FlagState.STABLE;
 		}
 
-		if (t == null || t == owner) {
-			state = FlagState.STABLE;
-		} else {
+		if (t != null && t != owner) {
 			// opponent standing on the flag
 			counter++;
+			
 			if (state == FlagState.STABLE)
 				state = owner == null ? FlagState.UP : FlagState.DOWN;
 			
 			if (state == FlagState.UP && counter == TURNS_UP) {
 				owner = t;
+				state = FlagState.STABLE;
 			}
+			
 			if (state == FlagState.DOWN && counter == TURNS_DOWN) {
 				owner = null;
+				state = FlagState.STABLE;
 			}
 		}
 		
@@ -73,8 +76,7 @@ public class Flag implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Flag [location=" + location + ", id=" + id + ", owner=" + owner
-				+ ", state=" + state + ", counter=" + counter
+		return "Flag [location=" + location + ", id=" + id + ", owner=" + owner + ", state=" + state + ", counter=" + counter
 				+ ", prevStandingTeam=" + prevStandingTeam + "]";
 	}
 	
