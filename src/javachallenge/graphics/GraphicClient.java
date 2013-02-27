@@ -162,6 +162,9 @@ public class GraphicClient {
 	}
 
 	public void setFlagStatus(Integer id, int progressTeam, double progressRatio, int curTeam){
+		progressTeam += 1 ;
+		progressRatio /= 100 ;
+		
 		Sprite flag = flags.get(id);
 		flag.setVisible(false);
 		VerticalTransparentProgressBar bar=barMap.get(id);
