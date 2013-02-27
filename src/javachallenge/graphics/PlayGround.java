@@ -55,7 +55,7 @@ public class PlayGround extends Screen {
 		mapPanel.setLocation(10, 10);
 		mapPanel.setSize(size.width - statusWidth - 50, size.height - 110);
 		if (bottomBar!=null)
-			bottomBar.setBounds(10, size.height - 90, size.width - statusWidth - 50, 30);
+			bottomBar.setBounds(10, size.height - 90, size.width - statusWidth - 40, 40);
 
 		if (sidebar!=null)
 		{
@@ -102,7 +102,7 @@ public class PlayGround extends Screen {
 
 	public void addBottomBar()
 	{
-		bottomBar=new Panel(ColorMaker.black);
+		bottomBar=new Panel();
 		play.setBounds(10,0,100,30);
 		pause.setBounds(60, 0, 100, 30);
 		forward.setBounds(110, 0, 100, 30);
