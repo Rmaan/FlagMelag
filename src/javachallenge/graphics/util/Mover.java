@@ -15,7 +15,8 @@ public class Mover extends Thread {
 	
 	public static int delay = 20;
 	public static boolean destroy = false;
-	public static ArrayList<Mover> movers = new ArrayList<Mover>(); 
+	public static ArrayList<Mover> movers = new ArrayList<Mover>();
+	public static ArrayList<Mover> addedMovers = new ArrayList<Mover>();
 
 	static {
 		new Thread() {
@@ -26,16 +27,19 @@ public class Mover extends Thread {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					synchronized (movers) {
-						ArrayList<Mover> newMovers = new ArrayList<Mover>();
-						for (Mover mover : movers) {
-							if (mover.step())
-								newMovers.add(mover);
-							else
-								mover.atTheEnd();
-						}
-						movers.clear();
-						movers = newMovers;
+					ArrayList<Mover> newMovers = new ArrayList<Mover>();
+					for (Mover mover : movers) {
+						if (mover.step())
+							newMovers.add(mover);
+						else
+							mover.atTheEnd();
+					}
+					movers.clear();
+					movers = newMovers;
+					synchronized (addedMovers) {
+						for (Mover mover : addedMovers)
+							movers.add(mover);
+						addedMovers.clear();
 					}
 				}	
 			}
@@ -69,9 +73,9 @@ public class Mover extends Thread {
 	
 	@Override
 	public void start() {
-		synchronized (movers) {
-			movers.add(this);	
-		}
+		synchronized (addedMovers) {
+			addedMovers.add(this);	
+		}	
 	}
 	
 	protected boolean step() {
