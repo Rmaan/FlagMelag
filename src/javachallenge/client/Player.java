@@ -58,11 +58,11 @@ public abstract class Player {
 		agent.updateAgent(agentMsg); 
 	}
 
-	void spawn(int spawnedId) {
-		if (spawnedId == Agent.noAgent) 
-			return ;
-		Agent agent = new Agent(spawnedId, world.getMySpawnLocation()) ;
-		agents.add(agent) ;
+	void spawn(ArrayList<Integer> spawnedId) {
+		for(int id : spawnedId){
+			Agent agent = new Agent(id, world.getMySpawnLocation()) ;
+			agents.add(agent) ;
+		}
 	}
 	
 	public int getTeamId(){
