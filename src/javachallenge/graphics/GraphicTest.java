@@ -1,24 +1,33 @@
 package javachallenge.graphics;
 
+import java.awt.*;
+import java.util.Random;
 import java.util.Scanner;
 
 import javachallenge.common.Direction;
+import javachallenge.graphics.components.VerticalTransparentProgressBar;
 import javachallenge.graphics.util.Position;
 import javachallenge.server.Map;
+
+import javax.swing.*;
 
 public class GraphicTest {
 	public static void main(String[] args) throws Exception{
 		Map map=Map.load("map/final1.txt");
 		GraphicClient client=new GraphicClient(map);
 		//GraphicClient client = new GraphicClient(30, 14, new Position[] {}); 
-		/*JFrame frame=new JFrame();
+/*		JFrame frame=new JFrame();
 		frame.setLayout(null);
 		frame.getContentPane().setPreferredSize(new Dimension(400, 400));
 		//final ProgressBar bar=new ProgressBar(10,10,100,20, Color.green,Color.red,0);
-		ScoreBar bar=new ScoreBar(10,10,100,50,Color.green,Color.red,"kire khar") ;
+		VerticalTransparentProgressBar bar=new VerticalTransparentProgressBar(10,10,10,100,Color.green,0.5);
 		frame.pack();
 		frame.setVisible(true);
-		frame.add(bar);*/
+		frame.add(bar);
+		for (;;)
+		{
+			bar.updateVerticalTransparentProgressBar((double)new Random().nextInt(101));
+		}*/
 		for (int i = 0; i < 40; i++)
 			client.log("salam" + i);
 		client.log("*iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiirr");
@@ -39,7 +48,7 @@ public class GraphicTest {
 				client.spawn(id,1,new Position(x,y));
 			}
 			else if (com.startsWith("k")) // kill
-			{	
+			{
 				int id=scanner.nextInt();
 				client.die(id);
 			}

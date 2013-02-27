@@ -5,9 +5,7 @@ import java.util.TreeMap;
 
 import javachallenge.common.Direction;
 import javachallenge.common.Point;
-import javachallenge.graphics.components.ClickableLabel;
-import javachallenge.graphics.components.MapPanel;
-import javachallenge.graphics.components.Sprite;
+import javachallenge.graphics.components.*;
 import javachallenge.graphics.util.AnimatedImage;
 import javachallenge.graphics.util.ImageHolder;
 import javachallenge.graphics.util.Mover;
@@ -25,7 +23,7 @@ public class GraphicClient {
 	protected java.util.Map<Integer,Sprite> spawnPoints=new TreeMap<Integer,Sprite>();
 	protected java.util.Map<Integer,Sprite> units=new TreeMap<Integer,Sprite>();
 	protected PlayGround ground;
-
+	protected java.util.Map<Integer,VerticalTransparentProgressBar> barMap=new TreeMap<Integer, VerticalTransparentProgressBar>();
 	public void setTime(int a)
 	{
 		ground.getStatus().setTime(a);
@@ -92,6 +90,7 @@ public class GraphicClient {
 		
 		for (int i = 0; i < map.getFlagLocations().size(); i++) {
 			Position position = new Position(map.getFlagLocations().get(i));
+			barMap.put(i+1,panel.setBar(position,i));
 			flags.put(i+1, panel.setFlag(position, i));
 		}
 
@@ -162,9 +161,12 @@ public class GraphicClient {
 		panel.addToContainer(flags.get(id), 2);
 	}
 
-	public void setFlagStatus(Integer id, int progressTeam, int progressPercent, int curTeam){
+	public void setFlagStatus(Integer id, int progressTeam, double progressRatio, int curTeam){
 		Sprite flag = flags.get(id);
 		flag.setVisible(false);
+		VerticalTransparentProgressBar bar=barMap.get(id);
+		bar.setColor(StatusPanel.filled[progressTeam]);
+		bar.updateVerticalTransparentProgressBar(progressRatio);
 		panel.remove(flag);
 		((AnimatedImage) flag).destroy();
 		flags.remove(id);
@@ -177,7 +179,7 @@ public class GraphicClient {
 		ground.addLog(message);
 	}
 
-	public void setName(int id,String name)
+	public void setName(int id, String name)
 	{
 		ground.getStatus().setName(id,name);
 	}
