@@ -7,10 +7,7 @@ import java.util.TreeMap;
 import javachallenge.common.Direction;
 import javachallenge.common.Point;
 import javachallenge.graphics.components.*;
-import javachallenge.graphics.util.AnimatedImage;
-import javachallenge.graphics.util.ImageHolder;
-import javachallenge.graphics.util.Mover;
-import javachallenge.graphics.util.Position;
+import javachallenge.graphics.util.*;
 import javachallenge.server.Map;
 import javachallenge.server.RemoteControl;
 
@@ -19,7 +16,7 @@ public class GraphicClient {
 	public static int y[]={-1,-1,0,1,0,-1};
 	public static int moveSpeed = 300, moveSteps = moveSpeed / Mover.delay;
 	public static int attackSpeed = 100, attackSteps = attackSpeed / Mover.delay;
-
+	public static ImageAnimator animator=new ImageAnimator(120);
 	protected MapPanel panel;
 	protected java.util.Map<Integer,Sprite> flags=new TreeMap<Integer,Sprite>();
 	protected java.util.Map<Integer,Sprite> spawnPoints=new TreeMap<Integer,Sprite>();
@@ -58,6 +55,7 @@ public class GraphicClient {
 	@SuppressWarnings("serial")
 	public GraphicClient(Map map, final RemoteControl ctrl) throws OutOfMapException
 	{
+		animator.start();
 		int Players = map.getTeamCount() ;
 		ground=new PlayGround() {
 			{
@@ -114,7 +112,7 @@ public class GraphicClient {
 		for (int i = 0; i < map.getSpawnLocations().size(); i++) {
 			Position position = new Position(map.getSpawnLocations().get(i));
 			if (panel.isOut(position)) throw new OutOfMapException();
-			Sprite spawn = new AnimatedImage(ImageHolder.Objects.mage, 250, position, true);
+			Sprite spawn = new AnimatedImage(ImageHolder.Objects.mage, position, true,animator);
 			panel.addToContainer(spawn ,2);
 			spawnPoints.put(i+1, spawn);
 		}
@@ -200,7 +198,7 @@ public class GraphicClient {
 		panel.remove(flag);
 		((AnimatedImage) flag).destroy();
 		flags.remove(id);
-		flags.put(id, new AnimatedImage(ImageHolder.Objects.flags[curTeam + 1], 130, flag.getPosition(), true));
+		flags.put(id, new AnimatedImage(ImageHolder.Objects.flags[curTeam + 1], flag.getPosition(), true,animator));
 		panel.addToContainer(flags.get(id), 4);
 	}
 

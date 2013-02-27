@@ -86,7 +86,7 @@ public class MapEditor extends PlayGround {
 			}
 			@Override
 			public void onControlClick(int x, int y) {
-				Sprite flag = new AnimatedImage(ImageHolder.Objects.fire, 125, new Position(x, y), true);
+				Sprite flag = new AnimatedImage(ImageHolder.Objects.fire, new Position(x, y), true,GraphicClient.animator);
 				map.getFlagLocations().add(new Point(x, y));
 				mapEditor.getMapPanel().addToContainer(flag, 2);
 			}

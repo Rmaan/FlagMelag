@@ -7,18 +7,24 @@ import javax.swing.ImageIcon;
 @SuppressWarnings("serial")
 public class AnimatedImage extends Sprite {
 	protected ImageIcon[] icons;
-	protected int delay;
+	protected int index=0;
 	protected boolean repeated = false;
-	protected Thread showThread;
 	private boolean stop = false;
-	
-	public AnimatedImage(ImageIcon[] icons, int delay, Position position, boolean repeated) {
-		super(icons[0], position);
-		this.icons = icons;
-		this.delay = delay;
-		this.repeated = repeated;
+	protected boolean destroyed=false;
+	protected ImageAnimator animator;
+	public void setDestroyed(boolean destroyed)
+	{
+		this.destroyed = destroyed;
+	}
 
-		showThread = new Thread("AnimatedImage") {
+	public AnimatedImage(ImageIcon[] icons, Position position,boolean repeated, ImageAnimator animator) {
+		super(icons[0], position);
+		this.animator=animator;
+		this.icons = icons;
+		this.repeated = repeated;
+		if (repeated)
+			animator.add(this);
+	/*	showThread = new Thread("AnimatedImage") {
 			public void run() {
 				int index = 0;
 				while (!stop) {
@@ -30,14 +36,27 @@ public class AnimatedImage extends Sprite {
 			}
 		};
 		if (repeated)
-			showThread.start();
+			showThread.start();*/
 	}
 	
 	public void start() {
-		showThread.start();
+		destroyed=false;
+		animator.add(this);
 	}
 	
 	public void destroy() {
+		destroyed=true;
 		stop = true;
+	}
+	public void next()
+	{
+		index++;
+		if (index>=icons.length)
+			index-=icons.length;
+		setIcon(icons[index]);
+	}
+	public boolean isDestroyed()
+	{
+		return destroyed;
 	}
 }
