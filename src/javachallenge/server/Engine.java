@@ -159,12 +159,14 @@ public class Engine {
 			Agent agent = game.getAgent(flag.getLocation());
 			Team team = (agent == null ? null : teams.get(agent.getTeamId()));
 			flag.step(team);
+//			System.out.println(flag);
 			graphicClient.setFlagStatus(flag.getId() + 1, (team == null || team == flag.getOwner()) ? -1 : team.getId(), flag.getPercent(), flag.getOwner() == null ? -1 : flag.getOwner().getId());
 			
 //			if (flag == game.getFlags().get(game.getFlags().size() - 1)) {
 //				System.out.println("flagdbg " + flag + " " + team);
 //			}
 		}
+//		System.out.println("\n-----------------------------------");
 	}
 	
 	private boolean validActionList(ArrayList<Action> actions) {

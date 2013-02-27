@@ -67,6 +67,7 @@ public class Flag implements Serializable {
 			
 			if (state == FlagState.DOWN && counter == TURNS_DOWN) {
 				owner = null;
+				counter = 0;
 				state = FlagState.STABLE;
 			}
 		}
