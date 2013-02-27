@@ -74,9 +74,10 @@ public class Main {
 			ArrayList<ServerMessage> stepMessage = engine.getStepMessage();
 			for (int i = 0; i < map.getTeamCount(); i++) {
 				connections.get(i).sendStepMessage(stepMessage.get(i));
-//				System.out.println("Sending to team " + i + " : " + stepMessage.get(i));
+				System.out.println("Sending to team " + i + " : " + stepMessage.get(i));
 				connections.get(i).clearClientMessage();
 			}
+			System.out.println("-----------------------------------------");
 			
 			if (DBG_PAUSE_ENABLED) {
 				if (engine.getCycle() < DBG_PAUSE_CYCLE_NUM)

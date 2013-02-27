@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
 
-import sun.management.resources.agent;
-
 import javachallenge.IllegalAgentException;
 import javachallenge.common.Action;
 import javachallenge.common.ActionType;
@@ -17,6 +15,7 @@ import javachallenge.common.Direction;
 import javachallenge.common.InitMessage;
 import javachallenge.common.Point;
 import javachallenge.common.PowerUp;
+import javachallenge.common.PowerUpPoint;
 import javachallenge.common.ServerMessage;
 import javachallenge.common.VisionPoint;
 import javachallenge.graphics.GraphicClient;
@@ -27,10 +26,10 @@ import javachallenge.graphics.util.Position;
 public class Engine {
 	private static final int FLAG_POINT = 3;
 	private static final int GAME_CYCLES = 725;
-	private static final int SPAWN_MARGIN = 20 ;
-	private static final int SPAWN_LOW_PERIOD = 0;
+	private static final int SPAWN_MARGIN = 15 ;
+	private static final int SPAWN_LOW_PERIOD = 20;
 	private static final int SPAWN_NORM_PERIOD = 5;
-	private static final int MAX_SCORE = 1000;
+	private static final int MAX_SCORE = 2000;
 	private static final int POWERUP_GEN_PERIOD = 10;
 	
 	private Map map;
@@ -44,6 +43,8 @@ public class Engine {
 	
 	private Agent vestAgent = null;
 	private int lastPowerUpGen = -1;
+	private Agent gotVest = null;
+	private Agent lostVest = null;
 	
 	public boolean gameIsOver() {
 		return gameEnded;
@@ -65,6 +66,7 @@ public class Engine {
 	private void generatePowerups() {
 		if(vestAgent != null){
 			vestAgent.setHasVest(false);
+			lostVest = vestAgent;
 			vestAgent = null;
 		}
 		ArrayList<PowerUpPoint> free = new ArrayList<PowerUpPoint>();
@@ -105,10 +107,11 @@ public class Engine {
 	public void beginStep(){
 		deadAgents = new ArrayList<Agent>();
 		spawnedAgents = new ArrayList<ArrayList<Agent>>();
+		gotVest = null;
+		lostVest = null;
 		for(int i = 0 ; i < teamCount ; i++){
 			spawnedAgents.add(new ArrayList<Agent>());
 		}
-		System.out.println("Agent with vest : " + vestAgent);
 		if(lastPowerUpGen == -1 || cycle - lastPowerUpGen > POWERUP_GEN_PERIOD || (cycle - lastPowerUpGen) % POWERUP_GEN_PERIOD == 0){
 			generatePowerups();
 		}
@@ -192,7 +195,7 @@ public class Engine {
 							if(opAgent.hasVest()){
 								vestAgent = null;
 								for(Direction dir : Direction.values()){
-									System.out.println("Su agent killed");
+//									System.out.println("Su agent killed");
 									Agent suAgent = game.getAgent(dest.applyDirection(dir));
 									if(suAgent != null && !deadAgents.contains(suAgent)){
 										deadAgents.add(suAgent);
@@ -248,7 +251,11 @@ public class Engine {
 		updateScores();
 		cycle++;
 		//----------------------------------------------
-		if(cycle >= GAME_CYCLES){
+		int maxScore = -1;
+		for(Team t : teams){
+			maxScore = Math.max(maxScore, t.getScore());
+		}
+		if(cycle >= GAME_CYCLES || maxScore >= MAX_SCORE){
 			gameEnded = true;
 		}
 	}
@@ -284,9 +291,10 @@ public class Engine {
 					System.out.println("Got POwerUP " + puPoint + " by agent " + agent);
 					puPoint.setType(null);
 					graphicClient.hidePowerUp(puPoint.getId());
-					if(pType == PowerUp.SUICIDE_VEST){
+					if(pType == PowerUp.SUICIDE_VEST && vestAgent == null){
 						agent.setVest();
 						vestAgent = agent;
+						gotVest = agent;
 					}
 					else if(pType == PowerUp.DUPLICATE){
 						Agent newAgent = teams.get(agent.getTeamId()).addAgent();
@@ -453,6 +461,19 @@ public class Engine {
 			msg.setGameEnded(this.gameIsOver());
 			msg.setCycleAction((cycle % 2 == 1) ? CycleAction.MOVE_CYCLE : CycleAction.ATTACK_CYCLE);
 			msg.setFlagOwners(game.getFlagOwners()) ;
+			msg.setPowerups(game.getPowerups());
+			if(gotVest != null){
+				msg.setGotVest(gotVest.getTeamId() == t.getId() ? gotVest.getId() : Agent.noAgent);
+			}
+			else{
+				msg.setGotVest(Agent.noAgent);
+			}
+			if(lostVest != null){
+				msg.setLostVest(lostVest.getTeamId() == t.getId() ? lostVest.getId() : Agent.noAgent);
+			}
+			else{
+				msg.setLostVest(Agent.noAgent);
+			}
 			msgs.add(msg);
 		}
 		

@@ -3,6 +3,7 @@ package javachallenge.common;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+
 public class ServerMessage implements Serializable {
 	private static final long serialVersionUID = 4282530502489573811L;
 	
@@ -11,7 +12,10 @@ public class ServerMessage implements Serializable {
 	ArrayList<AgentMessage> agentMsg;
 	ArrayList<Integer> deadAgents;
 	CycleAction cycleAction;
-	ArrayList<Integer> flagOwners; 
+	ArrayList<Integer> flagOwners;
+	ArrayList<PowerUpPoint> powerups;
+	int gotVest;
+	int lostVest;
 	
 	boolean isGameEnded ;
 
@@ -79,18 +83,46 @@ public class ServerMessage implements Serializable {
 		return cycleAction;
 	}
 
+	
 	@Override
 	public String toString() {
 		return "ServerMessage [spawnedId=" + spawnedId + ", scores=" + scores
 				+ ", agentMsg=" + agentMsg + ", deadAgents=" + deadAgents
-				+ ", isGameEnded=" + isGameEnded + "]";
+				+ ", cycleAction=" + cycleAction + ", flagOwners=" + flagOwners
+				+ ", powerups=" + powerups + ", gotVest=" + gotVest
+				+ ", lostVest=" + lostVest + ", isGameEnded=" + isGameEnded
+				+ "]";
 	}
-	
+
 	public void setFlagOwners(ArrayList<Integer> flagOwners){
 		this.flagOwners = flagOwners ;
 	}
 
 	public ArrayList<Integer> getFlagOwners() {
 		return flagOwners;
+	}
+
+	public ArrayList<PowerUpPoint> getPowerups() {
+		return powerups;
+	}
+
+	public void setPowerups(ArrayList<PowerUpPoint> powerups) {
+		this.powerups = powerups;
+	}
+
+	public int getGotVest() {
+		return gotVest;
+	}
+
+	public void setGotVest(int gotVest) {
+		this.gotVest = gotVest;
+	}
+
+	public int getLostVest() {
+		return lostVest;
+	}
+
+	public void setLostVest(int lostVest) {
+		this.lostVest = lostVest;
 	}
 }
