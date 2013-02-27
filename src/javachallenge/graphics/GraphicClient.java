@@ -98,7 +98,7 @@ public class GraphicClient {
 		for (int i = 0; i < map.getSpawnLocations().size(); i++) {
 			Position position = new Position(map.getSpawnLocations().get(i));
 			if (panel.isOut(position)) throw new OutOfMapException();
-			Sprite spawn = new AnimatedImage(ImageHolder.Objects.mage, 250, position);
+			Sprite spawn = new AnimatedImage(ImageHolder.Objects.mage, 250, position, true);
 			panel.addToContainer(spawn ,2);
 			spawnPoints.put(i+1, spawn);
 		}
@@ -168,7 +168,7 @@ public class GraphicClient {
 		panel.remove(flag);
 		((AnimatedImage) flag).destroy();
 		flags.remove(id);
-		flags.put(id, new AnimatedImage(ImageHolder.Objects.flags[curTeam + 1], 130, flag.getPosition()));
+		flags.put(id, new AnimatedImage(ImageHolder.Objects.flags[curTeam + 1], 130, flag.getPosition(), true));
 		panel.addToContainer(flags.get(id), 2);
 	}
 	
