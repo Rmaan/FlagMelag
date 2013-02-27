@@ -16,7 +16,7 @@ public class ClientMessage implements Serializable{
 		return actions ;
 	}
 
-	public void addAction(Action act) {
+	public void addAction(Action act, int teamId) {
 		actions.add(act) ;
 	}
 
