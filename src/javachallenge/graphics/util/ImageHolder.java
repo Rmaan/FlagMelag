@@ -25,6 +25,19 @@ public class ImageHolder {
 					(i == 1 && removeFirstIndex ? "" : new Integer(i).toString()) + ".png");
 		return all;
 	}
+	
+	public static ImageIcon[] concat (ImageIcon[]... args) {
+		int size = 0;
+		for (ImageIcon[] arr : args) size += arr.length;
+		ImageIcon[] ret = new ImageIcon[size];
+		int index = 0;
+		for (ImageIcon[] arr : args)
+			for (ImageIcon img : arr) {
+				ret[index] = img;
+				index++;
+			}
+		return ret;
+	}
 
 	// common images
 	public static ImageIcon play=new ImageIcon(buttons+"play.png");
@@ -73,16 +86,23 @@ public class ImageHolder {
 		public static ImageIcon[] grass = getAll(prefix + "grass", "green", 8, true);
 		public static ImageIcon[] ice = getAll(prefix + "frozen", "ice", 6, true);
 		public static ImageIcon[] beach = getAll(prefix + "sand", "beach", 8, true);
+		public static ImageIcon[] water = { new ImageIcon(prefix + "water/ocean-tile.png") };
 		public static ImageIcon fog = new ImageIcon(prefix + "darken.png");
+		
+		public static ImageIcon[] monolith = getAll (corePrefix + "scenery", "monolith", 4, false);
+		public static ImageIcon[] rock = getAll (corePrefix + "scenery", "rock", 4, false);
+		public static ImageIcon[] rockCairn = getAll (corePrefix + "scenery", "rock-cairn", 1, true);
+		public static ImageIcon[] kkh = concat(monolith, rock, rockCairn);
 
 		public static ImageIcon[] castle = getAllDirs (prefix + "castle", "castle-convex");
 
 		public static ArrayList<ImageIcon[]> mapBlocks = new ArrayList<ImageIcon[]>(
 				Arrays.asList(new ImageIcon[][] {
 						grass,
-						ice,
-						beach,
+						water,
+						kkh,
 				}));
+		public static ImageIcon[] generalMap = grass;
 	}
 
 	public static class Objects {
@@ -107,5 +127,14 @@ public class ImageHolder {
 		public static ImageIcon[] mage = getAll(corePrefix + "halo", "mage-halo", 5, false);
 		public static ImageIcon flagRock = new ImageIcon(corePrefix + "scenery/rock-cairn.png");
 		public static ImageIcon underFire = new ImageIcon(corePrefix + "scenery/rune2-glow.png");
+		
+		public static ImageIcon illusionRune = new ImageIcon(corePrefix + "scenery/rune4.png");
+		public static ImageIcon illusionRuneGlow = new ImageIcon(corePrefix + "scenery/rune4-glow.png");
+		public static ImageIcon bombRune = new ImageIcon(corePrefix + "scenery/rune6.png");
+		public static ImageIcon bombRuneGlow = new ImageIcon(corePrefix + "scenery/rune6-glow.png");
+		public static ImageIcon[][] runes = {
+			{bombRune, bombRune, bombRune, bombRune, bombRune, bombRuneGlow, bombRuneGlow},
+			{illusionRune, illusionRune, illusionRune, illusionRune, illusionRune, illusionRuneGlow, illusionRuneGlow}
+		};
 	}
 }
