@@ -12,6 +12,17 @@ public class ImageAnimator extends Thread
 {
 	protected ArrayList<AnimatedImage> images=new ArrayList<AnimatedImage>();
 	protected int sleepTime;
+	protected boolean pause=false;
+
+	public boolean isPause()
+	{
+		return pause;
+	}
+
+	public void setPause(boolean pause)
+	{
+		this.pause = pause;
+	}
 
 	public ImageAnimator(int sleepTime)
 	{
@@ -40,13 +51,16 @@ public class ImageAnimator extends Thread
 	{
 		while (true)
 		{
-			synchronized (images)
+			if (pause==false)
 			{
-				for (AnimatedImage image:images)
-					if (image.isDestroyed()==false)
-						image.next();
+				synchronized (images)
+				{
+					for (AnimatedImage image:images)
+						if (image.isDestroyed()==false)
+							image.next();
+				}
+				garbageCollector();
 			}
-			garbageCollector();
 			try
 			{
 				sleep(sleepTime);
