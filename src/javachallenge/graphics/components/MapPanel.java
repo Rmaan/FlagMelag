@@ -8,6 +8,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.Random;
 
 import javachallenge.common.Point;
+import javachallenge.graphics.GraphicClient;
 import javachallenge.graphics.GraphicClient.OutOfMapException;
 import javachallenge.graphics.util.AnimatedImage;
 import javachallenge.graphics.util.ColorMaker;
@@ -161,7 +162,7 @@ public class MapPanel extends ScrollablePanel {
 	public Sprite setFlag(Position position, int index) throws OutOfMapException {
 		if (isOut(position)) throw new OutOfMapException();
 		//Sprite flag = new AnimatedImage(ImageHolder.Objects.fire, 125, position);
-		Sprite flag = new AnimatedImage(ImageHolder.Objects.flags[0], 130, position, true);
+		Sprite flag = new AnimatedImage(ImageHolder.Objects.flags[0], position, true, GraphicClient.animator);
 		addToContainer(flag, 4);
 		ImageIcon[] castle = ImageHolder.Terrain.castle;
 		int[] offsetX = { -25, 2, -25, 2, -25, 2 };
