@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
  */
 public class ImageHolder {
 	// resources
-	public static String prefix = "data/pix/wesnoth/";
+	public static String prefix = "gitdata/pix/wesnoth/";
 	public static String menuPrefix = prefix + "menu/";
 	public static String corePrefix = prefix + "game/core/";
 	public static String riseOfWesnothPrefix = prefix + "game/The_Rise_Of_Wesnoth/";
@@ -32,8 +32,8 @@ public class ImageHolder {
 		public static String risePrefix = riseOfWesnothPrefix + "units/";
 		public static String heirPrefix = heirToTheThronePrefix + "units/";
 		public static String prefix = corePrefix + "units/";
-		public static ImageIcon wesfolkOutcast = new ImageIcon(risePrefix + "wesfolk-outcast.png");
-		public static ImageIcon wesfolkOutcastMirror = new ImageIcon(risePrefix + "wesfolk-outcast-mirror.png");
+		public static ImageIcon wesfolkOutcast = new ImageIcon(risePrefix + "wesfolk-lady.png");
+		public static ImageIcon wesfolkOutcastMirror = new ImageIcon(risePrefix + "wesfolk-lady-mirror.png");
 		public static ImageIcon adept = new ImageIcon(prefix + "undead-necromancers/adept.png");
 		public static ImageIcon adeptMirror = new ImageIcon(prefix + "undead-necromancers/adept-mirror.png");
 		public static ImageIcon princess = new ImageIcon(heirPrefix + "human-princess.png");
