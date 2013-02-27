@@ -12,6 +12,7 @@ public class VerticalTransparentProgressBar extends Panel
 {
 	protected Label loaded;
 	protected int w,h;
+	protected int last=0;
 	public VerticalTransparentProgressBar(int x, int y, int w, int h, Color fill, double ratio)
 	{
 		super(x, y, w, h);
@@ -31,5 +32,28 @@ public class VerticalTransparentProgressBar extends Panel
 	{
 		int first=(int)Math.round(h*ratio);
 		loaded.setBounds(0,h-first,w,first);
+	}
+
+	synchronized public void animatedBar(final int progressPercentage)
+	{
+		final int step=(last>progressPercentage?1:-1);
+		new Thread()
+		{
+			public void run()
+			{
+				while (last!=progressPercentage)
+				{
+					updateVerticalTransparentProgressBar((double)last/100);
+					last+=step;
+					try
+					{
+						sleep(5);
+					} catch (InterruptedException e)
+					{
+						e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+					}
+				}
+			}
+		}.start();
 	}
 }

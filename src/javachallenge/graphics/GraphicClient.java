@@ -1,5 +1,6 @@
 package javachallenge.graphics;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
@@ -97,17 +98,17 @@ public class GraphicClient {
 		for (int i = 0; i < map.getSpawnLocations().size(); i++) {
 			Position position = new Position(map.getSpawnLocations().get(i));
 			if (panel.isOut(position)) throw new OutOfMapException();
-			Sprite spawn = new AnimatedImage(ImageHolder.Objects.mage, 250, position);
+			Sprite spawn = new AnimatedImage(ImageHolder.Objects.mage, 250, position, true);
 			panel.addToContainer(spawn ,2);
 			spawnPoints.put(i+1, spawn);
 		}
 	}
 
-	public void spawn(Integer id, Integer teamId, Position position) throws OutOfMapException, DuplicateMemberException
+	public void spawn(Integer id,Position position) throws OutOfMapException, DuplicateMemberException
 	{
 		if (panel.isOut(position)) throw new OutOfMapException();
 		if (units.get(id)!=null) throw new DuplicateMemberException();
-		Sprite sprite=new Sprite(ImageHolder.Units.units[teamId][0], position);
+		Sprite sprite=new Sprite(ImageHolder.Units.wesfolkOutcast, position);
 		units.put(id, sprite);
 		panel.addToContainer(sprite, 3);
 	}
@@ -119,7 +120,7 @@ public class GraphicClient {
 		panel.remove(sprite);
 	}
 
-	public void attack(Integer id, Integer teamId, Direction dir) {
+	public void attack(Integer id, Direction dir) {
 		int direction = dir.ordinal();
 		final Sprite sprite = units.get(id);
 		final Position position = MapPanel.getAbsolutePosition(x[direction], y[direction]);
@@ -128,9 +129,9 @@ public class GraphicClient {
 		position.x /= 3;
 		position.y /= 3;
 		if (direction == 1 || direction == 2)
-			units.get(id).setIcon(ImageHolder.Units.units[teamId][0]);
+			units.get(id).setIcon(ImageHolder.Units.wesfolkOutcast);
 		if (direction == 4 || direction == 5)
-			units.get(id).setIcon(ImageHolder.Units.units[teamId][1]);
+			units.get(id).setIcon(ImageHolder.Units.wesfolkOutcastMirror);
 		new Mover(sprite,position,attackSpeed/attackSteps,attackSteps) {
 			@Override
 			public void atTheEnd() {
@@ -141,14 +142,14 @@ public class GraphicClient {
 		}.start();
 	}
 
-	public void move(Integer id, Integer teamId, Direction dir) throws NullPointerException {
+	public void move(Integer id,Direction dir) throws NullPointerException {
 		int direction=dir.ordinal();
 		Sprite sprite=units.get(id);
 		Position position=MapPanel.getAbsolutePosition(x[direction],y[direction]);
 		if (direction == 1 || direction == 2)
-			units.get(id).setIcon(ImageHolder.Units.units[teamId][0]);
+			units.get(id).setIcon(ImageHolder.Units.wesfolkOutcast);
 		if (direction == 4 || direction == 5)
-			units.get(id).setIcon(ImageHolder.Units.units[teamId][1]);
+			units.get(id).setIcon(ImageHolder.Units.wesfolkOutcastMirror);
 		new Mover(sprite,position,moveSpeed/moveSteps,moveSteps).start();
 	}
 
@@ -161,19 +162,19 @@ public class GraphicClient {
 		panel.addToContainer(flags.get(id), 2);
 	}
 
-	public void setFlagStatus(Integer id, int progressTeam, double progressRatio, int curTeam){
-		progressTeam += 1 ;
-		progressRatio /= 100 ;
-		
+	public void setFlagStatus(Integer id, int progressTeam, int progressPercentage, int curTeam){
 		Sprite flag = flags.get(id);
 		flag.setVisible(false);
 		VerticalTransparentProgressBar bar=barMap.get(id);
-		bar.setColor(StatusPanel.filled[progressTeam]);
-		bar.updateVerticalTransparentProgressBar(progressRatio);
+		if (progressTeam==-1)
+			bar.setColor(Color.BLACK);
+		else
+			bar.setColor(StatusPanel.filled[progressTeam]);
+		bar.animatedBar(progressPercentage);
 		panel.remove(flag);
 		((AnimatedImage) flag).destroy();
 		flags.remove(id);
-		flags.put(id, new AnimatedImage(ImageHolder.Objects.flags[curTeam + 1], 130, flag.getPosition()));
+		flags.put(id, new AnimatedImage(ImageHolder.Objects.flags[curTeam + 1], 130, flag.getPosition(), true));
 		panel.addToContainer(flags.get(id), 2);
 	}
 	
