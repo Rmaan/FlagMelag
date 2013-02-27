@@ -24,7 +24,7 @@ import javachallenge.graphics.util.Position;
 public class Engine {
 	private static final int FLAG_POINT = 3;
 	private static final int GAME_CYCLES = 725;
-	private static final int SPAWN_MARGIN = 6 ;
+	private static final int SPAWN_MARGIN = 8 ;
 	private static final int SPAWN_LOW_PERIOD = 0;
 	private static final int SPAWN_NORM_PERIOD = 5;
 	private static final int MAX_SCORE = 1000;
@@ -151,6 +151,8 @@ public class Engine {
 			
 			for(Agent agent : deadAgents){
 				agent.setAlive(false);
+				Team t = getTeam(agent.getTeamId());
+				t.killAgent(agent);
 				game.setAgent(agent.getLocation(), null);
 				graphicClient.die(agent.getId());
 			}
