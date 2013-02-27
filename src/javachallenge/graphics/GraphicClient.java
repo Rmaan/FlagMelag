@@ -69,6 +69,7 @@ public class GraphicClient {
 							setIcon(ImageHolder.play);
 						else
 							setIcon(ImageHolder.pause);
+						GraphicClient.animator.setPause(GraphicClient.animator.isPause()^true);
 						isPlay^=true;
 						ctrl.playPauseToggle();
 					}
