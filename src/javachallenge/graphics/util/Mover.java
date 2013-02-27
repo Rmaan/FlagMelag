@@ -1,6 +1,9 @@
 package javachallenge.graphics.util;
 
 import java.awt.Component;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * This class provides a tool for animated moving of swing components.
@@ -8,13 +11,47 @@ import java.awt.Component;
 public class Mover extends Thread {
 	protected Component component;
 	protected Position vector;
-	protected int delay, steps;
-	public Mover(Component component, Position position, int delay, int steps) {
+	protected int steps, step;
+	
+	public static int delay = 20;
+	public static boolean destroy = false;
+	public static ArrayList<Mover> movers = new ArrayList<Mover>();
+	public static ArrayList<Mover> addedMovers = new ArrayList<Mover>();
+
+	static {
+		new Thread() {
+			public void run() {
+				while (!destroy) {
+					try {
+						sleep (delay);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					ArrayList<Mover> newMovers = new ArrayList<Mover>();
+					for (Mover mover : movers) {
+						if (mover.step())
+							newMovers.add(mover);
+						else
+							mover.atTheEnd();
+					}
+					movers.clear();
+					movers = newMovers;
+					synchronized (addedMovers) {
+						for (Mover mover : addedMovers)
+							movers.add(mover);
+						addedMovers.clear();
+					}
+				}	
+			}
+		}.start();
+	}
+	
+	public Mover(Component component, Position position, int steps) {
 		super();
 		this.component = component;
 		this.vector = position;
-		this.delay = delay;
 		this.steps = steps;
+		this.step = 1;
 	}
 	
 	public int getStepPositionX (int step) {
@@ -34,16 +71,30 @@ public class Mover extends Thread {
 		component.setLocation(component.getX() + x, component.getY() + y);
 	}
 	
+	@Override
+	public void start() {
+		synchronized (addedMovers) {
+			addedMovers.add(this);	
+		}	
+	}
+	
+	protected boolean step() {
+		synchronized (component) {
+			move (getStepVectorX(step), getStepVectorY(step));
+			step++;
+			if (step > steps) return false;
+			return true;
+		}
+	}
+	
 	public void run() {
-		for (int step = 1; step <= steps; step++) {
+		for (step = 1; step <= steps;) {
 			try {
 				sleep (delay);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			synchronized (component) {
-				move (getStepVectorX(step), getStepVectorY(step));
-			}
+			step();
 		}
 		atTheEnd();
 	}

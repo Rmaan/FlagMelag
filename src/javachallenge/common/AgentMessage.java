@@ -27,4 +27,11 @@ public class AgentMessage implements Serializable {
 	public VisionPoint[] getVisions() {
 		return visions;
 	}
+
+	@Override
+	public String toString() {
+		return "AgentMessage [id=" + id + ", location=" + location + "]";
+	}
+	
+	
 }

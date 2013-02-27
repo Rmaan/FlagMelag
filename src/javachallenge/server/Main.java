@@ -21,8 +21,8 @@ public class Main {
 	private GraphicClient graphicClient;
 	
 	private final boolean DBG_PAUSE_ENABLED = false;
-	private final int DBG_PAUSE_CYCLE_NUM = 30;
-	private final int DBG_PAUSE_CYCLE_TIME = 100;
+	private final int DBG_PAUSE_CYCLE_NUM = 1;
+	private final int DBG_PAUSE_CYCLE_TIME = 350;
 	
 	public void run(int listenPort, String mapFilename) throws IOException, InterruptedException, OutOfMapException {
 		ServerSocket ss = new ServerSocket(listenPort);
@@ -35,7 +35,8 @@ public class Main {
 		}
 		
 		Game g = new Game(map);
-		graphicClient = new GraphicClient(map);
+		RemoteControl ctrl = new RemoteControl();
+		graphicClient = new GraphicClient(map, ctrl);
 		Engine engine = new Engine(g, graphicClient);
 		
 		ArrayList<TeamConnection> connections = new ArrayList<TeamConnection>();
@@ -64,6 +65,8 @@ public class Main {
 		
 		int temp = 1 ;
 		while (!engine.gameIsOver() || temp != 0) {
+			ctrl.waitForPlay();
+			
 			temp += (engine.gameIsOver() ? -1 : 0) ;
 			
 			//System.out.println("Cycle " + engine.getCycle());
@@ -71,6 +74,7 @@ public class Main {
 			ArrayList<ServerMessage> stepMessage = engine.getStepMessage();
 			for (int i = 0; i < map.getTeamCount(); i++) {
 				connections.get(i).sendStepMessage(stepMessage.get(i));
+//				System.out.println("Sending to team " + i + " : " + stepMessage.get(i));
 				connections.get(i).clearClientMessage();
 			}
 			
@@ -86,6 +90,7 @@ public class Main {
 			ArrayList<Action> allActions = new ArrayList<Action>();
 			for (int i = 0; i < map.getTeamCount(); i++) {
 				ClientMessage msg = connections.get(i).getClientMessage();
+//				System.out.println("Recieved from team " + i + " : " + msg);
 				if (msg == null) {
 					System.out.println("Team " + i + " message loss");
 				} else {
@@ -93,10 +98,12 @@ public class Main {
 					for(Action action : actions){
 						action.setTeamId(i);
 					}
+					actions = validate(actions);
+//					System.out.println("Actions team " + i);
+//					System.out.println(actions);
 					allActions.addAll(actions);
 				}
 			}
-			
 			engine.beginStep();
 			engine.teamStep(allActions);
 			engine.endStep();
@@ -106,6 +113,24 @@ public class Main {
 		System.out.println(engine.getTeamScore());
 	}
 	
+	private ArrayList<Action> validate(ArrayList<Action> actions) {
+		ArrayList<Action> validActions = new ArrayList<Action>();
+		ArrayList<Integer> seen = new ArrayList<Integer>();
+		
+		for(int i = actions.size() - 1 ; i >= 0 ; i--){
+			Action action = actions.get(i);
+			if(seen.contains(action.getId())){
+				System.out.println("Client manipulation from team : " + action.getTeamId());
+			}
+			else{
+				seen.add(action.getId());
+				validActions.add(action);
+			}
+		}
+		
+		return validActions;
+	}
+
 	public static void main(String[] args) throws IOException, InterruptedException, OutOfMapException {
 		new Main().run(PORT, args.length < 1 ? "map/final1.txt" : args[0]);
 	}

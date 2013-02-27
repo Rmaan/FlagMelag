@@ -7,7 +7,9 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Random;
 
+import javachallenge.common.BlockType;
 import javachallenge.common.Point;
+import javachallenge.graphics.GraphicClient;
 import javachallenge.graphics.GraphicClient.OutOfMapException;
 import javachallenge.graphics.util.AnimatedImage;
 import javachallenge.graphics.util.ColorMaker;
@@ -54,6 +56,12 @@ public class MapPanel extends ScrollablePanel {
 				int index = new Random().nextInt(environment.length);
 				addToContainer(blocks[i][j] = new Sprite(environment[index],
 						new Position(i, j)), 0);
+				if (map.getBlockType(new Point(i, j)) == BlockType.RIVER) {
+					ImageIcon[] env = ImageHolder.Terrain.generalMap;
+					int indeX = new Random().nextInt(env.length);
+					addToContainer(blocks[i][j] = new Sprite(env[indeX],
+							new Position(i, j)), 0);
+				}
 				//addToContainer(fogs[i][j] = new Sprite(ImageHolder.Terrain.fog, 
 				//		new Position(i, j)), 1);
 			}
@@ -161,14 +169,14 @@ public class MapPanel extends ScrollablePanel {
 	public Sprite setFlag(Position position, int index) throws OutOfMapException {
 		if (isOut(position)) throw new OutOfMapException();
 		//Sprite flag = new AnimatedImage(ImageHolder.Objects.fire, 125, position);
-		Sprite flag = new AnimatedImage(ImageHolder.Objects.flags[0], 130, position, true);
+		Sprite flag = new AnimatedImage(ImageHolder.Objects.flags[0], position, true, GraphicClient.animator);
 		addToContainer(flag, 4);
-		if (index < 2) return flag;
 		ImageIcon[] castle = ImageHolder.Terrain.castle;
-		int[] offsetX = { -25, 2, -25, 2, 25, 25 };
-		int[] offsetY = { -78, -64, -80, -90, -80, -80 };
+		int[] offsetX = { -25, 2, -25, 2, -25, 2 };
+		int[] offsetY = { -78, -64, -80, -90, -105, -96 };
 		int[] offsetL = { 6, 6, 3, 3, 3, 3 };
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 6; i++) {
+		//	if (i==4) continue;
 			Point point = getAbsolutePosition(position.x, position.y);
 			Label label = new Label(point.x + offsetX[i], point.y + offsetY[i], 200, 200, castle[i]);
 			addToContainer(label, offsetL[i]);
@@ -187,7 +195,7 @@ public class MapPanel extends ScrollablePanel {
 	{
 		if (isOut(position)) throw new OutOfMapException();
 		Point point=getAbsolutePosition(position.x,position.y);
-		VerticalTransparentProgressBar bar=new VerticalTransparentProgressBar(point.x+32,point.y+6,3,23, new Color(0,0,0),0);
+		VerticalTransparentProgressBar bar=new VerticalTransparentProgressBar(point.x+31,point.y+6,2,23, new Color(0,0,0),0);
 		addToContainer(bar, 10);
 		return bar;
 	}

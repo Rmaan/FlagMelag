@@ -6,23 +6,23 @@ import java.util.TreeMap;
 
 import javachallenge.common.Direction;
 import javachallenge.common.Point;
+import javachallenge.common.PowerUp;
 import javachallenge.graphics.components.*;
-import javachallenge.graphics.util.AnimatedImage;
-import javachallenge.graphics.util.ImageHolder;
-import javachallenge.graphics.util.Mover;
-import javachallenge.graphics.util.Position;
+import javachallenge.graphics.util.*;
 import javachallenge.server.Map;
+import javachallenge.server.RemoteControl;
 
 public class GraphicClient {
 	public static int x[]={0,1,1,0,-1,-1};
 	public static int y[]={-1,-1,0,1,0,-1};
-	public static int moveSpeed = 300, moveSteps = 25;
-	public static int attackSpeed = 90, attackSteps = 10;
-
+	public static int moveSpeed = 300, moveSteps = moveSpeed / Mover.delay;
+	public static int attackSpeed = 100, attackSteps = attackSpeed / Mover.delay;
+	public static ImageAnimator animator=new ImageAnimator(120);
 	protected MapPanel panel;
 	protected java.util.Map<Integer,Sprite> flags=new TreeMap<Integer,Sprite>();
 	protected java.util.Map<Integer,Sprite> spawnPoints=new TreeMap<Integer,Sprite>();
 	protected java.util.Map<Integer,Sprite> units=new TreeMap<Integer,Sprite>();
+	protected java.util.Map<Integer,Sprite> powerUps=new TreeMap<Integer, Sprite>();
 	protected PlayGround ground;
 	protected java.util.Map<Integer,VerticalTransparentProgressBar> barMap=new TreeMap<Integer, VerticalTransparentProgressBar>();
 	public void setTime(int a)
@@ -45,28 +45,45 @@ public class GraphicClient {
 	}
 
 	public GraphicClient(int width,int height, final Position[] positions,int Players) throws NullPointerException,OutOfMapException{
-		this (new Map(width, height, 3, null, null) {
+		this (new Map(width, height, 3, null, null, null) {
 			{
 				flagLocations = new ArrayList<Point>();
 				for (Position position : positions)
 					flagLocations.add(new Point(position.getX(), position.getY()));
 			}
-		});
+		}, null);
 	}
 
-	public GraphicClient(Map map) throws OutOfMapException
+	@SuppressWarnings("serial")
+	public GraphicClient(Map map, final RemoteControl ctrl) throws OutOfMapException
 	{
+		animator.start();
 		int Players = map.getTeamCount() ;
 		ground=new PlayGround() {
 			{
-				play = new ClickableLabel("Play") {
-					public void onClick() { onPlay(); }
+				play = new ClickableLabel("") {
+					boolean isPlay=true;
+					{
+						setIcon(ImageHolder.pause);
+					}
+					public void onClick() {
+						if (isPlay)
+							setIcon(ImageHolder.play);
+						else
+							setIcon(ImageHolder.pause);
+						GraphicClient.animator.setPause(GraphicClient.animator.isPause()^true);
+						isPlay^=true;
+						ctrl.playPauseToggle();
+					}
+				};	
+				pause = new ClickableLabel("useless") {
+					public void onClick() { System.out.println(""); }
 				};
-				pause = new ClickableLabel("pause") {
-					public void onClick() { onPause(); }
-				};
-				forward = new ClickableLabel("forward") {
-					public void onClick() { onFastForward(); }
+				forward = new ClickableLabel("") {
+					{
+						setIcon(ImageHolder.nextCycle);
+					}
+					public void onClick() { ctrl.step(); }
 				};
 			}
 		};
@@ -98,7 +115,7 @@ public class GraphicClient {
 		for (int i = 0; i < map.getSpawnLocations().size(); i++) {
 			Position position = new Position(map.getSpawnLocations().get(i));
 			if (panel.isOut(position)) throw new OutOfMapException();
-			Sprite spawn = new AnimatedImage(ImageHolder.Objects.mage, 250, position, true);
+			Sprite spawn = new AnimatedImage(ImageHolder.Objects.mage, position, true,animator);
 			panel.addToContainer(spawn ,2);
 			spawnPoints.put(i+1, spawn);
 		}
@@ -132,12 +149,12 @@ public class GraphicClient {
 			units.get(id).setIcon(ImageHolder.Units.units[teamId][0]);
 		if (direction == 4 || direction == 5)
 			units.get(id).setIcon(ImageHolder.Units.units[teamId][1]);
-		new Mover(sprite,position,attackSpeed/attackSteps,attackSteps) {
+		new Mover(sprite,position,attackSteps) {
 			@Override
 			public void atTheEnd() {
 				position.x *= -1;
 				position.y *= -1;
-				new Mover(sprite,position,attackSpeed/attackSteps,attackSteps).start();
+				new Mover(sprite,position,attackSteps).start();
 			}
 		}.start();
 	}
@@ -150,7 +167,7 @@ public class GraphicClient {
 			units.get(id).setIcon(ImageHolder.Units.units[teamId][0]);
 		if (direction == 4 || direction == 5)
 			units.get(id).setIcon(ImageHolder.Units.units[teamId][1]);
-		new Mover(sprite,position,moveSpeed/moveSteps,moveSteps).start();
+		new Mover(sprite,position,moveSteps).start();
 	}
 
 	public void obtainFlag (Integer id)  throws NullPointerException{
@@ -161,8 +178,12 @@ public class GraphicClient {
 		flags.put(id, new Sprite(ImageHolder.Objects.underFire, flag.getPosition()));
 		panel.addToContainer(flags.get(id), 2);
 	}
+	
+	public void setFlagStatus(Integer id, int progressTeam, int progressPercentage, int curTeam) {
+		setFlagStatus(id, progressTeam, progressPercentage, curTeam, true);
+	}
 
-	public void setFlagStatus(Integer id, int progressTeam, int progressPercentage, int curTeam){
+	public void setFlagStatus(Integer id, int progressTeam, int progressPercentage, int curTeam, boolean animated) {
 		Sprite flag = flags.get(id);
 		flag.setVisible(false);
 		VerticalTransparentProgressBar bar=barMap.get(id);
@@ -170,35 +191,40 @@ public class GraphicClient {
 			bar.setColor(Color.BLACK);
 		else
 			bar.setColor(StatusPanel.filled[progressTeam]);
-		bar.animatedBar(progressPercentage);
-	 //   bar.updateVerticalTransparentProgressBar((double)progressPercentage/100);
+		if (animated)
+			bar.animatedBar(progressPercentage);
+		else
+		{
+			bar.updateVerticalTransparentProgressBar((double)progressPercentage/100);
+			bar.setLast(progressPercentage);
+		}
 		panel.remove(flag);
 		((AnimatedImage) flag).destroy();
 		flags.remove(id);
-		flags.put(id, new AnimatedImage(ImageHolder.Objects.flags[curTeam + 1], 130, flag.getPosition(), true));
-		panel.addToContainer(flags.get(id), 2);
+		flags.put(id, new AnimatedImage(ImageHolder.Objects.flags[curTeam + 1], flag.getPosition(), true,animator));
+		panel.addToContainer(flags.get(id), 4);
 	}
-
+	public void addPowerUp(int id,Point point,PowerUp powerUp)
+	{
+		AnimatedImage image=new AnimatedImage(ImageHolder.Objects.runes[powerUp.ordinal()],new Position(point),true,animator);
+		panel.addToContainer(image,2);
+		powerUps.put(id,image);
+	}
+	public void hidePowerUp(int id)
+	{
+		Sprite image=powerUps.get(id);
+		image.setVisible(false);
+	    panel.remove(image);
+		powerUps.remove(id);
+	}
 	public void log (String message) {
-		System.err.println("log: " + message);
+//		System.err.println("log: " + message);
 		ground.addLog(message);
 	}
 
 	public void setName(int id, String name)
 	{
-		ground.getStatus().setName(id,name);
-	}
-
-	public void onPlay() {
-		System.err.println("play");
-	}
-
-	public void onPause() {
-		System.err.println("pause");
-	}
-
-	public void onFastForward() {
-		System.err.println("forward");
+		ground.getStatus().setName(id, name);
 	}
 
 	public static class DuplicateMemberException extends Exception

@@ -37,7 +37,7 @@ public class MapEditor extends PlayGround {
 		ArrayList<Point> spawnLocations = new ArrayList<Point>();
 		ArrayList<Point> flagLocations = new ArrayList<Point>();	
 		mapPanel.setMap(new Map(mapPanel.getMapWidth(), mapPanel.getMapHeight(), 0,
-			spawnLocations, flagLocations));
+			spawnLocations, flagLocations, new ArrayList<Point>()));
 	
 		super.addMapPanel(mapPanel);
 	}
@@ -77,7 +77,7 @@ public class MapEditor extends PlayGround {
 		final MapEditor mapEditor = new MapEditor();
 		Scanner scanner = new Scanner(System.in);
 		mapEditor.createScreenElements(new MapPanel(new Map(scanner.nextInt(), scanner.nextInt(), 0, 
-				new ArrayList<Point>(), new ArrayList<Point>())) {
+				new ArrayList<Point>(), new ArrayList<Point>(), new ArrayList<Point>())) {
 			@Override
 			public void onClick(int x, int y) {
 				int type = (mapEditor.getMapPanel().getMap().getBlockType(new Point (x, y)).ordinal() + 1) % blockTypes;
@@ -86,7 +86,7 @@ public class MapEditor extends PlayGround {
 			}
 			@Override
 			public void onControlClick(int x, int y) {
-				Sprite flag = new AnimatedImage(ImageHolder.Objects.fire, 125, new Position(x, y), true);
+				Sprite flag = new AnimatedImage(ImageHolder.Objects.fire, new Position(x, y), true,GraphicClient.animator);
 				map.getFlagLocations().add(new Point(x, y));
 				mapEditor.getMapPanel().addToContainer(flag, 2);
 			}

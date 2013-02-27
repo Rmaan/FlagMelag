@@ -4,7 +4,8 @@ import java.awt.*;
 import java.util.Random;
 import java.util.Scanner;
 
-import javachallenge.common.Direction;
+import javachallenge.common.*;
+import javachallenge.common.Point;
 import javachallenge.graphics.components.VerticalTransparentProgressBar;
 import javachallenge.graphics.util.Position;
 import javachallenge.server.Map;
@@ -14,7 +15,7 @@ import javax.swing.*;
 public class GraphicTest {
 	public static void main(String[] args) throws Exception{
 		Map map=Map.load("map/final1.txt");
-		GraphicClient client=new GraphicClient(map);
+		GraphicClient client=new GraphicClient(map, null);
 		//GraphicClient client = new GraphicClient(30, 14, new Position[] {}); 
 /*		JFrame frame=new JFrame();
 		frame.setLayout(null);
@@ -36,7 +37,8 @@ public class GraphicTest {
 		client.setScore(0,1000,0.75);
 		client.setScore(1,1000,0.5);
 		client.setScore(2,1000,0.6);
-		client.setFlagStatus(1,0,50,0);
+		client.setFlagStatus(1,0,100,0);
+		client.addPowerUp(1,new Point(3,3),PowerUp.DUPLICATE);
 	//	client.spawn(1,new Position(2,2));
 	//	client.spawn(2,new Position(2,3));
 		while (true)
@@ -45,7 +47,7 @@ public class GraphicTest {
 			if (com.startsWith("s")) // spawn
 			{
 				int id=scanner.nextInt(),x=scanner.nextInt(),y=scanner.nextInt();
-	//			client.spawn(id,new Position(x,y));
+				client.spawn(id,1,new Position(x,y));
 			}
 			else if (com.startsWith("k")) // kill
 			{
@@ -55,12 +57,12 @@ public class GraphicTest {
 			else if (com.startsWith("m")) // move
 			{
 				int id=scanner.nextInt(),pos=scanner.nextInt();
-		//		client.move(id,Direction.values()[pos]);
+				client.move(id,1,Direction.values()[pos]);
 			}
 			else if (com.startsWith("a")) // attack
 			{
 				int id=scanner.nextInt(),pos=scanner.nextInt();
-		//		client.attack(id,Direction.values()[pos]);
+				client.attack(id,1,Direction.values()[pos]);
 			}
 			else if (com.startsWith("f")) { // obtain flag
 				int id = scanner.nextInt();
