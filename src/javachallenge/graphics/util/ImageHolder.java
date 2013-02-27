@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 public class ImageHolder {
 	// resources
 	public static String prefix = "data/pix/wesnoth/";
+	public static String buttons= "data/pix/Buttons/";
 	public static String menuPrefix = prefix + "menu/";
 	public static String corePrefix = prefix + "game/core/";
 	public static String riseOfWesnothPrefix = prefix + "game/The_Rise_Of_Wesnoth/";
@@ -25,6 +26,9 @@ public class ImageHolder {
 	}
 
 	// common images
+	public static ImageIcon play=new ImageIcon(buttons+"play.png");
+	public static ImageIcon pause=new ImageIcon(buttons+"pause.png");
+	public static ImageIcon nextCycle=new ImageIcon(buttons+"nextcycle.png");
 	public static ImageIcon mapBrush = new ImageIcon(menuPrefix + "editor/brush.png");
 	public static ImageIcon waiting = new ImageIcon(menuPrefix + "cursors/wait.png");
 
