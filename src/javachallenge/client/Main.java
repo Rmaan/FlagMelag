@@ -1,4 +1,4 @@
-package javachallenge.client;
+	package javachallenge.client;
 
 import java.io.IOException;
 import java.net.UnknownHostException;

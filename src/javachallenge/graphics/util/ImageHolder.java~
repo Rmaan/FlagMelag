@@ -10,9 +10,12 @@ import javax.swing.ImageIcon;
  */
 public class ImageHolder {
 	// resources
+<<<<<<< HEAD
+	public static String prefix = "data/pix/wesnoth/";
+	public static String buttons= "data/pix/Buttons/";
+=======
 	public static String prefix = "gitdata/pix/wesnoth/";
-	public static String buttons= "gitdata/pix/Buttons/";
-
+>>>>>>> 630f606465a1eb53bef4349f2bfb02739aaa2a44
 	public static String menuPrefix = prefix + "menu/";
 	public static String corePrefix = prefix + "game/core/";
 	public static String riseOfWesnothPrefix = prefix + "game/The_Rise_Of_Wesnoth/";

@@ -58,11 +58,11 @@ public class Controller {
 							if(serverMsg != null){
 								//System.out.println("TIMED OUT SEEEEEEEEEEEEEET");
 								player.setTimedOut(true);
+								gameEnded = serverMsg.isGameEnded() ; 
 							}
 							serverMsg = tmp;
 							player.spawn(serverMsg.getSpawnedId());
 						}
-						gameEnded = serverMsg.isGameEnded() ; 
 					}
 				} catch (IOException e) {
 					e.printStackTrace();

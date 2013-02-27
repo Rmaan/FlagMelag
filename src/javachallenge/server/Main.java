@@ -96,10 +96,12 @@ public class Main {
 					for(Action action : actions){
 						action.setTeamId(i);
 					}
+					actions = validate(actions);
+					System.out.println("Actions team " + i);
+					System.out.println(actions);
 					allActions.addAll(actions);
 				}
 			}
-			
 			engine.beginStep();
 			engine.teamStep(allActions);
 			engine.endStep();
@@ -109,6 +111,24 @@ public class Main {
 		System.out.println(engine.getTeamScore());
 	}
 	
+	private ArrayList<Action> validate(ArrayList<Action> actions) {
+		ArrayList<Action> validActions = new ArrayList<Action>();
+		ArrayList<Integer> seen = new ArrayList<Integer>();
+		
+		for(int i = actions.size() - 1 ; i >= 0 ; i--){
+			Action action = actions.get(i);
+			if(seen.contains(action.getId())){
+				System.out.println("Client manipulation from team : " + action.getTeamId());
+			}
+			else{
+				seen.add(action.getId());
+				validActions.add(action);
+			}
+		}
+		
+		return validActions;
+	}
+
 	public static void main(String[] args) throws IOException, InterruptedException, OutOfMapException {
 		new Main().run(PORT, args.length < 1 ? "map/final1.txt" : args[0]);
 	}
