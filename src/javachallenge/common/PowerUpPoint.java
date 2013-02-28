@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 
 public class PowerUpPoint implements Serializable{
-	private PowerUp type = null;
+	private PowerUp type = PowerUp.NONE;
 	private Point location;
 	private int id;
 	

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javachallenge.common.BlockType;
 import javachallenge.common.Direction;
 import javachallenge.common.Point;
+import javachallenge.common.PowerUp;
 import javachallenge.common.PowerUpPoint;
 import javachallenge.common.VisionPoint;
 
@@ -49,7 +50,7 @@ public class Game {
 	public void moveAgent(Agent a, Point p, Point p2){
 		PowerUpPoint puPoint = getPowerUpPoint(p2);
 		if(puPoint != null){
-			puPoint.setType(null);
+			puPoint.setType(PowerUp.NONE);
 		}
 		agents[p.x][p.y] = null ;
 		agents[p2.x][p2.y] = a ;
