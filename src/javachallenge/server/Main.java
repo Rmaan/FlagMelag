@@ -20,8 +20,8 @@ public class Main {
 	private static int CYCLE_TIME = 350;
 	private GraphicClient graphicClient;
 	
-	private final boolean DBG_PAUSE_ENABLED = true;
-	private final int DBG_PAUSE_CYCLE_NUM = 1;
+	private final boolean DBG_PAUSE_ENABLED = false;
+	private final int DBG_PAUSE_CYCLE_NUM = 52;
 	private final int DBG_PAUSE_CYCLE_TIME = 350;
 	
 	public void run(int listenPort, String mapFilename) throws IOException, InterruptedException, OutOfMapException {

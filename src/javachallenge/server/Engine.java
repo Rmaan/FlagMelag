@@ -24,13 +24,13 @@ import javachallenge.graphics.GraphicClient.OutOfMapException;
 import javachallenge.graphics.util.Position;
 
 public class Engine {
-	private static final int FLAG_POINT = 3;
+	private static final int FLAG_POINT = 1;
 	private static final int GAME_CYCLES = 725;
 	private static final int SPAWN_MARGIN = 15 ;
 	private static final int SPAWN_LOW_PERIOD = 20;
 	private static final int SPAWN_NORM_PERIOD = 5;
 	private static final int MAX_SCORE = 2000;
-	private static final int POWERUP_GEN_PERIOD = 10;
+	private static final int POWERUP_GEN_PERIOD = 100;
 	
 	private Map map;
 	private int cycle, teamCount;
@@ -124,8 +124,9 @@ public class Engine {
 			return;
 		}
 		
-		if(!validActionList(actions))
-			return ;
+		if(actions == null){
+			System.out.println("client manipluation : nell action array sent");
+		}
 		
 		if(cycle % 2 == 1){
 			handleMoves(actions);
@@ -135,6 +136,10 @@ public class Engine {
 			HashMap<Integer, ArrayList<Integer>> attackNum = new HashMap<Integer, ArrayList<Integer>>();
 			ArrayList<Action> validActions = new ArrayList<Action>();
 			for(Action action : actions){
+				if(action == null){
+					System.out.println("client manipluation : null action");
+					continue;
+				}
 				if(action.getType() == ActionType.NONE || action.getType() != ActionType.ATTACK){
 					System.err.println("MOVE IN WRONG CYCLE");
 					continue;
@@ -238,9 +243,6 @@ public class Engine {
 //		System.out.println("\n-----------------------------------");
 	}
 	
-	private boolean validActionList(ArrayList<Action> actions) {
-		return true;
-	}
 
 	public int getCycle() {
 		return cycle;
@@ -503,6 +505,10 @@ public class Engine {
 		}
 		
 		for(Action act : actions){
+			if(act == null){
+				System.out.println("client manipulation : null action");
+				continue;
+			}
 			if(act.getType() == ActionType.NONE || act.getType() != ActionType.MOVE){
 				continue;
 			}
