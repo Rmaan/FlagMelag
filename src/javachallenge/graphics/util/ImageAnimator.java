@@ -37,14 +37,14 @@ public class ImageAnimator extends Thread
 	}
 	public void garbageCollector()
 	{
-		ArrayList<AnimatedImage> temp=new ArrayList<AnimatedImage>();
 		synchronized (images)
 		{
-			for (AnimatedImage image:images)
-				if (image.isDestroyed()==false)
-					temp.add(image);
-			images.clear();
-			images=temp;
+			ArrayList<Object> indices  = new ArrayList<Object>();
+			for (int i=0;i<images.size();i++)
+				if (images.get(i).isDestroyed()==true)
+					indices.add(images.get(i));
+			for (int i = 0; i < indices.size(); i++)
+				images.remove(indices.get(i));
 		}
 	}
 	public void run()
