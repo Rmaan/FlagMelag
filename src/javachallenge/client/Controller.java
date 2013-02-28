@@ -25,7 +25,7 @@ public class Controller {
 	
 	
 	public Controller(String IP, int PORT) throws UnknownHostException, IOException, ClassNotFoundException {
-		System.out.println("Creating socket...");
+		System.err.println("Creating socket...");
 		final Socket s = new Socket(IP, PORT);
 		in = new ObjectInputStream(s.getInputStream());
 		out = new ObjectOutputStream(s.getOutputStream());
@@ -40,13 +40,13 @@ public class Controller {
 		System.err.println("Connecting to server...");
 		out.writeObject(player.getName());
 		
-		System.out.println("Waiting for initial Msg...");
+		System.err.println("Waiting for initial Msg...");
 		InitMessage initMsg = (InitMessage)in.readObject();
 		
 		player.initMsg(initMsg);
 		//---------------------------
 		
-		System.out.println("Starting game");
+		System.err.println("Starting game");
 		new Thread(){
 			public void run() {
 				try {
