@@ -35,8 +35,9 @@ public class MyPlayer extends Player {
 	
 	public void step() {
 		Point goal = new Point(12, 12);
-		Direction[] attackDir1 = {Direction.NORTHWEST, Direction.SOUTHEAST, Direction.NORTHWEST, Direction.SOUTHWEST, Direction.NONE, Direction.NONE};
-		Direction[] attackDir2 = {Direction.NONE, Direction.NORTHEAST, Direction.SOUTHEAST, Direction.NONE, Direction.NONE, Direction.NONE};
+//		Direction[] attackDir1 = {Direction.NORTHWEST, Direction.SOUTHEAST, Direction.NORTHWEST, Direction.SOUTHWEST, Direction.NONE, Direction.NONE};
+//		Direction[] attackDir2 = {Direction.NONE, Direction.NORTHEAST, Direction.SOUTHEAST, Direction.NONE, Direction.NONE, Direction.NONE};
+		Direction[] attackDir1 = {Direction.NORTHWEST, Direction.SOUTH};
 		ArrayList<Integer> ids = getAgentIds();
 		for (int i = 0 ; i < ids.size() ; i++) {
 			
@@ -47,14 +48,17 @@ public class MyPlayer extends Player {
 			else
 				agent.doAttack(Direction.values()[rnd.nextInt(Direction.values().length)]);
 			
-			/*System.out.println("-------------------------------------");
-			VisionPoint v = agent.getAdjVisionPoint(Direction.NONE) ;
-			System.out.println(v.getAdjBlockType(Direction.NORTH));
-			System.out.println(v.getAdjTeamId(Direction.NONE));
-			System.out.println(v.getLocation());
-			System.out.println("-------------------------------------");*/
-			
 			//moveTo(agent, goal);
+//			if(getCycleAction() == CycleAction.MOVE_CYCLE){
+//				agent.doMove(Direction.values()[rnd.nextInt(Direction.values().length)]);
+//			}
+//			else{
+//				if(cycle > 50){
+//					if(getTeamId() == 0){
+//						throw new RuntimeException();
+//					}
+//				}
+//			}
 			
 		}
 		cycle++;

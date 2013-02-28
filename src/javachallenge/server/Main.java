@@ -21,8 +21,8 @@ public class Main {
 	private GraphicClient graphicClient;
 	
 	private final boolean DBG_PAUSE_ENABLED = false;
-	private final int DBG_PAUSE_CYCLE_NUM = 30;
-	private final int DBG_PAUSE_CYCLE_TIME = 100;
+	private final int DBG_PAUSE_CYCLE_NUM = 52;
+	private final int DBG_PAUSE_CYCLE_TIME = 350;
 	
 	public void run(int listenPort, String mapFilename) throws IOException, InterruptedException, OutOfMapException {
 		ServerSocket ss = new ServerSocket(listenPort);
@@ -76,8 +76,10 @@ public class Main {
 			ArrayList<ServerMessage> stepMessage = engine.getStepMessage();
 			for (int i = 0; i < map.getTeamCount(); i++) {
 				connections.get(i).sendStepMessage(stepMessage.get(i));
+				System.out.println("Sending to team " + i + " : " + stepMessage.get(i));
 				connections.get(i).clearClientMessage();
 			}
+			System.out.println("-----------------------------------------");
 			
 			if (DBG_PAUSE_ENABLED) {
 				if (engine.getCycle() < DBG_PAUSE_CYCLE_NUM)

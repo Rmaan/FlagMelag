@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javachallenge.common.InitMessage;
 import javachallenge.common.Point;
+import javachallenge.common.PowerUpPoint;
 import javachallenge.common.ServerMessage;
 
 /**
@@ -15,6 +16,7 @@ public class World {
 	private ArrayList<Point> spawnLocations;
 	private ArrayList<Point> flagLocations;
 	private ArrayList<Integer> flagOwners;
+	private ArrayList<PowerUpPoint> powerups;
 	private int teamId;
 
 	public ArrayList<Integer> getScore() {
@@ -43,6 +45,11 @@ public class World {
 		this.teamId = msg.getTeamId() ;
 		this.spawnLocations = msg.getSpawnLocations();
 		this.flagLocations = msg.getFlagLocations();
+		ArrayList<Point> pLocs = msg.getPowerupLocations();
+		this.powerups = new ArrayList<PowerUpPoint>();
+		for(int i = 0 ; i < pLocs.size() ; i++){
+			powerups.add(new PowerUpPoint(pLocs.get(i), i));
+		}
 		//----------------------------------------------
 		this.flagOwners = new ArrayList<Integer>();
 		for(int i = 0 ; i < flagLocations.size() ; i++)
@@ -52,10 +59,15 @@ public class World {
 	public ArrayList<Integer> getFlagOwners(){
 		return flagOwners;
 	}
+	
+	public ArrayList<PowerUpPoint> getPowerups(){
+		return powerups;
+	}
 
 	void update(ServerMessage msg) {
 		this.scores = msg.getScores() ;
 		this.flagOwners = msg.getFlagOwners() ;
+		this.powerups = msg.getPowerups();
 	}
 
 	public Point getMySpawnLocation() {
