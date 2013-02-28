@@ -5,8 +5,8 @@ package javachallenge.common;
  */
 public enum BlockType {
 	GROUND,
-	WALL,
 	RIVER,
+	WALL,
 	OUT_OF_MAP,
 	UNDEFINED,
 }
