@@ -23,6 +23,7 @@ public class InitMessage implements Serializable {
 	private int mapWidth, mapHeight;
 	private ArrayList<Point> spawnLocation;
 	private ArrayList<Point> flagLocation;
+	private ArrayList<Point> powerupLocations;
 	private int teamId ;
 	
 	public InitMessage(int teamId, Map map) {
@@ -30,6 +31,7 @@ public class InitMessage implements Serializable {
 		mapHeight = map.getHei();
 		spawnLocation = map.getSpawnLocations();
 		flagLocation = map.getFlagLocations(); 
+		powerupLocations = map.getPowerupLocations();
 		this.teamId = teamId ;
 	}
 
@@ -40,4 +42,10 @@ public class InitMessage implements Serializable {
 	public ArrayList<Point> getFlagLocations() {
 		return flagLocation;
 	}
+
+	public ArrayList<Point> getPowerupLocations() {
+		return powerupLocations;
+	}
+	
+	
 }

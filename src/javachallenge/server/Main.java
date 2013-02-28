@@ -21,8 +21,8 @@ public class Main {
 	private GraphicClient graphicClient;
 	
 	private final boolean DBG_PAUSE_ENABLED = false;
-	private final int DBG_PAUSE_CYCLE_NUM = 30;
-	private final int DBG_PAUSE_CYCLE_TIME = 100;
+	private final int DBG_PAUSE_CYCLE_NUM = 52;
+	private final int DBG_PAUSE_CYCLE_TIME = 350;
 	
 	public void run(int listenPort, String mapFilename) throws IOException, InterruptedException, OutOfMapException {
 		ServerSocket ss = new ServerSocket(listenPort);
@@ -42,14 +42,14 @@ public class Main {
 		ArrayList<TeamConnection> connections = new ArrayList<TeamConnection>();
 		
 		for (int i = 0; i < map.getTeamCount(); i++) {
-			System.out.println("Waiting for team " + i + " to connect...");
+			graphicClient.log("Waiting for team " + i + " to connect...");
 			Socket socket = ss.accept();
-			connections.add(new TeamConnection(engine.getTeam(i), socket));
+			connections.add(new TeamConnection(engine.getTeam(i), socket, graphicClient));
 			
 			Team team = engine.getTeam(i) ;
 			graphicClient.setName(team.getId(), team.getName()) ;
 			
-			System.out.println("connected");
+			graphicClient.log(team.getName() + " connected");
 		}
 
 		ArrayList<InitMessage> initialMessage = engine.getInitialMessage();
@@ -63,6 +63,8 @@ public class Main {
 		
 		Scanner scn = DBG_PAUSE_ENABLED ? new Scanner(System.in) : null;
 		
+//		PlayLog playLog = new PlayLog();
+		
 		int temp = 1 ;
 		while (!engine.gameIsOver() || temp != 0) {
 			ctrl.waitForPlay();
@@ -74,8 +76,10 @@ public class Main {
 			ArrayList<ServerMessage> stepMessage = engine.getStepMessage();
 			for (int i = 0; i < map.getTeamCount(); i++) {
 				connections.get(i).sendStepMessage(stepMessage.get(i));
+//				System.out.println("Sending to team " + i + " : " + stepMessage.get(i));
 				connections.get(i).clearClientMessage();
 			}
+//			System.out.println("-----------------------------------------");
 			
 			if (DBG_PAUSE_ENABLED) {
 				if (engine.getCycle() < DBG_PAUSE_CYCLE_NUM)
@@ -85,30 +89,40 @@ public class Main {
 			} else {
 				Thread.sleep(CYCLE_TIME);
 			}
+			
+			ClientMessage[] msgs = new ClientMessage[map.getTeamCount()];
+			for (int i = 0; i < map.getTeamCount(); i++) {
+				msgs[i] = connections.get(i).getClientMessage();
+			}
+//			playLog.add(msgs);
 
 			ArrayList<Action> allActions = new ArrayList<Action>();
 			for (int i = 0; i < map.getTeamCount(); i++) {
-				ClientMessage msg = connections.get(i).getClientMessage();
-				if (msg == null) {
-					System.out.println("Team " + i + " message loss");
+				if (msgs[i] == null) {
+					graphicClient.log("Team " + i + " message loss");
 				} else {
-					ArrayList<Action> actions = msg.getActions();
+					ArrayList<Action> actions = msgs[i].getActions();
 					for(Action action : actions){
 						action.setTeamId(i);
 					}
 					actions = validate(actions);
-//					System.out.println("Actions team " + i);
-//					System.out.println(actions);
 					allActions.addAll(actions);
 				}
 			}
+			
+			
 			engine.beginStep();
 			engine.teamStep(allActions);
 			engine.endStep();
 		}
 		
 		ss.close();
-		System.out.println(engine.getTeamScore());
+		
+//		Date now = new Date();
+//		String fileName = "log";
+//		for (TeamConnection c: connections)
+//			fileName += "-" + c.getTeam().getName();
+//		playLog.save(fileName + "-" + new SimpleDateFormat("mm:ss") + ".txt");
 	}
 	
 	private ArrayList<Action> validate(ArrayList<Action> actions) {
@@ -118,7 +132,7 @@ public class Main {
 		for(int i = actions.size() - 1 ; i >= 0 ; i--){
 			Action action = actions.get(i);
 			if(seen.contains(action.getId())){
-				System.out.println("Client manipulation from team : " + action.getTeamId());
+				graphicClient.log("Client manipulation from team : " + action.getTeamId());
 			}
 			else{
 				seen.add(action.getId());

@@ -44,6 +44,12 @@ public abstract class Player {
 			setAgentMsg(agentMsg);
 			agentAliveId.add(agentMsg.getId()) ;
 		}
+		if(msg.getLostVest() != Agent.noAgent){
+			getAgentById(msg.getLostVest()).setSuicideVest(false);
+		}
+		if(msg.getGotVest() != Agent.noAgent){
+			getAgentById(msg.getGotVest()).setSuicideVest(true);
+		}
 	}
 	
 	/**
@@ -58,17 +64,13 @@ public abstract class Player {
 		agent.updateAgent(agentMsg); 
 	}
 
-	void spawn(int spawnedId) {
-		if (spawnedId == Agent.noAgent) 
-			return ;
-		Agent agent = new Agent(spawnedId, world.getMySpawnLocation()) ;
-		agents.add(agent) ;
+	void spawn(ArrayList<Integer> spawnedId) {
+		for(int id : spawnedId){
+			Agent agent = new Agent(id, world.getMySpawnLocation()) ;
+			agents.add(agent) ;
+		}
 	}
 	
-	public ArrayList<Agent> getAgents(){
-		return agents ;
-	}
-
 	public int getTeamId(){
 		return id ;
 	}

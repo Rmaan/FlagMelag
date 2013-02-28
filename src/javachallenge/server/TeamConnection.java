@@ -8,6 +8,7 @@ import java.net.Socket;
 import javachallenge.common.ClientMessage;
 import javachallenge.common.InitMessage;
 import javachallenge.common.ServerMessage;
+import javachallenge.graphics.GraphicClient;
 
 public class TeamConnection {
 	private Team team;
@@ -20,17 +21,19 @@ public class TeamConnection {
 	private ObjectInputStream in;
 	private boolean listening = true;
 	private ClientMessage clientMessage;
+	private GraphicClient graphicClient;
 	
-	public TeamConnection(final Team team, Socket socket) throws IOException{
+	public TeamConnection(final Team team, Socket socket, GraphicClient gc) throws IOException{
 		this.team = team;
+		this.graphicClient = gc;
 //		this.socket = socket;
 		out = new ObjectOutputStream(socket.getOutputStream());
 		in = new ObjectInputStream(socket.getInputStream());
 		
 		try {
-			System.err.println("Behrooz : Waiiting for name...");
+//			System.err.println("Waiting for name...");
 			team.setName((String) in.readObject()) ;
-			System.err.println("Behrooz : Read name...");
+//			System.err.println("Read name...");
 		} catch (ClassNotFoundException e1) {
 			//pass do nothing 
 		}
@@ -53,7 +56,7 @@ public class TeamConnection {
 				} catch (ClassCastException e) {
 					e.printStackTrace();
 				}
-				System.out.println("Team " + team.getId() + " disconnected");
+				graphicClient.log("Team " + team.getId() + " disconnected");
 			}
 		}.start();
 	}
