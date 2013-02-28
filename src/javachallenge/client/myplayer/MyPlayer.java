@@ -39,6 +39,8 @@ public class MyPlayer extends Player {
 //		Direction[] attackDir2 = {Direction.NONE, Direction.NORTHEAST, Direction.SOUTHEAST, Direction.NONE, Direction.NONE, Direction.NONE};
 		Direction[] attackDir1 = {Direction.NORTHWEST, Direction.SOUTH};
 		ArrayList<Integer> ids = getAgentIds();
+		System.out.println(getWorld().getFlagOwners());
+		System.out.println(getWorld().getPowerups());
 		for (int i = 0 ; i < ids.size() ; i++) {
 			
 			Agent agent = this.getAgentById(ids.get(i));

@@ -30,7 +30,7 @@ public class Engine {
 	private static final int SPAWN_LOW_PERIOD = 20;
 	private static final int SPAWN_NORM_PERIOD = 5;
 	private static final int MAX_SCORE = 2000;
-	private static final int POWERUP_GEN_PERIOD = 10;
+	private static final int POWERUP_GEN_PERIOD = 50;
 	
 	private Map map;
 	private int cycle, teamCount;
