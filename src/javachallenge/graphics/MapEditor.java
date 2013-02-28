@@ -10,7 +10,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
+
+import javax.swing.ImageIcon;
 
 import javachallenge.common.BlockType;
 import javachallenge.common.Point;
@@ -68,7 +71,7 @@ public class MapEditor extends PlayGround {
 		addBottomBar();
 		add (sidebar = new Panel (ColorMaker.shadedPanelBack));
 		sidebar.setLayout(new FlowLayout());
-		sidebar.add(new FileChooser.FileChooserButton("save", false, "Choose target", "data/maps/", "map", "Map files") {
+		sidebar.add(new FileChooser.FileChooserButton("save", false, "Choose target", "data/maps/", "txt", "Map files") {
 			{ setForeground(ColorMaker.fieldBackground); }
 			@Override
 			public void onAccept(String filename) {
@@ -80,6 +83,43 @@ public class MapEditor extends PlayGround {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+			}
+			@Override
+			public void onEnter() {
+				setForeground(ColorMaker.white);
+			}
+			@Override
+			public void onExit() {
+				setForeground(ColorMaker.fieldBackground);
+			}
+		});
+		sidebar.add(new FileChooser.FileChooserButton("load", true, "Choose path", "data/maps/", "txt", "Map files") {
+			{ setForeground(ColorMaker.fieldBackground); }
+			@Override
+			public void onAccept(String filename) {
+				try {
+					Map map = Map.load(filename);
+					for (int i = 0; i < map.getWid(); i++)
+						for (int j = 0; j < map.getHei(); j++) {
+							System.err.println(map.getBlockType(new Point(i, j)));
+							getMapPanel().getMap().setBlockType(new Point(i, j), map.getBlockType(new Point(i, j)));
+
+							mapPanel.setBlock(i, j, map.getBlockType(new Point(i, j)).ordinal());
+						}
+					System.err.println("Map loaded Successfully");
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			@Override
+			public void onEnter() {
+				setForeground(ColorMaker.white);
+			}
+			@Override
+			public void onExit() {
+				setForeground(ColorMaker.fieldBackground);
 			}
 		});
 	}

@@ -114,6 +114,10 @@ public class MapPanel extends ScrollablePanel {
 	public Map getMap() {
 		return map;
 	}
+	
+	public Sprite[][] getBlocks() {
+		return blocks;
+	}
 
 	public void setMap(Map map) {
 		this.map = map;
