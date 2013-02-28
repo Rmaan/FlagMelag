@@ -51,10 +51,21 @@ public class MapEditor extends PlayGround {
 		sidebar.setSize(size.width - sidebar.getX() - 30, size.height - 60);
 	}
 */
+	
+	public void addBottomBar()
+	{
+		bottomBar=new Panel();
+		mapPanel.getPosition().setBounds(110,0,300,20);
+		bottomBar.add(mapPanel.getPosition());
+		add(bottomBar);
+		updateDimensions();
+	}
+	
 	@Override
 	public void addSideBar() {
 		// TODO Auto-generated method stub
 		//super.addSideBar();
+		addBottomBar();
 		add (sidebar = new Panel (ColorMaker.shadedPanelBack));
 		sidebar.setLayout(new FlowLayout());
 		sidebar.add(new FileChooser.FileChooserButton("save", false, "Choose target", "data/maps/", "map", "Map files") {
