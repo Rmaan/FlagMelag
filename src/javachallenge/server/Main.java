@@ -63,6 +63,8 @@ public class Main {
 		
 		Scanner scn = DBG_PAUSE_ENABLED ? new Scanner(System.in) : null;
 		
+//		PlayLog playLog = new PlayLog();
+		
 		int temp = 1 ;
 		while (!engine.gameIsOver() || temp != 0) {
 			ctrl.waitForPlay();
@@ -85,23 +87,28 @@ public class Main {
 			} else {
 				Thread.sleep(CYCLE_TIME);
 			}
+			
+			ClientMessage[] msgs = new ClientMessage[map.getTeamCount()];
+			for (int i = 0; i < map.getTeamCount(); i++) {
+				msgs[i] = connections.get(i).getClientMessage();
+			}
+//			playLog.add(msgs);
 
 			ArrayList<Action> allActions = new ArrayList<Action>();
 			for (int i = 0; i < map.getTeamCount(); i++) {
-				ClientMessage msg = connections.get(i).getClientMessage();
-				if (msg == null) {
+				if (msgs[i] == null) {
 					System.out.println("Team " + i + " message loss");
 				} else {
-					ArrayList<Action> actions = msg.getActions();
+					ArrayList<Action> actions = msgs[i].getActions();
 					for(Action action : actions){
 						action.setTeamId(i);
 					}
 					actions = validate(actions);
-//					System.out.println("Actions team " + i);
-//					System.out.println(actions);
 					allActions.addAll(actions);
 				}
 			}
+			
+			
 			engine.beginStep();
 			engine.teamStep(allActions);
 			engine.endStep();
@@ -109,6 +116,12 @@ public class Main {
 		
 		ss.close();
 		System.out.println(engine.getTeamScore());
+		
+//		Date now = new Date();
+//		String fileName = "log";
+//		for (TeamConnection c: connections)
+//			fileName += "-" + c.getTeam().getName();
+//		playLog.save(fileName + "-" + new SimpleDateFormat("mm:ss") + ".txt");
 	}
 	
 	private ArrayList<Action> validate(ArrayList<Action> actions) {
