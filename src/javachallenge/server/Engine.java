@@ -30,7 +30,7 @@ public class Engine {
 	private static final int SPAWN_LOW_PERIOD = 20;
 	private static final int SPAWN_NORM_PERIOD = 5;
 	private static final int MAX_SCORE = 2000;
-	private static final int POWERUP_GEN_PERIOD = 50;
+	private static final int POWERUP_GEN_PERIOD = 10;
 	
 	private Map map;
 	private int cycle, teamCount;
@@ -73,7 +73,7 @@ public class Engine {
 		boolean hasVest = false;
 		boolean agentBlock = false;
 		for(PowerUpPoint point : game.getPowerups()){
-			if(point.getType() == null){
+			if(point.getType() == PowerUp.NONE){
 				if(game.getAgent(point.getLocation()) == null){
 					free.add(point);
 				}
@@ -95,7 +95,7 @@ public class Engine {
 		lastPowerUpGen = cycle;
 		Random r = new Random();
 		int genLoc = r.nextInt(free.size());
-		int type = hasVest ? 1 : r.nextInt(PowerUp.values().length);
+		int type = hasVest ? 1 : r.nextInt(PowerUp.values().length - 1);
 		PowerUpPoint toGen = free.get(genLoc);
 		toGen.setType(PowerUp.values()[type]);
 		graphicClient.addPowerUp(toGen.getId(), toGen.getLocation(), PowerUp.values()[type]);
@@ -288,10 +288,10 @@ public class Engine {
 			//System.err.println("Dest is : " + dest.x + " " + dest.y + " - " + map.isInsideMap(dest));
 			if(map.isInsideMap(dest) && map.getBlockType(dest) == BlockType.GROUND && !occupied(dest)){
 				PowerUpPoint puPoint = game.getPowerUpPoint(dest);
-				if(puPoint != null && puPoint.getType() != null){
+				if(puPoint != null && puPoint.getType() != PowerUp.NONE){
 					PowerUp pType = puPoint.getType();
 //					System.out.println("Got POwerUP " + puPoint + " by agent " + agent);
-					puPoint.setType(null);
+					puPoint.setType(PowerUp.NONE);
 					graphicClient.hidePowerUp(puPoint.getId());
 					if(pType == PowerUp.SUICIDE_VEST && vestAgent == null){
 						agent.setVest();

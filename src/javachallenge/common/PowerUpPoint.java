@@ -5,8 +5,7 @@ import java.io.Serializable;
 
 public class PowerUpPoint implements Serializable{
 	private static final long serialVersionUID = 4701318926083967528L;
-	
-	private PowerUp type = null;
+	private PowerUp type = PowerUp.NONE;
 	private Point location;
 	private int id;
 	
