@@ -77,7 +77,10 @@ public class MapPanel extends ScrollablePanel {
 				if (position.equals(lastPosition)) return;
 				lastPosition = position;
 				if (insideMap(position))
-					onEnter(position.getX(), position.getY());
+					if (e.isControlDown())
+						onControlEnter(position.getX(), position.getY());
+					else
+						onEnter(position.getX(), position.getY());
 			}
 			public void mouseDragged(MouseEvent e) {}
 		});
@@ -132,6 +135,9 @@ public class MapPanel extends ScrollablePanel {
 	}
 	public void onControlClick(int x, int y) {
 		onClick(x, y);
+	}
+	public void onControlEnter(int x, int y) {
+		onEnter(x, y);
 	}
 
 	public boolean insideMap (Position position) {

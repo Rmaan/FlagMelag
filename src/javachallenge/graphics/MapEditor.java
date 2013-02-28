@@ -141,6 +141,12 @@ public class MapEditor extends PlayGround {
 				map.getFlagLocations().add(new Point(x, y));
 				mapEditor.getMapPanel().addToContainer(flag, 2);
 			}
+			@Override
+			public void onControlEnter(int x, int y) {
+				int type = (mapEditor.getMapPanel().getMap().getBlockType(new Point (x, y)).ordinal() + 1) % blockTypes;
+				mapEditor.getMapPanel().setBlock(x, y, type);
+				mapEditor.getMapPanel().getMap().setBlockType(new Point (x, y), BlockType.values()[type]);
+			}
 		});
 		scanner.close();
 	}
