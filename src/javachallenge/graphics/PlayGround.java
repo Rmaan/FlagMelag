@@ -73,6 +73,7 @@ public class PlayGround extends Screen {
 			logMonitor.getScroll().setSize(sidebar.getWidth() - 20, sidebar.getHeight() / 2 - 10);
 			logMonitor.getScroll().revalidate();
 		}
+		mapPanel.revalidate();
 	}
 	
 	public void createScreenElements (MapPanel mapPanel) {
@@ -97,6 +98,7 @@ public class PlayGround extends Screen {
 		Dimension dimension = MapPanel.getAbsoluteSize(mapPanel.getMapWidth(), mapPanel.getMapHeight());
 		setPreferredSize(new Dimension(dimension.width+statusWidth+80, dimension.height+110));
 		updateDimensions();
+		repaint();
 		pack();
 	}
 

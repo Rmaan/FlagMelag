@@ -27,15 +27,15 @@ public class Mover extends Thread {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					ArrayList<Mover> newMovers = new ArrayList<Mover>();
+					ArrayList<Mover> RIP = new ArrayList<Mover>();
 					for (Mover mover : movers) {
-						if (mover.step())
-							newMovers.add(mover);
-						else
+						if (!mover.step()) {
+							RIP.add(mover);
 							mover.atTheEnd();
+						}
 					}
-					movers.clear();
-					movers = newMovers;
+					for (Mover mover : RIP)
+						movers.remove(mover);
 					synchronized (addedMovers) {
 						for (Mover mover : addedMovers)
 							movers.add(mover);

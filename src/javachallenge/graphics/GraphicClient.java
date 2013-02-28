@@ -17,7 +17,7 @@ public class GraphicClient {
 	public static int y[]={-1,-1,0,1,0,-1};
 	public static int moveSpeed = 300, moveSteps = moveSpeed / Mover.delay;
 	public static int attackSpeed = 100, attackSteps = attackSpeed / Mover.delay;
-	public static ImageAnimator animator=new ImageAnimator(120);
+	public static ImageAnimator animator=new ImageAnimator(200);
 	protected MapPanel panel;
 	protected java.util.Map<Integer,Sprite> flags=new TreeMap<Integer,Sprite>();
 	protected java.util.Map<Integer,Sprite> spawnPoints=new TreeMap<Integer,Sprite>();
@@ -65,12 +65,19 @@ public class GraphicClient {
 					boolean isPlay=true;
 					{
 						setIcon(ImageHolder.pause);
+						setToolTipText("Pause");
 					}
 					public void onClick() {
 						if (isPlay)
+						{
 							setIcon(ImageHolder.play);
+							setToolTipText("Play");
+						}
 						else
+						{
 							setIcon(ImageHolder.pause);
+							setToolTipText("Pause");
+						}
 						GraphicClient.animator.setPause(GraphicClient.animator.isPause()^true);
 						isPlay^=true;
 						ctrl.playPauseToggle();
@@ -81,6 +88,7 @@ public class GraphicClient {
 				};
 				forward = new ClickableLabel("") {
 					{
+						setToolTipText("Next Cycle");
 						setIcon(ImageHolder.nextCycle);
 					}
 					public void onClick() { ctrl.step(); }
