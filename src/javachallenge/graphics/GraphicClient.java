@@ -65,12 +65,19 @@ public class GraphicClient {
 					boolean isPlay=true;
 					{
 						setIcon(ImageHolder.pause);
+						setToolTipText("Pause");
 					}
 					public void onClick() {
 						if (isPlay)
+						{
 							setIcon(ImageHolder.play);
+							setToolTipText("Play");
+						}
 						else
+						{
 							setIcon(ImageHolder.pause);
+							setToolTipText("Pause");
+						}
 						GraphicClient.animator.setPause(GraphicClient.animator.isPause()^true);
 						isPlay^=true;
 						ctrl.playPauseToggle();
@@ -81,6 +88,7 @@ public class GraphicClient {
 				};
 				forward = new ClickableLabel("") {
 					{
+						setToolTipText("Next Cycle");
 						setIcon(ImageHolder.nextCycle);
 					}
 					public void onClick() { ctrl.step(); }
