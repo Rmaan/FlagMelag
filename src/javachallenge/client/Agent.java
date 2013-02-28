@@ -17,6 +17,7 @@ public class Agent {
 	private ActionType actionType;
 
 	private VisionPoint[] visions;
+	private boolean hasSuicideVest = false;
 
 	public Agent(int spawnedId, Point spawnLocation) {
 		this.id = spawnedId ;
@@ -69,4 +70,14 @@ public class Agent {
 	public int getId() {
 		return this.id;
 	}
+
+	public boolean hasSuicideVest() {
+		return hasSuicideVest;
+	}
+
+	void setSuicideVest(boolean hasSuicideVest) {
+		this.hasSuicideVest = hasSuicideVest;
+	}
+	
+	
 }

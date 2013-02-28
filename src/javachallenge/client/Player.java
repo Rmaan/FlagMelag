@@ -44,6 +44,12 @@ public abstract class Player {
 			setAgentMsg(agentMsg);
 			agentAliveId.add(agentMsg.getId()) ;
 		}
+		if(msg.getLostVest() != Agent.noAgent){
+			getAgentById(msg.getLostVest()).setSuicideVest(false);
+		}
+		if(msg.getGotVest() != Agent.noAgent){
+			getAgentById(msg.getGotVest()).setSuicideVest(true);
+		}
 	}
 	
 	/**
