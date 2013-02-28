@@ -99,7 +99,7 @@ public class Engine {
 		PowerUpPoint toGen = free.get(genLoc);
 		toGen.setType(PowerUp.values()[type]);
 		graphicClient.addPowerUp(toGen.getId(), toGen.getLocation(), PowerUp.values()[type]);
-		System.out.println(game.getPowerups());
+//		System.out.println(game.getPowerups());
 	}
 	
 	//methods for running the game
@@ -125,7 +125,7 @@ public class Engine {
 		}
 		
 		if(actions == null){
-			System.out.println("client manipluation : nell action array sent");
+			graphicClient.log("client manipluation : nell action array sent");
 		}
 		
 		if(cycle % 2 == 1){
@@ -137,11 +137,11 @@ public class Engine {
 			ArrayList<Action> validActions = new ArrayList<Action>();
 			for(Action action : actions){
 				if(action == null){
-					System.out.println("client manipluation : null action");
+					graphicClient.log("client manipluation : null action");
 					continue;
 				}
 				if(action.getType() == ActionType.NONE || action.getType() != ActionType.ATTACK){
-					System.err.println("MOVE IN WRONG CYCLE");
+					graphicClient.log("move in wrong cycle");
 					continue;
 				}
 				try{
@@ -177,8 +177,8 @@ public class Engine {
 //					}
 				}
 				catch(Exception e){
-					System.out.println("Bad Agent : Team " + action.getTeamId() + " id : " + action.getId());
-					e.printStackTrace();
+					graphicClient.log("Bad Agent : Team " + action.getTeamId() + " id : " + action.getId());
+//					e.printStackTrace();
 					continue;
 				}
 				
@@ -207,14 +207,14 @@ public class Engine {
 									}
 								}
 							}
-							System.out.println("KILLED " + opAgent.getTeamId());
+//							System.out.println("KILLED " + opAgent.getTeamId());
 						}
 //						opAgent.setAlive(false);
 				
 					}
 				}
 				catch (Exception e) {
-					System.out.println("Bad Agent : Team " + action.getTeamId() + " id : " + action.getId());
+					graphicClient.log("Bad Agent : Team " + action.getTeamId() + " id : " + action.getId());
 					e.printStackTrace();
 					continue;
 				}
@@ -290,7 +290,7 @@ public class Engine {
 				PowerUpPoint puPoint = game.getPowerUpPoint(dest);
 				if(puPoint != null && puPoint.getType() != null){
 					PowerUp pType = puPoint.getType();
-					System.out.println("Got POwerUP " + puPoint + " by agent " + agent);
+//					System.out.println("Got POwerUP " + puPoint + " by agent " + agent);
 					puPoint.setType(null);
 					graphicClient.hidePowerUp(puPoint.getId());
 					if(pType == PowerUp.SUICIDE_VEST && vestAgent == null){
@@ -506,7 +506,7 @@ public class Engine {
 		
 		for(Action act : actions){
 			if(act == null){
-				System.out.println("client manipulation : null action");
+				graphicClient.log("client manipulation : null action");
 				continue;
 			}
 			if(act.getType() == ActionType.NONE || act.getType() != ActionType.MOVE){
@@ -516,7 +516,7 @@ public class Engine {
 			try {
 				agent = getAgent(act.getTeamId(), act.getId());
 			} catch (IllegalAgentException e) {
-				System.out.println("Illegal Agent Id from team " + act.getTeamId());
+				graphicClient.log("Illegal Agent Id from team " + act.getTeamId());
 				continue ;
 			}
 			//--------------------------------------------------
@@ -613,10 +613,5 @@ public class Engine {
 	private int getNodeNum(Point p){
 		return p.y * map.getWid() + p.x;
 	}
-	
-	public int getTeamScore(){
-		return teams.get(0).getScore();
-	}
-
 }
 

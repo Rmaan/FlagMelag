@@ -42,14 +42,14 @@ public class Main {
 		ArrayList<TeamConnection> connections = new ArrayList<TeamConnection>();
 		
 		for (int i = 0; i < map.getTeamCount(); i++) {
-			System.out.println("Waiting for team " + i + " to connect...");
+			graphicClient.log("Waiting for team " + i + " to connect...");
 			Socket socket = ss.accept();
-			connections.add(new TeamConnection(engine.getTeam(i), socket));
+			connections.add(new TeamConnection(engine.getTeam(i), socket, graphicClient));
 			
 			Team team = engine.getTeam(i) ;
 			graphicClient.setName(team.getId(), team.getName()) ;
 			
-			System.out.println("connected");
+			graphicClient.log(team.getName() + " connected");
 		}
 
 		ArrayList<InitMessage> initialMessage = engine.getInitialMessage();
@@ -76,10 +76,10 @@ public class Main {
 			ArrayList<ServerMessage> stepMessage = engine.getStepMessage();
 			for (int i = 0; i < map.getTeamCount(); i++) {
 				connections.get(i).sendStepMessage(stepMessage.get(i));
-				System.out.println("Sending to team " + i + " : " + stepMessage.get(i));
+//				System.out.println("Sending to team " + i + " : " + stepMessage.get(i));
 				connections.get(i).clearClientMessage();
 			}
-			System.out.println("-----------------------------------------");
+//			System.out.println("-----------------------------------------");
 			
 			if (DBG_PAUSE_ENABLED) {
 				if (engine.getCycle() < DBG_PAUSE_CYCLE_NUM)
@@ -99,7 +99,7 @@ public class Main {
 			ArrayList<Action> allActions = new ArrayList<Action>();
 			for (int i = 0; i < map.getTeamCount(); i++) {
 				if (msgs[i] == null) {
-					System.out.println("Team " + i + " message loss");
+					graphicClient.log("Team " + i + " message loss");
 				} else {
 					ArrayList<Action> actions = msgs[i].getActions();
 					for(Action action : actions){
@@ -117,7 +117,6 @@ public class Main {
 		}
 		
 		ss.close();
-		System.out.println(engine.getTeamScore());
 		
 //		Date now = new Date();
 //		String fileName = "log";
@@ -133,7 +132,7 @@ public class Main {
 		for(int i = actions.size() - 1 ; i >= 0 ; i--){
 			Action action = actions.get(i);
 			if(seen.contains(action.getId())){
-				System.out.println("Client manipulation from team : " + action.getTeamId());
+				graphicClient.log("Client manipulation from team : " + action.getTeamId());
 			}
 			else{
 				seen.add(action.getId());
