@@ -17,7 +17,7 @@ public class GraphicClient {
 	public static int y[]={-1,-1,0,1,0,-1};
 	public static int moveSpeed = 300, moveSteps = moveSpeed / Mover.delay;
 	public static int attackSpeed = 100, attackSteps = attackSpeed / Mover.delay;
-	public static ImageAnimator animator=new ImageAnimator(250);
+	public static ImageAnimator animator=new ImageAnimator(200);
 	protected MapPanel panel;
 	protected java.util.Map<Integer,Sprite> flags=new TreeMap<Integer,Sprite>();
 	protected java.util.Map<Integer,Sprite> spawnPoints=new TreeMap<Integer,Sprite>();
