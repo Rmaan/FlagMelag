@@ -71,10 +71,6 @@ public abstract class Player {
 		}
 	}
 	
-	public ArrayList<Agent> getAgents(){
-		return agents ;
-	}
-
 	public int getTeamId(){
 		return id ;
 	}

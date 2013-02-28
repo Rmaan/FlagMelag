@@ -26,8 +26,14 @@ import javachallenge.graphics.util.Position;
 public class Engine {
 	private static final int FLAG_POINT = 1;
 	private static final int GAME_CYCLES = 725;
+<<<<<<< HEAD
+
+	private static final int SPAWN_MARGIN = 20 ;
+	private static final int SPAWN_LOW_PERIOD = 0;
+=======
 	private static final int SPAWN_MARGIN = 15 ;
 	private static final int SPAWN_LOW_PERIOD = 20;
+>>>>>>> c9a83a0f72bbb00b50f4d452df5f80aa903c238a
 	private static final int SPAWN_NORM_PERIOD = 5;
 	private static final int MAX_SCORE = 2000;
 	private static final int POWERUP_GEN_PERIOD = 100;

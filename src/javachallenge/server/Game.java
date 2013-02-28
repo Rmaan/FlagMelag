@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import javachallenge.common.BlockType;
 import javachallenge.common.Direction;
 import javachallenge.common.Point;
-import javachallenge.common.PowerUp;
-import javachallenge.common.PowerUpPoint;
 import javachallenge.common.VisionPoint;
 
 public class Game {

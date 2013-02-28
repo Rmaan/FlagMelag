@@ -8,5 +8,4 @@ public enum BlockType {
 	RIVER,
 	WALL,
 	OUT_OF_MAP,
-	UNDEFINED,
 }
