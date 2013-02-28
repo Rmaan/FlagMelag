@@ -22,12 +22,12 @@ import javachallenge.graphics.GraphicClient.OutOfMapException;
 import javachallenge.graphics.util.Position;
 
 public class Engine {
-	private static final int FLAG_POINT = 3;
-	private static final int GAME_CYCLES = 725;
+	private static final int FLAG_POINT = 1;
+	private static final int GAME_CYCLES = 700;
 	private static final int SPAWN_MARGIN = 20 ;
 	private static final int SPAWN_LOW_PERIOD = 0;
 	private static final int SPAWN_NORM_PERIOD = 5;
-	private static final int MAX_SCORE = 1000;
+	private static final int MAX_SCORE = 2000;
 	
 	private Map map;
 	private int cycle, teamCount;
